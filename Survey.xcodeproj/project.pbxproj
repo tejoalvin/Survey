@@ -22,6 +22,8 @@
 		E12880DF1D46173D00F36CDA /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12880DE1D46173D00F36CDA /* Preview.swift */; };
 		E13A316E1D57B67300E5A4D6 /* ResultPatientTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13A316D1D57B67300E5A4D6 /* ResultPatientTableViewController.swift */; };
 		E13A31701D57B72300E5A4D6 /* ResultPatientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13A316F1D57B72300E5A4D6 /* ResultPatientTableViewCell.swift */; };
+		E13FAEEC1D5CEA62005BC809 /* SelectSurveyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FAEEB1D5CEA62005BC809 /* SelectSurveyTableViewCell.swift */; };
+		E13FAEEE1D5CEB8E005BC809 /* DoSelectSurveyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FAEED1D5CEB8E005BC809 /* DoSelectSurveyTableViewController.swift */; };
 		E15F16F31D59FE3800322B1F /* SurveyDoneTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15F16F21D59FE3800322B1F /* SurveyDoneTableViewController.swift */; };
 		E15F16F51D59FFAC00322B1F /* SurveyDoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15F16F41D59FFAC00322B1F /* SurveyDoneTableViewCell.swift */; };
 		E1743C471D4D53120092339E /* SelectSurveyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1743C461D4D53120092339E /* SelectSurveyTableViewController.swift */; };
@@ -90,6 +92,8 @@
 		E12880DE1D46173D00F36CDA /* Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		E13A316D1D57B67300E5A4D6 /* ResultPatientTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultPatientTableViewController.swift; sourceTree = "<group>"; };
 		E13A316F1D57B72300E5A4D6 /* ResultPatientTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultPatientTableViewCell.swift; sourceTree = "<group>"; };
+		E13FAEEB1D5CEA62005BC809 /* SelectSurveyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectSurveyTableViewCell.swift; sourceTree = "<group>"; };
+		E13FAEED1D5CEB8E005BC809 /* DoSelectSurveyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoSelectSurveyTableViewController.swift; sourceTree = "<group>"; };
 		E15F16F21D59FE3800322B1F /* SurveyDoneTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyDoneTableViewController.swift; sourceTree = "<group>"; };
 		E15F16F41D59FFAC00322B1F /* SurveyDoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyDoneTableViewCell.swift; sourceTree = "<group>"; };
 		E1743C461D4D53120092339E /* SelectSurveyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectSurveyTableViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 				E12880DE1D46173D00F36CDA /* Preview.swift */,
 				E181980A1D4A4C7D00004710 /* QuestionsDetailsViewController.swift */,
 				E12880C01D460C8300F36CDA /* Main.storyboard */,
+				E13FAEED1D5CEB8E005BC809 /* DoSelectSurveyTableViewController.swift */,
+				E13FAEEB1D5CEA62005BC809 /* SelectSurveyTableViewCell.swift */,
 				E1234F121D5A7A3400A22D4C /* ResultTableViewCell.swift */,
 				E1234F101D5A5C9200A22D4C /* ResultViewController.swift */,
 				E15F16F41D59FFAC00322B1F /* SurveyDoneTableViewCell.swift */,
@@ -319,6 +325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E13FAEEC1D5CEA62005BC809 /* SelectSurveyTableViewCell.swift in Sources */,
 				E1B8EA4C1D533E7100880D3D /* InputDetailsViewController.swift in Sources */,
 				E12880DD1D460CDB00F36CDA /* Question.swift in Sources */,
 				E1234F131D5A7A3400A22D4C /* ResultTableViewCell.swift in Sources */,
@@ -344,6 +351,7 @@
 				E108B2861D54B06E003A2231 /* QuestionContainerViewController.swift in Sources */,
 				E1B8EA4E1D53526800880D3D /* PatientListTableViewCell.swift in Sources */,
 				E15F16F51D59FFAC00322B1F /* SurveyDoneTableViewCell.swift in Sources */,
+				E13FAEEE1D5CEB8E005BC809 /* DoSelectSurveyTableViewController.swift in Sources */,
 				E1019AC11D587AB70002131C /* ConfidenceLevel.swift in Sources */,
 				E181980D1D4B6B4000004710 /* SurveyListTableViewController.swift in Sources */,
 				E1234F111D5A5C9200A22D4C /* ResultViewController.swift in Sources */,
