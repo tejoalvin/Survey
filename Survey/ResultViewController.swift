@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -17,6 +18,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var isFromResultTable : Bool!
     var surveyFinished : SurveyAnswered!
+    
+    let config = Realm.Configuration(
+        schemaVersion: 1
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,10 +70,22 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func saveButtonAction(sender:UIBarButtonItem){
         print("save comments")
         
+        Realm.Configuration.defaultConfiguration = config
+        let realm = try! Realm()
+        
+        for index in 0..<surveyFinished.mainAnswer.count{
+            let a = tableView.visibleCells[index] as! ResultTableViewCell
+            let comment = a.commentTextField.text
+            
+            if comment != ""{
+                try! realm.write{
+                    let mainToBeAdded = surveyFinished.mainAnswer[index]
+                    realm.create(SurveyMainResult.self, value: ["id":mainToBeAdded.id, "comments":comment!], update: true)
+                }
+            }
+        }
         
         
-        let a = tableView.visibleCells[1] as! ResultTableViewCell
-        print(a.deviceName.text!)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -101,6 +118,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             
             cell.commentTextField.enabled = true
+            cell.commentTextField.text = mainAnswer.comments
         }
         
        
