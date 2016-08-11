@@ -45,6 +45,7 @@ class SurveyMainResult : Object{
     dynamic var surveyName : SurveyData?
     dynamic var id = 0
     dynamic var patient : Patients?
+    dynamic var comments = ""
     
     override static func primaryKey() -> String? {
         return "id"

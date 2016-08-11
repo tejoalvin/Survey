@@ -800,6 +800,104 @@ class SurveyViewController: UIViewController {
             result.isFromResultTable = false
             result.surveyFinished = currentSurveyAnswered
         } else if segue.identifier == "abortSurvey" {
+            
+             let realm = try! Realm()
+            
+            let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
+            if questionContainer.yesButton.hidden == false {
+                //main question
+                if questionContainer.yesButton.selected == true || questionContainer.noButton.selected == true {
+                    //question answered
+                    let yesAnswer = questionContainer.yesButton.selected
+                    
+                    let mainAnswer = SurveyMainResult()
+                    mainAnswer.answer = yesAnswer
+                    mainAnswer.patient = patient
+                    mainAnswer.surveyName = survey
+                    
+                    if isAfterEachQuestion == true {
+                        //after each
+                        mainAnswer.id = mainIDStart + currentIndex/2
+                        mainAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
+                        
+                        try! realm.write{
+                        
+                            let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
+                            
+                            if questionAnsweredOrNot.count == 0 {
+                                currentSurveyAnswered.mainAnswer.append(mainAnswer)
+                            } else {
+                                realm.create(SurveyMainResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : mainAnswer.answer],update: true)
+                            }
+                        }
+                        
+                    } else {
+                        //after all
+                        mainAnswer.id = mainIDStart + currentIndex
+                        mainAnswer.questionNumber = survey.questions[currentIndex].questionNumber
+                        
+                        try! realm.write{
+                            let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex].questionNumber)")
+                            
+                            if questionAnsweredOrNot.count == 0 {
+                                currentSurveyAnswered.mainAnswer.append(mainAnswer)
+                            } else {
+                                realm.create(SurveyMainResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : mainAnswer.answer],update: true)
+                            }
+                        }
+                    }
+                   
+                }
+            } else {
+                //confidence question
+                let realm = try! Realm()
+                
+                let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
+                
+                if questionContainer.confidenceScale.rating != 0 {
+                    let confidenceAnswer = SurveyConfidenceResult()
+                    confidenceAnswer.answer = questionContainer.confidenceScale.rating
+                    confidenceAnswer.patient = patient
+                    confidenceAnswer.surveyName = survey
+                    
+                    if isAfterEachQuestion == true {
+                        //after each
+                        confidenceAnswer.id = confidenceIDStart + currentIndex/2
+                        confidenceAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
+                        
+                        try! realm.write{
+                            
+                            let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
+                            
+                            if questionAnsweredOrNot.count == 0 {
+                                currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
+                            } else {
+                                realm.create(SurveyConfidenceResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : confidenceAnswer.answer],update: true)
+                            }
+                        }
+
+                    } else {
+                        //after all
+                        let index = currentIndex - survey.questions.count
+                        confidenceAnswer.id = confidenceIDStart + index
+                        confidenceAnswer.questionNumber = survey.questions[index].questionNumber
+                        
+                        try! realm.write{
+                            
+                            let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[index].questionNumber)")
+                            
+                            if questionAnsweredOrNot.count == 0 {
+                                currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
+                            } else {
+                                realm.create(SurveyConfidenceResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : confidenceAnswer.answer],update: true)
+                            }
+                        }
+
+                    }
+                    
+                }
+            }
+            
             let result = segue.destinationViewController.childViewControllers.first as! ResultViewController
             result.isFromResultTable = false
             result.surveyFinished = currentSurveyAnswered
