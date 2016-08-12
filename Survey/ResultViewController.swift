@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import MessageUI
 
-class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
 
     @IBOutlet weak var patientNameLabel: UILabel!
     @IBOutlet weak var surveyNameLabel: UILabel!
@@ -67,6 +68,79 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
             dismissViewControllerAnimated(true, completion: nil)
 //        }
         
+    }
+    
+    @IBAction func tryCSVAction(sender: UIButton) {
+        let mailString = NSMutableString()
+        mailString.appendString("Column A, Column B\n")
+        mailString.appendString("Row 1 Column A, Row 1 Column B\n")
+        mailString.appendString("Row 2 Column A, Row 2 Column B\n")
+        
+        // Converting it to NSData.
+        let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        
+        // Unwrapping the optional.
+        if let content = data {
+            print("NSData: \(content)")
+        }
+        
+        let emailController = MFMailComposeViewController()
+        emailController.mailComposeDelegate = self
+        emailController.setSubject("CSV File")
+        emailController.setMessageBody("", isHTML: false)
+        
+        // Attaching the .CSV file to the email.
+        emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: "Sample.csv")
+        
+        if MFMailComposeViewController.canSendMail() {
+            self.presentViewController(emailController, animated: true, completion: nil)
+        }
+    }
+    
+    private func createCSVData() -> NSMutableString{
+        let text = NSMutableString()
+        text.appendString("Name," + surveyFinished.patient!.patientsName + "\n")
+        text.appendString("Survey Name," + surveyFinished.surveyName!.name + "\n")
+        text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
+        text.appendString("\n\n")
+        text.appendString("No.,Technology Name,Used in last month?,Confidence level,Comments")
+        
+        for index in 0..<surveyFinished.surveyName?.questions.count {
+			let sData = surveyFinished.surveyName.questions[index]
+			var mainQAnswer : String
+			var confidentQAnswer : String
+			var comments : String
+			
+			if index > surveyFinished.mainAnswer.count-1{
+				mainQAnswer = "N/A"
+			} else {
+				let mainAnswer = surveyFinished.mainAnswer[indexPath.row]
+				
+				if mainAnswer.answer == true {
+					mainQAnswer = "Yes"
+				} else {
+					mainQAnswer = "No"
+				}
+				
+				comments = mainAnswer.comments
+			}
+			
+			
+			if indexPath.row > surveyFinished.confidenceAnswer.count-1{
+				cell.confidentQuestionAnswer.text = "N/A"
+			} else {
+				let confidenceAnswer = surveyFinished.confidenceAnswer[indexPath.row]
+				cell.confidentQuestionAnswer.text = String(confidenceAnswer.answer)
+			}
+
+            text.appendString(sData.questionNumber + "," + sData.deviceName + "," +  + "\n")
+        }
+		
+        return text
+    }
+	
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func backButtonAction(sender:UIBarButtonItem){
