@@ -58,7 +58,15 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func homeButtonAction(sender:UIBarButtonItem){
-        dismissViewControllerAnimated(true, completion: nil)
+        print("presenting")
+        print(presentingViewController)
+        
+//        if presentingViewController is UINavigationController {
+//            self.navigationController!.popToRootViewControllerAnimated(true)
+//        } else {
+            dismissViewControllerAnimated(true, completion: nil)
+//        }
+        
     }
     
     func backButtonAction(sender:UIBarButtonItem){

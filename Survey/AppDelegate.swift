@@ -18,6 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        let colorView = UIView()
+        colorView.backgroundColor = UIColor.lightGrayColor()
+        
+        // use UITableViewCell.appearance() to configure
+        // the default appearance of all UITableViewCells in your app
+        UITableViewCell.appearance().selectedBackgroundView = colorView
         
         let launchedBefore = NSUserDefaults.standardUserDefaults().boolForKey("launchedBefore")
         if launchedBefore  {

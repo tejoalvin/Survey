@@ -21,14 +21,15 @@ class SurveyViewController: UIViewController {
     var currentPageIsMain = true
     var mainAnswerLastID : Int!
     var confidenceLastID : Int!
-    var confidenceProgressValue : Float = 0
     var mainProgressValue : Float = 0
+    var currentQ = 1
     
-    @IBOutlet weak var confidenceProgress: UIProgressView!
     @IBOutlet weak var mainProgress: UIProgressView!
     @IBOutlet weak var nextQuestionButton: UIButton!
     @IBOutlet weak var prevQuestionButton: UIButton!
     @IBOutlet weak var finishButton: UIButton!
+    @IBOutlet weak var totalQuestion: UILabel!
+    @IBOutlet weak var currentQuestion: UILabel!
     
     let config = Realm.Configuration(
         schemaVersion: 1
@@ -59,7 +60,6 @@ class SurveyViewController: UIViewController {
             confidenceIDStart = confidenceResult.last!.id + 1
         }
     
-        confidenceProgress.setProgress(confidenceProgressValue, animated: true)
         mainProgress.setProgress(mainProgressValue, animated: true)
         
         prevQuestionButton.hidden = true
@@ -68,6 +68,9 @@ class SurveyViewController: UIViewController {
         questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
         questionContainer.question.text = survey.questions[currentIndex].question
         questionContainer.confidenceScale.hidden = true
+        
+        currentQuestion.text = String(currentQ)
+        totalQuestion.text = String(survey.questions.count * 2)
         
         if survey.questions[currentIndex].imagePath != "" {
             questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex].imagePath)
@@ -135,9 +138,10 @@ class SurveyViewController: UIViewController {
                         prevQuestionButton.hidden = false
                     }
                     
-                    mainProgressValue = mainProgressValue + 1/Float(survey.questions.count)
+                    mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
                     mainProgress.setProgress(mainProgressValue, animated: true)
-                    
+                    currentQ += 1
+                    currentQuestion.text = String(currentQ)
                     
                     //confidence after main
                     questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
@@ -205,8 +209,10 @@ class SurveyViewController: UIViewController {
                     questionContainer.yesButton.hidden = false
                     questionContainer.noButton.hidden = false
                     
-                    confidenceProgressValue = confidenceProgressValue + 1/Float(survey.questions.count)
-                    confidenceProgress.setProgress(confidenceProgressValue, animated: true)
+                    mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
+                    mainProgress.setProgress(mainProgressValue, animated: true)
+                    currentQ += 1
+                    currentQuestion.text = String(currentQ)
                     
                     questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
                     questionContainer.question.text = survey.questions[currentIndex/2].question
@@ -275,7 +281,7 @@ class SurveyViewController: UIViewController {
                         questionContainer.noButton.hidden = true
                         questionContainer.confidenceScale.hidden = false
                         
-                        mainProgressValue = mainProgressValue + 1/Float(survey.questions.count)
+                        mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
                         mainProgress.setProgress(mainProgressValue, animated: true)
                         
                         let arrayIndex = currentIndex - survey.questions.count
@@ -300,8 +306,10 @@ class SurveyViewController: UIViewController {
                         questionContainer.noButton.hidden = false
                         questionContainer.confidenceScale.hidden = true
                         
-                        mainProgressValue = mainProgressValue + 1/Float(survey.questions.count)
+                        mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
                         mainProgress.setProgress(mainProgressValue, animated: true)
+                        currentQ += 1
+                        currentQuestion.text = String(currentQ)
                         
                         questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
                         questionContainer.question.text = survey.questions[currentIndex].question
@@ -361,8 +369,10 @@ class SurveyViewController: UIViewController {
                     
                     arrayIndex = currentIndex - survey.questions.count
 
-                    confidenceProgressValue = confidenceProgressValue + 1/Float(survey.questions.count)
-                    confidenceProgress.setProgress(confidenceProgressValue, animated: true)
+                    mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
+                    mainProgress.setProgress(mainProgressValue, animated: true)
+                    currentQ += 1
+                    currentQuestion.text = String(currentQ)
                     
                     questionContainer.yesButton.hidden = true
                     questionContainer.noButton.hidden = true
@@ -570,9 +580,10 @@ class SurveyViewController: UIViewController {
                 questionContainer.noButton.hidden = false
                 questionContainer.confidenceScale.hidden = true
                 
-                mainProgressValue = mainProgressValue - 1/Float(survey.questions.count)
+                mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
                 mainProgress.setProgress(mainProgressValue, animated: true)
-
+                currentQ -= 1
+                currentQuestion.text = String(currentQ)
                 
                 questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
                 questionContainer.question.text = survey.questions[currentIndex/2].question
@@ -609,8 +620,10 @@ class SurveyViewController: UIViewController {
                 questionContainer.noButton.hidden = true
                 questionContainer.confidenceScale.hidden = false
                 
-                confidenceProgressValue = confidenceProgressValue - 1/Float(survey.questions.count)
-                confidenceProgress.setProgress(confidenceProgressValue, animated: true)
+                mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
+                mainProgress.setProgress(mainProgressValue, animated: true)
+                currentQ -= 1
+                currentQuestion.text = String(currentQ)
                 
                 questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
                 
@@ -649,8 +662,10 @@ class SurveyViewController: UIViewController {
                 questionContainer.noButton.hidden = false
                 questionContainer.confidenceScale.hidden = true
                 
-                mainProgressValue = mainProgressValue - 1/Float(survey.questions.count)
+                mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
                 mainProgress.setProgress(mainProgressValue, animated: true)
+                currentQ -= 1
+                currentQuestion.text = String(currentQ)
                 
                 questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
                 questionContainer.question.text = survey.questions[currentIndex].question
@@ -688,8 +703,10 @@ class SurveyViewController: UIViewController {
                 questionContainer.noButton.hidden = true
                 questionContainer.confidenceScale.hidden = false
                 
-                confidenceProgressValue = confidenceProgressValue - 1/Float(survey.questions.count)
-                confidenceProgress.setProgress(confidenceProgressValue, animated: true)
+                mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
+                mainProgress.setProgress(mainProgressValue, animated: true)
+                currentQ -= 1
+                currentQuestion.text = String(currentQ)
                 
                 questionContainer.deviceName.text = survey.questions[arrayIndex].deviceName
                 questionContainer.question.text = "How confident do you feel about using this?"

@@ -15,6 +15,8 @@ class DoSelectSurveyTableViewController: UITableViewController {
         schemaVersion: 1
     )
 
+    var selectedRow : Int = -1
+    
     var survey = [SurveyData]()
     
     override func viewDidLoad() {
@@ -44,6 +46,10 @@ class DoSelectSurveyTableViewController: UITableViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
+    @IBAction func nextStage(sender: UIBarButtonItem) {
+        performSegueWithIdentifier("nextPatient", sender: self)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -88,10 +94,14 @@ class DoSelectSurveyTableViewController: UITableViewController {
             }
         }
         // Configure the cell...
-
+        
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectedRow = indexPath.row
+        print(selectedRow)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -128,15 +138,32 @@ class DoSelectSurveyTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "nextPatient" {
+            if selectedRow == -1 {
+                sendAlertNoSelectedSurvey()
+            } else {
+                let nextPage = segue.destinationViewController as! InputDetailsViewController
+                nextPage.survey = survey[selectedRow]
+            }
+            
+        }
     }
-    */
+    
+    func sendAlertNoSelectedSurvey(){
+        //create notification can't go forward
+        let alert = UIAlertController(title: "Warning", message: "Please select one of the survey", preferredStyle: UIAlertControllerStyle.Alert)
+        let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alert.addAction(ok)
+        presentViewController(alert, animated: true, completion: nil)
+        
+    }
 
     func retrieveImage(imageFolderPath : String) -> UIImage{
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
