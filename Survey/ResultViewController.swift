@@ -26,7 +26,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+		
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -59,33 +59,54 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func homeButtonAction(sender:UIBarButtonItem){
-        print("presenting")
-        print(presentingViewController)
-        
-//        if presentingViewController is UINavigationController {
-//            self.navigationController!.popToRootViewControllerAnimated(true)
-//        } else {
+        if presentingViewController is UINavigationController {
+			self.performSegueWithIdentifier("unwindToMain", sender: self)
+        } else {
             dismissViewControllerAnimated(true, completion: nil)
-//        }
-        
+        }
     }
-    
-    @IBAction func tryCSVAction(sender: UIButton) {
-//        let mailString = NSMutableString()
-//        mailString.appendString("Column A, Column B\n")
-//        mailString.appendString("Row 1 Column A, Row 1 Column B\n")
-//        mailString.appendString("Row 2 Column A, Row 2 Column B\n")
-
+	
+	@IBAction func exportTherapistReport(sender: UIButton) {
 		let mailString = createCSVData()
+		
+		// Converting it to NSData.
+		let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+		
+		// Unwrapping the optional.
+		if let content = data {
+			print("NSData: \(content)")
+		}
+		
+		let emailController = MFMailComposeViewController()
+		emailController.mailComposeDelegate = self
+		let subject = "Survey Report " + surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-"
+			+ timeSurveyStarted.text!
+		emailController.setSubject(subject)
+		emailController.setMessageBody("", isHTML: false)
+		
+		// Attaching the .CSV file to the email.
+		let fileName = surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-" + timeSurveyStarted.text! + ".csv"
+		emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: fileName)
+		
+		if MFMailComposeViewController.canSendMail() {
+			self.presentViewController(emailController, animated: true, completion: nil)
+		}
+
+	}
+	
+
+	@IBAction func exportCSV(sender: UIButton) {
+
+		let mailString = createCSVDataTherapist()
 		
         // Converting it to NSData.
         let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-        
+		
         // Unwrapping the optional.
         if let content = data {
             print("NSData: \(content)")
         }
-        
+		
         let emailController = MFMailComposeViewController()
         emailController.mailComposeDelegate = self
 		let subject = "Survey Report " + surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-"
@@ -101,6 +122,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.presentViewController(emailController, animated: true, completion: nil)
         }
     }
+
     
     func createCSVData() -> NSMutableString {
         let text = NSMutableString()
@@ -112,7 +134,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		
 		let qTotal = surveyFinished.surveyName!.questions.count
 		
-		for index in 0..<qTotal{
+		for index in 0..<qTotal {
 			let sData = surveyFinished.surveyName!.questions[index]
 			var mainQAnswer : String
 			var confidentQAnswer : String
@@ -146,6 +168,53 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		
         return text
     }
+	
+	func createCSVDataTherapist() -> NSMutableString{
+		let text = NSMutableString()
+		text.appendString("Name," + surveyFinished.patient!.patientsName + "\n")
+		text.appendString("Survey Name," + surveyFinished.surveyName!.name + "\n")
+		text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
+		text.appendString("\n\n")
+		
+		var device : String = ""
+		var main : String = ""
+		var confidence : String = ""
+		
+		for index in 0..<surveyFinished.surveyName!.questions.count {
+			let sData = surveyFinished.surveyName!.questions[index]
+			var mainQAnswer : String
+			var confidentQAnswer : String
+			
+			if index > surveyFinished.mainAnswer.count-1{
+				mainQAnswer = "-"
+			} else {
+				let mainAnswer = surveyFinished.mainAnswer[index]
+				
+				if mainAnswer.answer == true {
+					mainQAnswer = "Y"
+				} else {
+					mainQAnswer = "N"
+				}
+			}
+			
+			if index > surveyFinished.confidenceAnswer.count-1{
+				confidentQAnswer = "-"
+			} else {
+				let confidenceAnswer = surveyFinished.confidenceAnswer[index]
+				confidentQAnswer = String(confidenceAnswer.answer)
+			}
+
+			device = device + sData.deviceName + ","
+			main = main + mainQAnswer + ","
+			confidence = confidence + confidentQAnswer + ","
+		}
+		
+		text.appendString(device + "\n")
+		text.appendString(main + "\n")
+		text.appendString(confidence + "\n")
+		
+		return text
+	}
 	
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         dismissViewControllerAnimated(true, completion: nil)
