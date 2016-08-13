@@ -71,11 +71,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func tryCSVAction(sender: UIButton) {
-        let mailString = NSMutableString()
-        mailString.appendString("Column A, Column B\n")
-        mailString.appendString("Row 1 Column A, Row 1 Column B\n")
-        mailString.appendString("Row 2 Column A, Row 2 Column B\n")
-        
+//        let mailString = NSMutableString()
+//        mailString.appendString("Column A, Column B\n")
+//        mailString.appendString("Row 1 Column A, Row 1 Column B\n")
+//        mailString.appendString("Row 2 Column A, Row 2 Column B\n")
+
+		let mailString = createCSVData()
+		
         // Converting it to NSData.
         let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         
@@ -86,35 +88,40 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let emailController = MFMailComposeViewController()
         emailController.mailComposeDelegate = self
-        emailController.setSubject("CSV File")
+		let subject = "Survey Report " + surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-"
+			+ timeSurveyStarted.text!
+        emailController.setSubject(subject)
         emailController.setMessageBody("", isHTML: false)
         
         // Attaching the .CSV file to the email.
-        emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: "Sample.csv")
+		let fileName = surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-" + timeSurveyStarted.text! + ".csv"
+        emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: fileName)
         
         if MFMailComposeViewController.canSendMail() {
             self.presentViewController(emailController, animated: true, completion: nil)
         }
     }
     
-    private func createCSVData() -> NSMutableString{
+    func createCSVData() -> NSMutableString {
         let text = NSMutableString()
         text.appendString("Name," + surveyFinished.patient!.patientsName + "\n")
         text.appendString("Survey Name," + surveyFinished.surveyName!.name + "\n")
         text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
         text.appendString("\n\n")
-        text.appendString("No.,Technology Name,Used in last month?,Confidence level,Comments")
-        
-        for index in 0..<surveyFinished.surveyName?.questions.count {
-			let sData = surveyFinished.surveyName.questions[index]
+        text.appendString("No.,Technology Name,Used in last month?,Confidence level,Comments\n")
+		
+		let qTotal = surveyFinished.surveyName!.questions.count
+		
+		for index in 0..<qTotal{
+			let sData = surveyFinished.surveyName!.questions[index]
 			var mainQAnswer : String
 			var confidentQAnswer : String
-			var comments : String
+			var answerComments = ""
 			
 			if index > surveyFinished.mainAnswer.count-1{
 				mainQAnswer = "N/A"
 			} else {
-				let mainAnswer = surveyFinished.mainAnswer[indexPath.row]
+				let mainAnswer = surveyFinished.mainAnswer[index]
 				
 				if mainAnswer.answer == true {
 					mainQAnswer = "Yes"
@@ -122,18 +129,19 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					mainQAnswer = "No"
 				}
 				
-				comments = mainAnswer.comments
+				answerComments = mainAnswer.comments
 			}
 			
 			
-			if indexPath.row > surveyFinished.confidenceAnswer.count-1{
-				cell.confidentQuestionAnswer.text = "N/A"
+			if index > surveyFinished.confidenceAnswer.count-1{
+				confidentQAnswer = "N/A"
 			} else {
-				let confidenceAnswer = surveyFinished.confidenceAnswer[indexPath.row]
-				cell.confidentQuestionAnswer.text = String(confidenceAnswer.answer)
+				let confidenceAnswer = surveyFinished.confidenceAnswer[index]
+				confidentQAnswer = String(confidenceAnswer.answer)
 			}
 
-            text.appendString(sData.questionNumber + "," + sData.deviceName + "," +  + "\n")
+			let stringAppend = String(sData.questionNumber) + "," + sData.deviceName + "," + mainQAnswer + "," + confidentQAnswer + "," + answerComments + "\n"
+            text.appendString(stringAppend)
         }
 		
         return text
