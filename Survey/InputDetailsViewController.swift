@@ -27,10 +27,24 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
     let config = Realm.Configuration(
         schemaVersion: 1
     )
-    
+	
+	var patients = [Patients]()
+	var filteredPatients = [Patients]()
+	let searchController = UISearchController(searchResultsController: nil)
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		Realm.Configuration.defaultConfiguration = config
+		let realm = try! Realm()
+		
+		patients = Array(realm.objects(Patients.self).sorted("patientsName"))
+		
+		searchController.searchResultsUpdater = self
+		searchController.dimsBackgroundDuringPresentation = false
+		definesPresentationContext = true
+		tableView.tableHeaderView = searchController.searchBar
+		
 		print(presentingViewController)
 		
         print(survey.name)
@@ -43,6 +57,13 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+	
+	func filterContent(searchText : String){
+		filteredPatients = patients.filter{
+			patient in return patient.patientsName.lowercaseString.containsString(searchText.lowercaseString)
+		}
+		tableView.reloadData()
+	}
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -52,11 +73,11 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation,
         //return the number of rows
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm()
-        
-        let patients = realm.objects(Patients.self).sorted("patientsName")
-        
+		
+		if searchController.active && searchController.searchBar.text != "" {
+			return filteredPatients.count
+		}
+		
         return patients.count
     }
     
@@ -66,17 +87,18 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         let identifier = "patients"
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! PatientListTableViewCell
         
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm()
-        
-        let patients = realm.objects(Patients.self).sorted("patientsName")
-
-//        let patientsArray = Array(patients)
+		var patient : Patients
+		
+		if searchController.active && searchController.searchBar.text != "" {
+			patient = filteredPatients[indexPath.row]
+		} else {
+			patient = patients[indexPath.row]
+		}
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dateFormat
-        let date = dateFormatter.stringFromDate(patients[indexPath.row].dateOfBirth)
-		let mostRecentSurvey = patients[indexPath.row].surveyDone.sorted("dateStarted", ascending: false)
+        let date = dateFormatter.stringFromDate(patient.dateOfBirth)
+		let mostRecentSurvey = patient.surveyDone.sorted("dateStarted", ascending: false)
 		dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
 		if mostRecentSurvey.count > 0 {
 			let lastSurveyDone = dateFormatter.stringFromDate(mostRecentSurvey.first!.dateStarted)
@@ -85,7 +107,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 			cell.lastSurveyDone.text = "N/A"
 		}
 		
-        cell.nameLabel.text = patients[indexPath.row].patientsName
+        cell.nameLabel.text = patient.patientsName
         cell.dobLabel.text = date
 
         return cell
@@ -104,13 +126,21 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 //	}
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm()
-        
-        let patients = realm.objects(Patients.self).sorted("patientsName")
-        
-        nameField.text = patients[indexPath.row].patientsName
-        if patients[indexPath.row].isMale {
+//        Realm.Configuration.defaultConfiguration = config
+//        let realm = try! Realm()
+//        
+//        let patients = realm.objects(Patients.self).sorted("patientsName")
+		
+		var patient : Patients
+		
+		if searchController.active && searchController.searchBar.text != "" {
+			patient = filteredPatients[indexPath.row]
+		} else {
+			patient = patients[indexPath.row]
+		}
+		
+        nameField.text = patient.patientsName
+        if patient.isMale {
             genderChooser.selectedSegmentIndex = 0
         } else {
             genderChooser.selectedSegmentIndex = 1
@@ -118,17 +148,17 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dateFormat
-        let date = dateFormatter.stringFromDate(patients[indexPath.row].dateOfBirth)
+        let date = dateFormatter.stringFromDate(patient.dateOfBirth)
         dobField.text = date
         
-        id = patients[indexPath.row].id
-        print(patients[indexPath.row].patientsName)
+        id = patient.id
+        print(patient.patientsName)
         
-        if patients[indexPath.row].recentStroke != nil {
+        if patient.recentStroke != nil {
             print("not nil")
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = dateFormat
-            let stringRecentStroke = dateFormatter.stringFromDate(patients[indexPath.row].recentStroke!)
+            let stringRecentStroke = dateFormatter.stringFromDate(patient.recentStroke!)
             recentStrokeField.text = stringRecentStroke
         }
         
@@ -443,4 +473,10 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
     }
     
 
+}
+
+extension InputDetailsViewController : UISearchResultsUpdating {
+	func updateSearchResultsForSearchController(searchController: UISearchController) {
+		filterContent(searchController.searchBar.text!)
+	}
 }
