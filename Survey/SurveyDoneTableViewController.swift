@@ -69,23 +69,25 @@ class SurveyDoneTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier = "surveyDoneCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! SurveyDoneTableViewCell
-        
-        cell.surveyName.text = patient.surveyDone[indexPath.row].surveyName?.name
+		
+		let sortedList = patient.surveyDone.sorted("dateStarted", ascending: false)
+		
+        cell.surveyName.text = sortedList[indexPath.row].surveyName!.name
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
-        if patient.surveyDone[indexPath.row].confidenceAnswer.count > 0{
-            cell.confidenceDone.text = String(patient.surveyDone[indexPath.row].confidenceAnswer.count) + "/" + String(patient.surveyDone[indexPath.row].surveyName!.questions.count) + " questions done"
+        if sortedList[indexPath.row].confidenceAnswer.count > 0{
+            cell.confidenceDone.text = String(sortedList[indexPath.row].confidenceAnswer.count) + "/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
         } else {
-            cell.confidenceDone.text = "0/" + String(patient.surveyDone[indexPath.row].surveyName!.questions.count) + " questions done"
+            cell.confidenceDone.text = "0/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
         }
         
-        if patient.surveyDone[indexPath.row].mainAnswer.count > 0{
-             cell.mainDone.text = String(patient.surveyDone[indexPath.row].mainAnswer.count) + "/" + String(patient.surveyDone[indexPath.row].surveyName!.questions.count) + " questions done"
+        if sortedList[indexPath.row].mainAnswer.count > 0{
+             cell.mainDone.text = String(sortedList[indexPath.row].mainAnswer.count) + "/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
         } else {
-            cell.mainDone.text = "0/" + String(patient.surveyDone[indexPath.row].surveyName!.questions.count) + " questions done"
+            cell.mainDone.text = "0/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
         }
 
-        let date = patient.surveyDone[indexPath.row].dateStarted
+        let date = sortedList[indexPath.row].dateStarted
         let time = NSDateFormatter()
         time.dateFormat = "dd MMM yyyy HH.mm"
         

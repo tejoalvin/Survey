@@ -78,11 +78,15 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         let date = dateFormatter.stringFromDate(patients[indexPath.row].dateOfBirth)
 		let mostRecentSurvey = patients[indexPath.row].surveyDone.sorted("dateStarted", ascending: false)
 		dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
-		let lastSurveyDone = dateFormatter.stringFromDate(mostRecentSurvey.first!.dateStarted)
+		if mostRecentSurvey.count > 0 {
+			let lastSurveyDone = dateFormatter.stringFromDate(mostRecentSurvey.first!.dateStarted)
+			cell.lastSurveyDone.text = lastSurveyDone
+		} else {
+			cell.lastSurveyDone.text = "N/A"
+		}
 		
         cell.nameLabel.text = patients[indexPath.row].patientsName
         cell.dobLabel.text = date
-		cell.lastSurveyDone.text = lastSurveyDone
 
         return cell
         
