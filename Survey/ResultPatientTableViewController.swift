@@ -20,10 +20,24 @@ class ResultPatientTableViewController: UITableViewController {
     let config = Realm.Configuration(
         schemaVersion: 1
     )
-    
+	
+	@IBOutlet weak var searchBar: UISearchBar!
+	let searchController = UISearchController(searchResultsController: nil)
+	var patientList = [Patients]()
+	var filteredPatientList = [Patients]()
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		Realm.Configuration.defaultConfiguration = config
+		let realm = try! Realm()
+		patientList = Array(realm.objects(Patients.self).sorted("patientsName"))
+		
+		searchController.searchResultsUpdater = self
+		searchController.dimsBackgroundDuringPresentation = false
+		definesPresentationContext = true
+		tableView.tableHeaderView = searchController.searchBar
+		
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -36,6 +50,14 @@ class ResultPatientTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+	func filterContent(searchText : String){
+		print(searchText)
+		filteredPatientList = patientList.filter {
+			eachPatient in return eachPatient.patientsName.lowercaseString.containsString(searchText.lowercaseString)
+		}
+		tableView.reloadData()
+	}
+	
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -45,23 +67,28 @@ class ResultPatientTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm()
-        
-        return realm.objects(Patients.self).count
+		
+		if searchController.active && searchController.searchBar.text != "" {
+			return filteredPatientList.count
+		}
+		
+        return patientList.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier = "patientCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! ResultPatientTableViewCell
-        
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm()
-        let patientList = realm.objects(Patients.self).sorted("patientsName")
-        
-        cell.patientName.text = patientList[indexPath.row].patientsName
-        cell.surveyDone.text = String(patientList[indexPath.row].surveyDone.count) + " Surveys Done"
+		
+		let patient : Patients
+		if searchController.active && searchController.searchBar.text != "" {
+			patient = filteredPatientList[indexPath.row]
+		} else {
+			patient = patientList[indexPath.row]
+		}
+		
+        cell.patientName.text = patient.patientsName
+        cell.surveyDone.text = String(patient.surveyDone.count) + " Surveys Done"
 
         // Configure the cell...
 
@@ -69,10 +96,14 @@ class ResultPatientTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        Realm.Configuration.defaultConfiguration = config
-        let realm = try! Realm()
-        let patient = realm.objects(Patients.self).sorted("patientsName")
-        self.delegate?.patientSelected(patient[indexPath.row])
+		let patient : Patients
+		if searchController.active && searchController.searchBar.text != "" {
+			patient = filteredPatientList[indexPath.row]
+		} else {
+			patient = patientList[indexPath.row]
+		}
+		
+        self.delegate?.patientSelected(patient)
 
         if let surveyDoneViewController = self.delegate as? SurveyDoneTableViewController {
             splitViewController?.showDetailViewController(surveyDoneViewController.navigationController!, sender: nil)
@@ -125,4 +156,10 @@ class ResultPatientTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension ResultPatientTableViewController: UISearchResultsUpdating {
+	func updateSearchResultsForSearchController(searchController: UISearchController) {
+		filterContent(searchController.searchBar.text!)
+	}
 }
