@@ -393,7 +393,7 @@
             </objects>
             <point key="canvasLocation" x="-640.5" y="-168.75"/>
         </scene>
-        <!--Patients-->
+        <!--Participants-->
         <scene sceneID="Hgl-Xh-Bdd">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="fcr-r8-dgZ" customClass="ResultPatientTableViewController" customModule="Survey" customModuleProvider="target" sceneMemberID="viewController">
@@ -470,7 +470,7 @@
                             <outlet property="delegate" destination="fcr-r8-dgZ" id="PTi-Cv-KjQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Patients" id="FIv-5B-IcC"/>
+                    <navigationItem key="navigationItem" title="Participants" id="FIv-5B-IcC"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wsh-kf-c9W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2207,7 +2207,7 @@
             </objects>
             <point key="canvasLocation" x="-205.5" y="2455.5"/>
         </scene>
-        <!--Patient's Detail-->
+        <!--Participant's Detail-->
         <scene sceneID="sbC-76-neo">
             <objects>
                 <viewController id="JGc-82-Ufn" customClass="InputDetailsViewController" customModule="Survey" customModuleProvider="target" sceneMemberID="viewController">
@@ -2231,7 +2231,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Patient's Most Recent Stroke" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b1G-Tb-hyW">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Participant's Most Recent Stroke (Optional)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b1G-Tb-hyW">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="399" id="jHM-Ot-5Qe">
@@ -2266,7 +2266,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Patient's Name (Required)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQJ-6c-cmQ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Participant's Name (Required)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQJ-6c-cmQ">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="399" id="3Yp-sr-m9f">
@@ -2289,7 +2289,7 @@
                                     </mask>
                                 </variation>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Patient's Date Of Birth (Required)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UBy-15-Hl8">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Participant's Date Of Birth (Required)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UBy-15-Hl8">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="399" id="D2x-aB-4Ci">
@@ -2741,7 +2741,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Patient's Detail" id="eGS-Ib-Dx3">
+                    <navigationItem key="navigationItem" title="Participant's Detail" id="eGS-Ib-Dx3">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="yc2-gG-ibN">
                             <connections>
                                 <action selector="backButtonAction:" destination="JGc-82-Ufn" id="5Uy-Q6-77Z"/>
