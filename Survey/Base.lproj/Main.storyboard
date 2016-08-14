@@ -2403,8 +2403,7 @@
                                                             <exclude reference="Uog-uN-537"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="48" y="10" width="167" height="32"/>
+                                                    <variation key="heightClass=regular-widthClass=regular">
                                                         <mask key="constraints">
                                                             <exclude reference="Uog-uN-537"/>
                                                         </mask>
@@ -2473,9 +2472,6 @@
                                                     <exclude reference="Tmi-J5-Z9h"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <exclude reference="Ggw-v0-8uN"/>
-                                                    <exclude reference="pnV-1e-oUQ"/>
-                                                    <exclude reference="rhG-ok-Ah3"/>
                                                     <exclude reference="5wK-6B-MAq"/>
                                                     <exclude reference="IQe-hc-j3Q"/>
                                                     <exclude reference="bcJ-aj-FXr"/>
@@ -2486,6 +2482,9 @@
                                                     <exclude reference="aFs-eA-aFr"/>
                                                     <exclude reference="cWs-dO-811"/>
                                                     <exclude reference="zXa-UK-Ac2"/>
+                                                    <exclude reference="Ggw-v0-8uN"/>
+                                                    <exclude reference="pnV-1e-oUQ"/>
+                                                    <exclude reference="rhG-ok-Ah3"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=regular">
@@ -2496,9 +2495,6 @@
                                                     <include reference="Tmi-J5-Z9h"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <exclude reference="Ggw-v0-8uN"/>
-                                                    <include reference="pnV-1e-oUQ"/>
-                                                    <exclude reference="rhG-ok-Ah3"/>
                                                     <include reference="5wK-6B-MAq"/>
                                                     <include reference="IQe-hc-j3Q"/>
                                                     <exclude reference="bcJ-aj-FXr"/>
@@ -2509,6 +2505,9 @@
                                                     <include reference="aFs-eA-aFr"/>
                                                     <include reference="cWs-dO-811"/>
                                                     <include reference="zXa-UK-Ac2"/>
+                                                    <exclude reference="Ggw-v0-8uN"/>
+                                                    <include reference="pnV-1e-oUQ"/>
+                                                    <exclude reference="rhG-ok-Ah3"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -2524,8 +2523,7 @@
                                         <exclude reference="dxH-8e-kVB"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="325" width="800" height="475"/>
+                                <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="constraints">
                                         <include reference="dxH-8e-kVB"/>
                                     </mask>
@@ -3196,8 +3194,7 @@
                                         <exclude reference="QyB-UC-vO6"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="220" y="666" width="100" height="100"/>
+                                <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="constraints">
                                         <include reference="8WC-Vh-06w"/>
                                         <include reference="QyB-UC-vO6"/>
@@ -3244,8 +3241,7 @@
                                         <exclude reference="bt1-OA-h6a"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="125" y="810" width="540" height="160"/>
+                                <variation key="heightClass=regular-widthClass=regular">
                                     <mask key="constraints">
                                         <include reference="JY7-2x-XSL"/>
                                         <include reference="bt1-OA-h6a"/>
