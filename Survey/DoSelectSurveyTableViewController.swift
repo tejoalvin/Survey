@@ -151,11 +151,16 @@ class DoSelectSurveyTableViewController: UITableViewController {
             } else {
                 let nextPage = segue.destinationViewController as! InputDetailsViewController
                 nextPage.survey = survey[selectedRow]
+				nextPage.isFromNewSurveySelect = true
             }
             
         }
     }
-    
+	
+	@IBAction func unwindToSelectSurvey(sender: UIStoryboardSegue){
+		print("unwind To Select Survey")
+	}
+	
     func sendAlertNoSelectedSurvey(){
         //create notification can't go forward
         let alert = UIAlertController(title: "Warning", message: "Please select one of the survey", preferredStyle: UIAlertControllerStyle.Alert)

@@ -12,6 +12,7 @@ class PatientListTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dobLabel: UILabel!
+	@IBOutlet weak var lastSurveyDone: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

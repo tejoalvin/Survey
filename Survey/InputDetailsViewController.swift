@@ -22,6 +22,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
     let dateFormat = "dd MMMM yyyy"
     var id = 0
     var survey : SurveyData!
+	var isFromNewSurveySelect = false 
     
     let config = Realm.Configuration(
         schemaVersion: 1
@@ -30,6 +31,8 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		print(presentingViewController)
+		
         print(survey.name)
         // Do any additional setup after loading the view.
         tableView.delegate = self
@@ -73,13 +76,28 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dateFormat
         let date = dateFormatter.stringFromDate(patients[indexPath.row].dateOfBirth)
-        
+		let mostRecentSurvey = patients[indexPath.row].surveyDone.sorted("dateStarted", ascending: false)
+		dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
+		let lastSurveyDone = dateFormatter.stringFromDate(mostRecentSurvey.first!.dateStarted)
+		
         cell.nameLabel.text = patients[indexPath.row].patientsName
         cell.dobLabel.text = date
-//
+		cell.lastSurveyDone.text = lastSurveyDone
+
         return cell
         
     }
+	
+//	@IBAction func backButtonAction(sender: UIBarButtonItem) {
+//		if presentingViewController is UINavigationController {
+//			print("if")
+//			performSegueWithIdentifier("unwindToSelectSurvey", sender: self)
+//		} else {
+//			print("else")
+//			performSegueWithIdentifier("backToPreview", sender: self)
+//			
+//		}
+//	}
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         Realm.Configuration.defaultConfiguration = config
@@ -226,7 +244,11 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
             
             let ok = UIAlertAction(title: "OK", style: .Default, handler: {
                 UIAlertAction in
-                self.performSegueWithIdentifier("backToPreview", sender: nil)
+				if self.isFromNewSurveySelect == true {
+					self.performSegueWithIdentifier("unwindToSelectSurvey", sender: nil)
+				} else {
+					self.performSegueWithIdentifier("backToPreview", sender: nil)
+				}
             })
             
             alert.addAction(cancel)
