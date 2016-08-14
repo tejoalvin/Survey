@@ -396,170 +396,111 @@ class SurveyViewController: UIViewController {
 
                 }
             }
-            
-//            currentIndex += 1
-//            if currentIndex == (survey.questions.count * 2 - 1){
-//                nextQuestionButton.hidden = true
-//                prevQuestionButton.hidden = false
-//                finishButton.hidden = false
-//            } else {
-//                nextQuestionButton.hidden = false
-//                prevQuestionButton.hidden = false
-//            }
-////            
-//            if currentIndex < survey.questions.count {
-//                //do main
-//                print(currentIndex)
-//                questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
-//                questionContainer.question.text = survey.questions[currentIndex].question
-//                if survey.questions[currentIndex].imagePath != "" {
-//                    questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex].imagePath)
-//                }
-//                
-//                let ifAnswered = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex].questionNumber)")
-//                
-//                if ifAnswered.count == 0 {
-//                    //check if question already answered, make the button shows
-//                    questionContainer.noButton.selected = false
-//                    questionContainer.yesButton.selected = false
-//                } else {
-//                    questionContainer.yesButton.selected = ifAnswered[0].answer
-//                    if ifAnswered[0].answer {
-//                        questionContainer.noButton.selected = false
-//                    } else {
-//                        questionContainer.noButton.selected = true
-//                    }
-//                }
-//
-//            } else {
-//                //do confidence
-//                
-//                print(currentIndex)
-////                questionContainer.yesButton.hidden = true
-////                questionContainer.noButton.hidden = true
-//                
-//                let arrayIndex = currentIndex - survey.questions.count
-//                print(arrayIndex)
-//                questionContainer.deviceName.text = survey.questions[arrayIndex].deviceName
-//                questionContainer.question.text = "How confident do you feel about using this?"
-//                if survey.questions[arrayIndex].imagePath != "" {
-//                    questionContainer.devicePhoto.image = retrieveImage(survey.questions[arrayIndex].imagePath)
-//                }
-//                
-//                //put answer if answered before
-//                let ifAnswered = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[arrayIndex].questionNumber)")
-//
-//                /*
-//                put answer to rating scale later
-//                if ifAnswered.count == 0 {
-//                    //check if question already answered, make the button shows
-//                    questionContainer.noButton.selected = false
-//                    questionContainer.yesButton.selected = false
-//                } else {
-//                    questionContainer.yesButton.selected = ifAnswered[0].answer
-//                    if ifAnswered[0].answer {
-//                        questionContainer.noButton.selected = false
-//                    } else {
-//                        questionContainer.noButton.selected = true
-//                    }
-//                }
-//                */
-//            }
-//        }
-        
-//        //check if already answered
-//        if yesAnswer == false && noAnswer == false {
-//            //create notification can't go forward
-//            let alert = UIAlertController(title: "Warning", message: "Answer the question", preferredStyle: UIAlertControllerStyle.Alert)
-//            let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
-//            alert.addAction(ok)
-//            presentViewController(alert, animated: true, completion: nil)
-//        } else {
-//            //put answer into realm & check whether already has answer then update
-//            let mainAnswer = SurveyMainResult()
-//            mainAnswer.answer = yesAnswer
-//            mainAnswer.id = mainIDStart + currentIndex
-//            mainAnswer.questionNumber = survey.questions[currentIndex].questionNumber
-//            mainAnswer.patient = patient
-//            mainAnswer.surveyName = survey
-//            
-//            try! realm.write{
-//                let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex].questionNumber)")
-//                
-//                if questionAnsweredOrNot.count == 0 {
-//                    currentSurveyAnswered.mainAnswer.append(mainAnswer)
-//                } else {
-//                    realm.create(SurveyMainResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : yesAnswer],update: true)
-//                }
-//            }
-//        
-//            //index for next question
-//            currentIndex += 1
-//            if currentIndex == (survey.questions.count * 2 - 1){
-//                nextQuestionButton.hidden = true
-//                prevQuestionButton.hidden = false
-//                finishButton.hidden = false
-//            } else {
-//                nextQuestionButton.hidden = false
-//                prevQuestionButton.hidden = false
-//            }
-//            
-//            if isAfterEachQuestion == true {
-//                //set after each question
-//                print(currentIndex)
-//                if currentIndex % 2 == 0{
-//                    //main
-//                    print(currentIndex % 2)
-//                    questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
-//                    questionContainer.question.text = survey.questions[currentIndex/2].question
-//                    if survey.questions[currentIndex/2].imagePath != "" {
-//                        questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex/2].imagePath)
-//                    }
-//                } else {
-//                    //confidence
-//                    questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
-//                    
-//                    if noAnswer == true {
-//                        questionContainer.question.text = "How confident do you feel about using this?"
-//                    } else {
-//                        questionContainer.question.text = "Imagine if you use it, how confident do you feel about using this?"
-//                    }
-//                    
-////                    questionContainer.question.text = survey.questions[currentIndex/2].question
-//                    if survey.questions[currentIndex/2].imagePath != "" {
-//                        questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex/2].imagePath)
-//                    }
-//                }
-//            } else {
-//                //set after all
-//                
-//            }
-        
-//            questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
-//            questionContainer.question.text = survey.questions[currentIndex].question
-//            if survey.questions[currentIndex].imagePath != "" {
-//                questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex].imagePath)
-//            }
-        
-//            let ifAnswered = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
-//            
-//            if ifAnswered.count == 0 {
-//                //check if question already answered, make the button shows
-//                questionContainer.noButton.selected = false
-//                questionContainer.yesButton.selected = false
-//            } else {
-//                questionContainer.yesButton.selected = ifAnswered[0].answer
-//                if ifAnswered[0].answer {
-//                    questionContainer.noButton.selected = false
-//                } else {
-//                    questionContainer.noButton.selected = true
-//                }
-//            }
+			
         }
     }
     
     @IBAction func prevButtonAction(sender: UIButton) {
-        currentIndex -= 1
+		 let realm = try! Realm()
+		 let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
+		if questionContainer.yesButton.hidden == false {
+			//main question
+			if questionContainer.yesButton.selected == true || questionContainer.noButton.selected == true {
+				//question answered
+				let yesAnswer = questionContainer.yesButton.selected
+				
+				let mainAnswer = SurveyMainResult()
+				mainAnswer.answer = yesAnswer
+				mainAnswer.patient = patient
+				mainAnswer.surveyName = survey
+				
+				if isAfterEachQuestion == true {
+					//after each
+					mainAnswer.id = mainIDStart + currentIndex/2
+					mainAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
+					
+					try! realm.write{
+						
+						let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
+						
+						if questionAnsweredOrNot.count == 0 {
+							currentSurveyAnswered.mainAnswer.append(mainAnswer)
+						} else {
+							realm.create(SurveyMainResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : mainAnswer.answer],update: true)
+						}
+					}
+					
+				} else {
+					//after all
+					mainAnswer.id = mainIDStart + currentIndex
+					mainAnswer.questionNumber = survey.questions[currentIndex].questionNumber
+					
+					try! realm.write{
+						let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex].questionNumber)")
+						
+						if questionAnsweredOrNot.count == 0 {
+							currentSurveyAnswered.mainAnswer.append(mainAnswer)
+						} else {
+							realm.create(SurveyMainResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : mainAnswer.answer],update: true)
+						}
+					}
+				}
+				
+			}
+		} else {
+			//confidence question
+			let realm = try! Realm()
+			
+			let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
+			
+			if questionContainer.confidenceScale.rating != 0 {
+				let confidenceAnswer = SurveyConfidenceResult()
+				confidenceAnswer.answer = questionContainer.confidenceScale.rating
+				confidenceAnswer.patient = patient
+				confidenceAnswer.surveyName = survey
+				
+				if isAfterEachQuestion == true {
+					//after each
+					confidenceAnswer.id = confidenceIDStart + currentIndex/2
+					confidenceAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
+					
+					try! realm.write{
+						
+						let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
+						
+						if questionAnsweredOrNot.count == 0 {
+							currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
+						} else {
+							realm.create(SurveyConfidenceResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : confidenceAnswer.answer],update: true)
+						}
+					}
+					
+				} else {
+					//after all
+					let index = currentIndex - survey.questions.count
+					confidenceAnswer.id = confidenceIDStart + index
+					confidenceAnswer.questionNumber = survey.questions[index].questionNumber
+					
+					try! realm.write{
+						
+						let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[index].questionNumber)")
+						
+						if questionAnsweredOrNot.count == 0 {
+							currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
+						} else {
+							realm.create(SurveyConfidenceResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : confidenceAnswer.answer],update: true)
+						}
+					}
+					
+				}
+				
+			}
+		}
+
+		
+		
+		
+		currentIndex -= 1
         if currentIndex == 0 {
             prevQuestionButton.hidden = true
             nextQuestionButton.hidden = false
@@ -569,31 +510,31 @@ class SurveyViewController: UIViewController {
             nextQuestionButton.hidden = false
             finishButton.hidden = true
         }
-        
+		
         if isAfterEachQuestion == true {
             if currentIndex % 2 == 0{
                 //main
                 print("prev after, main")
                 let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
-                
+				
                 questionContainer.yesButton.hidden = false
                 questionContainer.noButton.hidden = false
                 questionContainer.confidenceScale.hidden = true
-                
+				
                 mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
                 mainProgress.setProgress(mainProgressValue, animated: true)
                 currentQ -= 1
                 currentQuestion.text = String(currentQ)
-                
+				
                 questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
                 questionContainer.question.text = survey.questions[currentIndex/2].question
-                
+				
                 if survey.questions[currentIndex/2].imagePath != "" {
                     questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex/2].imagePath)
                 }
-                
+				
                 let ifAnswered = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
-                
+				
                 if ifAnswered.count == 0 {
                     //check if question already answered, make the button shows
                     questionContainer.noButton.selected = false
@@ -920,6 +861,163 @@ class SurveyViewController: UIViewController {
             result.surveyFinished = currentSurveyAnswered
         }
     }
-    
-
 }
+
+//            currentIndex += 1
+//            if currentIndex == (survey.questions.count * 2 - 1){
+//                nextQuestionButton.hidden = true
+//                prevQuestionButton.hidden = false
+//                finishButton.hidden = false
+//            } else {
+//                nextQuestionButton.hidden = false
+//                prevQuestionButton.hidden = false
+//            }
+////
+//            if currentIndex < survey.questions.count {
+//                //do main
+//                print(currentIndex)
+//                questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
+//                questionContainer.question.text = survey.questions[currentIndex].question
+//                if survey.questions[currentIndex].imagePath != "" {
+//                    questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex].imagePath)
+//                }
+//
+//                let ifAnswered = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex].questionNumber)")
+//
+//                if ifAnswered.count == 0 {
+//                    //check if question already answered, make the button shows
+//                    questionContainer.noButton.selected = false
+//                    questionContainer.yesButton.selected = false
+//                } else {
+//                    questionContainer.yesButton.selected = ifAnswered[0].answer
+//                    if ifAnswered[0].answer {
+//                        questionContainer.noButton.selected = false
+//                    } else {
+//                        questionContainer.noButton.selected = true
+//                    }
+//                }
+//
+//            } else {
+//                //do confidence
+//
+//                print(currentIndex)
+////                questionContainer.yesButton.hidden = true
+////                questionContainer.noButton.hidden = true
+//
+//                let arrayIndex = currentIndex - survey.questions.count
+//                print(arrayIndex)
+//                questionContainer.deviceName.text = survey.questions[arrayIndex].deviceName
+//                questionContainer.question.text = "How confident do you feel about using this?"
+//                if survey.questions[arrayIndex].imagePath != "" {
+//                    questionContainer.devicePhoto.image = retrieveImage(survey.questions[arrayIndex].imagePath)
+//                }
+//
+//                //put answer if answered before
+//                let ifAnswered = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[arrayIndex].questionNumber)")
+//
+//                /*
+//                put answer to rating scale later
+//                if ifAnswered.count == 0 {
+//                    //check if question already answered, make the button shows
+//                    questionContainer.noButton.selected = false
+//                    questionContainer.yesButton.selected = false
+//                } else {
+//                    questionContainer.yesButton.selected = ifAnswered[0].answer
+//                    if ifAnswered[0].answer {
+//                        questionContainer.noButton.selected = false
+//                    } else {
+//                        questionContainer.noButton.selected = true
+//                    }
+//                }
+//                */
+//            }
+//        }
+
+//        //check if already answered
+//        if yesAnswer == false && noAnswer == false {
+//            //create notification can't go forward
+//            let alert = UIAlertController(title: "Warning", message: "Answer the question", preferredStyle: UIAlertControllerStyle.Alert)
+//            let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+//            alert.addAction(ok)
+//            presentViewController(alert, animated: true, completion: nil)
+//        } else {
+//            //put answer into realm & check whether already has answer then update
+//            let mainAnswer = SurveyMainResult()
+//            mainAnswer.answer = yesAnswer
+//            mainAnswer.id = mainIDStart + currentIndex
+//            mainAnswer.questionNumber = survey.questions[currentIndex].questionNumber
+//            mainAnswer.patient = patient
+//            mainAnswer.surveyName = survey
+//
+//            try! realm.write{
+//                let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex].questionNumber)")
+//
+//                if questionAnsweredOrNot.count == 0 {
+//                    currentSurveyAnswered.mainAnswer.append(mainAnswer)
+//                } else {
+//                    realm.create(SurveyMainResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : yesAnswer],update: true)
+//                }
+//            }
+//
+//            //index for next question
+//            currentIndex += 1
+//            if currentIndex == (survey.questions.count * 2 - 1){
+//                nextQuestionButton.hidden = true
+//                prevQuestionButton.hidden = false
+//                finishButton.hidden = false
+//            } else {
+//                nextQuestionButton.hidden = false
+//                prevQuestionButton.hidden = false
+//            }
+//
+//            if isAfterEachQuestion == true {
+//                //set after each question
+//                print(currentIndex)
+//                if currentIndex % 2 == 0{
+//                    //main
+//                    print(currentIndex % 2)
+//                    questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
+//                    questionContainer.question.text = survey.questions[currentIndex/2].question
+//                    if survey.questions[currentIndex/2].imagePath != "" {
+//                        questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex/2].imagePath)
+//                    }
+//                } else {
+//                    //confidence
+//                    questionContainer.deviceName.text = survey.questions[currentIndex/2].deviceName
+//
+//                    if noAnswer == true {
+//                        questionContainer.question.text = "How confident do you feel about using this?"
+//                    } else {
+//                        questionContainer.question.text = "Imagine if you use it, how confident do you feel about using this?"
+//                    }
+//
+////                    questionContainer.question.text = survey.questions[currentIndex/2].question
+//                    if survey.questions[currentIndex/2].imagePath != "" {
+//                        questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex/2].imagePath)
+//                    }
+//                }
+//            } else {
+//                //set after all
+//
+//            }
+
+//            questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
+//            questionContainer.question.text = survey.questions[currentIndex].question
+//            if survey.questions[currentIndex].imagePath != "" {
+//                questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex].imagePath)
+//            }
+
+//            let ifAnswered = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
+//
+//            if ifAnswered.count == 0 {
+//                //check if question already answered, make the button shows
+//                questionContainer.noButton.selected = false
+//                questionContainer.yesButton.selected = false
+//            } else {
+//                questionContainer.yesButton.selected = ifAnswered[0].answer
+//                if ifAnswered[0].answer {
+//                    questionContainer.noButton.selected = false
+//                } else {
+//                    questionContainer.noButton.selected = true
+//                }
+//            }
