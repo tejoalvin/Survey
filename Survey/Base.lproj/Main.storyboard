@@ -403,7 +403,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="patientCell" rowHeight="60" id="Cgx-JW-B0r" customClass="ResultPatientTableViewCell" customModule="Survey" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="136" width="600" height="60"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cgx-JW-B0r" id="3hf-uV-Ilj">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
