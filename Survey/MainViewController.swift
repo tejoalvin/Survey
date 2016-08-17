@@ -44,8 +44,27 @@ class MainViewController: UIViewController {
             let detail = detailNav.topViewController as! PreviewCollectionViewController
             
             master.delegate = detail
-        }
+		} else if segue.identifier == "createEditSegue" {
+			let split = segue.destinationViewController as! UISplitViewController
+			let master = split.viewControllers.first as! UINavigationController
+			let surveyList = master.topViewController as! SurveyListTableViewController
+			let detail = split.viewControllers.last as! UINavigationController
+			let qList = detail.topViewController as! SurveyDetailsViewController
+			
+			surveyList.delegate = qList
+		} else if segue.identifier == "resultSegue"{
+			let splitResult = segue.destinationViewController as! UISplitViewController
+			
+			let masterNav = splitResult.viewControllers.first as! UINavigationController
+			let masterPatient = masterNav.topViewController as! ResultPatientTableViewController
+			
+			let detailNav = splitResult.viewControllers.last as! UINavigationController
+			let surveyDoneDetail = detailNav.topViewController as! SurveyDoneTableViewController
+			
+			masterPatient.delegate = surveyDoneDetail
+
+		}
     }
-    
+	
 
 }

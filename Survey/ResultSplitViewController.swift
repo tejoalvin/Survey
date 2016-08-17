@@ -1,23 +1,20 @@
 //
-//  TherapistSurveyViewController.swift
+//  ResultSplitViewController.swift
 //  Survey
 //
-//  Created by Alvin Tejo on 29/07/2016.
+//  Created by Alvin Tejo on 16/08/2016.
 //  Copyright © 2016 Alvin Tejo. All rights reserved.
 //
 
 import UIKit
 
-class TherapistSurveyViewController: UISplitViewController {
+class ResultSplitViewController: UISplitViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		self.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
-		
         // Do any additional setup after loading the view.
-        
-        
     }
 
     override func didReceiveMemoryWarning() {

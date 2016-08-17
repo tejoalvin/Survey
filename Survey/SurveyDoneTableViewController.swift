@@ -29,11 +29,11 @@ class SurveyDoneTableViewController: UITableViewController {
         
         pageName.title = patient.patientsName
         
-        navigationItem.leftItemsSupplementBackButton = true
-        let showMasterButton = splitViewController!.displayModeButtonItem()
-        
+//        navigationItem.leftItemsSupplementBackButton = true
+//        let showMasterButton = splitViewController!.displayModeButtonItem()
+		
         let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
-        navigationItem.setLeftBarButtonItems([showMasterButton, homeButton], animated: true)
+        navigationItem.setLeftBarButtonItems([homeButton], animated: true)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -146,8 +146,10 @@ class SurveyDoneTableViewController: UITableViewController {
             let resultViewController = segue.destinationViewController as! ResultViewController
             if let selectedSurveyDoneCell = sender as? SurveyDoneTableViewCell {
                 let indexPath = tableView.indexPathForCell(selectedSurveyDoneCell)!
-                
-                resultViewController.surveyFinished = patient.surveyDone[indexPath.row]
+				
+				let sortedSurvey = patient.surveyDone.sorted("dateStarted", ascending: false)
+				
+                resultViewController.surveyFinished = sortedSurvey[indexPath.row]
                 resultViewController.isFromResultTable = true
             }
         }

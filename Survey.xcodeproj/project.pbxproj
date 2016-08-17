@@ -41,6 +41,7 @@
 		E1A97CC11D46A8F70036E339 /* QuestionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A97CC01D46A8F70036E339 /* QuestionTableViewController.swift */; };
 		E1AEAE6F1D523C9D00A29A52 /* PreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AEAE6E1D523C9D00A29A52 /* PreviewCollectionViewCell.swift */; };
 		E1AEAE731D523E9300A29A52 /* PreviewCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AEAE721D523E9300A29A52 /* PreviewCollectionViewController.swift */; };
+		E1B35CEC1D63481F0072A719 /* ResultSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B35CEB1D63481F0072A719 /* ResultSplitViewController.swift */; };
 		E1B8EA4C1D533E7100880D3D /* InputDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B8EA4B1D533E7100880D3D /* InputDetailsViewController.swift */; };
 		E1B8EA4E1D53526800880D3D /* PatientListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B8EA4D1D53526800880D3D /* PatientListTableViewCell.swift */; };
 		E1C0F4961D548357005E7D21 /* SurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C0F4951D548357005E7D21 /* SurveyViewController.swift */; };
@@ -109,6 +110,7 @@
 		E1A97CC01D46A8F70036E339 /* QuestionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewController.swift; sourceTree = "<group>"; };
 		E1AEAE6E1D523C9D00A29A52 /* PreviewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		E1AEAE721D523E9300A29A52 /* PreviewCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewCollectionViewController.swift; sourceTree = "<group>"; };
+		E1B35CEB1D63481F0072A719 /* ResultSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultSplitViewController.swift; sourceTree = "<group>"; };
 		E1B8EA4B1D533E7100880D3D /* InputDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputDetailsViewController.swift; sourceTree = "<group>"; };
 		E1B8EA4D1D53526800880D3D /* PatientListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientListTableViewCell.swift; sourceTree = "<group>"; };
 		E1C0F4951D548357005E7D21 /* SurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				E1C0F4951D548357005E7D21 /* SurveyViewController.swift */,
 				E1B8EA4D1D53526800880D3D /* PatientListTableViewCell.swift */,
 				E11D51F21D527FD8000E859A /* MainViewController.swift */,
+				E1B35CEB1D63481F0072A719 /* ResultSplitViewController.swift */,
 				E1AEAE6E1D523C9D00A29A52 /* PreviewCollectionViewCell.swift */,
 				E1AEAE721D523E9300A29A52 /* PreviewCollectionViewController.swift */,
 				E1B8EA4B1D533E7100880D3D /* InputDetailsViewController.swift */,
@@ -332,6 +335,7 @@
 				E181980F1D4B6B8700004710 /* SurveyListTableViewCell.swift in Sources */,
 				E1A97CC11D46A8F70036E339 /* QuestionTableViewController.swift in Sources */,
 				E13A316E1D57B67300E5A4D6 /* ResultPatientTableViewController.swift in Sources */,
+				E1B35CEC1D63481F0072A719 /* ResultSplitViewController.swift in Sources */,
 				E1AEAE6F1D523C9D00A29A52 /* PreviewCollectionViewCell.swift in Sources */,
 				E13A31701D57B72300E5A4D6 /* ResultPatientTableViewCell.swift in Sources */,
 				E181980B1D4A4C7D00004710 /* QuestionsDetailsViewController.swift in Sources */,
