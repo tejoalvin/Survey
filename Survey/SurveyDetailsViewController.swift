@@ -350,7 +350,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         
         if segue.identifier == "showQuestionDetail"{
             
-            let surveyDetailView = segue.destinationViewController as! QuestionsDetailsViewController
+            let surveyDetailView = segue.destinationViewController.childViewControllers.first as! QuestionsDetailsViewController
             
 //            Realm.Configuration.defaultConfiguration = config
 //            
@@ -454,6 +454,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 
                 }
                 tableView.reloadData()
+				//update the master split to show the current total questions
+				let splitMaster = splitViewController?.viewControllers[0].childViewControllers.first as! SurveyListTableViewController
+				splitMaster.tableView.reloadData()
             }
         
         }

@@ -749,7 +749,7 @@
                                             <outlet property="deviceImage" destination="9d4-yo-Sxk" id="eTv-55-HvG"/>
                                             <outlet property="deviceNameLabel" destination="OfS-no-u2t" id="gfN-u1-NVc"/>
                                             <outlet property="questionNumberLabel" destination="kWa-4d-Csf" id="peo-Nz-gdK"/>
-                                            <segue destination="t6y-QB-ovp" kind="show" identifier="showQuestionDetail" id="Fl8-6v-0oy"/>
+                                            <segue destination="RVY-hB-mZl" kind="presentation" identifier="showQuestionDetail" id="MX0-ZE-F5t"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1379,7 +1379,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Select Survey" id="Dhq-fi-Poa">
-                        <barButtonItem key="rightBarButtonItem" title="Enter Participant" id="6EC-vD-WZJ">
+                        <barButtonItem key="rightBarButtonItem" title="Continue" id="6EC-vD-WZJ">
                             <connections>
                                 <action selector="nextStage:" destination="VUD-ai-SXs" id="VTe-By-SUv"/>
                             </connections>
@@ -2015,6 +2015,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="LFl-Ea-CTS"/>
-        <segue reference="Fl8-6v-0oy"/>
+        <segue reference="MX0-ZE-F5t"/>
     </inferredMetricsTieBreakers>
 </document>

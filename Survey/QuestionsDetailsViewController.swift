@@ -109,6 +109,7 @@ class QuestionsDetailsViewController: UIViewController, UIImagePickerControllerD
     }
 
     func textFieldDidEndEditing(textField: UITextField) {
+		deviceName.resignFirstResponder()
         textChecker()
     }
     

@@ -27,7 +27,7 @@ class DoSelectSurveyTableViewController: UITableViewController {
         
         survey = Array(realm.objects(SurveyData.self))
         
-        let backButton = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(self.backButtonAction(_:)))
+        let backButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.backButtonAction(_:)))
         navigationItem.setLeftBarButtonItem(backButton, animated: true)
         
         // Uncomment the following line to preserve selection between presentations
