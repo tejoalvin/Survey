@@ -16,7 +16,8 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var questionTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     var surveyData : SurveyData!
-    var editButton : UIBarButtonItem!
+//    var editButton : UIBarButtonItem!
+	@IBOutlet weak var deleteQButton: UIButton!
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -34,9 +35,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 //    }
     
     override func viewDidLoad() {
-        editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
+//        editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
         let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
-        navigationItem.setLeftBarButtonItems([homeButton,editButton], animated: true)
+        navigationItem.setLeftBarButtonItems([homeButton], animated: true)
         
         super.viewDidLoad()
         
@@ -69,13 +70,14 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 
     func textFieldDidEndEditing(textField: UITextField) {
         textChecker()
-        
+		surveyTitleTextField.resignFirstResponder()
+		questionTextField.resignFirstResponder()
     }
-    
+	
     func textFieldDidBeginEditing(textField: UITextField) {
         saveButton.enabled = true
     }
-    
+	
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         surveyTitleTextField.resignFirstResponder()
         questionTextField.resignFirstResponder()
@@ -136,16 +138,28 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         return cell
     }
     
-    func editButtonAction(sender: UIBarButtonItem){
-        if (tableView.editing) {
-            sender.title = "Edit";
-            tableView.setEditing(false, animated: true)
-        } else {
-            sender.title = "Done";
-            tableView.setEditing(true, animated: true)
-        }
-    }
-    
+//    func editButtonAction(sender: UIBarButtonItem){
+//        if (tableView.editing) {
+//            sender.title = "Edit";
+//            tableView.setEditing(false, animated: true)
+//        } else {
+//            sender.title = "Done";
+//            tableView.setEditing(true, animated: true)
+//        }
+//    }
+
+	
+	@IBAction func deleteQuestionAction(sender: UIButton) {
+		if (tableView.editing) {
+			sender.setTitle("Delete Question", forState: .Normal)
+			tableView.setEditing(false, animated: true)
+		} else {
+			sender.setTitle("Done", forState: .Normal)
+			tableView.setEditing(true, animated: true)
+		}
+		
+	}
+	
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
@@ -166,16 +180,16 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         if survey.questions.count == 1{
-            editButton.enabled = false
+            deleteQButton.enabled = false
             return false
         } else {
-            editButton.enabled = true
+            deleteQButton.enabled = true
             return true
         }
     }
     
     private func deleteQuestionFromRealm(questionToBeDeleted: QuestionData, index:Int){
-        let deletedID = questionToBeDeleted.id
+//        let deletedID = questionToBeDeleted.id
         let deletedQNumber = questionToBeDeleted.questionNumber
         let deletedImagePath = questionToBeDeleted.imagePath
         let surveyBeforeDeleted = survey
@@ -193,12 +207,12 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         
         let newSurvey = Array(surveyObject[0].questions)
         print(newSurvey.count)
-        if deletedID != surveyBeforeDeleted.questions.sorted("questionNumber").last?.id {
+        if deletedQNumber-1 != surveyBeforeDeleted.questions.sorted("questionNumber").last?.questionNumber {
             try! realm.write{
                 //because QNumber 1 more than index in array
                 let i = deletedQNumber - 1
                 print("i : " + String(i))
-                
+                print(newSurvey.count)
                 for index in i...newSurvey.count-1{
                     print("index:" + String(index))
                     let currentID = newSurvey[index].id
@@ -214,14 +228,20 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         
         //delete file used
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        
-        let imagePath = (paths as NSString).stringByAppendingPathComponent(deletedImagePath)
-        do{
-            try NSFileManager.defaultManager().removeItemAtPath(imagePath)
-        } catch let error as NSError{
-            print("can't delete photo file \n" + String(error))
-        }
+		
+		if deletedImagePath != "" {
+			let imagePath = (paths as NSString).stringByAppendingPathComponent(deletedImagePath)
+			do{
+				try NSFileManager.defaultManager().removeItemAtPath(imagePath)
+				print("deleted " + imagePath)
+			} catch let error as NSError{
+				print("can't delete photo file \n" + String(error))
+			}
+		}
 
+		//update the master split to show the current total questions
+		let splitMaster = splitViewController?.viewControllers[0].childViewControllers.first as! SurveyListTableViewController
+		splitMaster.tableView.reloadData()
     }
 
     func retrieveImage(imageFolderPath : String) -> UIImage{
@@ -310,6 +330,8 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                 print(error)
             }
         }
+		
+		saveButton.enabled = false
     }
     
     func homeButtonAction(sender: UIBarButtonItem) {

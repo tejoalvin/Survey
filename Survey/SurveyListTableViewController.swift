@@ -30,7 +30,10 @@ class SurveyListTableViewController: UITableViewController {
         
         editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
         navigationItem.leftBarButtonItem = editButton
-        
+		
+//		let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+//		tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
+		
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

@@ -29,6 +29,10 @@ class ResultPatientTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
+		navigationItem.setLeftBarButtonItems([homeButton], animated: true)
+
+		
 		Realm.Configuration.defaultConfiguration = config
 		let realm = try! Realm()
 		patientList = Array(realm.objects(Patients.self).sorted("patientsName"))
@@ -50,6 +54,12 @@ class ResultPatientTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+	func homeButtonAction(sender: UIBarButtonItem) {
+		print("home button clicked")
+		dismissViewControllerAnimated(true, completion: nil)
+	}
+
+	
 	func filterContent(searchText : String){
 		print(searchText)
 		filteredPatientList = patientList.filter {

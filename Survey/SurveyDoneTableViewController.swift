@@ -32,9 +32,9 @@ class SurveyDoneTableViewController: UITableViewController {
 //        navigationItem.leftItemsSupplementBackButton = true
 //        let showMasterButton = splitViewController!.displayModeButtonItem()
 		
-        let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
-        navigationItem.setLeftBarButtonItems([homeButton], animated: true)
-        
+//        let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
+//        navigationItem.setLeftBarButtonItems([homeButton], animated: true)
+		
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -47,11 +47,11 @@ class SurveyDoneTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func homeButtonAction(sender: UIBarButtonItem) {
-        print("home button clicked")
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
+//    func homeButtonAction(sender: UIBarButtonItem) {
+//        print("home button clicked")
+//        dismissViewControllerAnimated(true, completion: nil)
+//    }
+	
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -143,7 +143,7 @@ class SurveyDoneTableViewController: UITableViewController {
         splitViewController?.presentsWithGesture = false
         
         if segue.identifier == "showPatientResult" {
-            let resultViewController = segue.destinationViewController as! ResultViewController
+            let resultViewController = segue.destinationViewController.childViewControllers.first as! ResultViewController
             if let selectedSurveyDoneCell = sender as? SurveyDoneTableViewCell {
                 let indexPath = tableView.indexPathForCell(selectedSurveyDoneCell)!
 				
@@ -166,5 +166,6 @@ extension SurveyDoneTableViewController : patientSelectionDelegate{
         patient = patientSelected
         tableView.reloadData()
         pageName.title = patient.patientsName
+		print(pageName.title)
     }
 }

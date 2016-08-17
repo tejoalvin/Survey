@@ -34,6 +34,7 @@ class MainViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+		print(segue.identifier)
         if segue.identifier == "doSurvey"{
             let splitView = segue.destinationViewController as! UISplitViewController
             print("doSurvey split: " + String(splitView))
@@ -53,6 +54,7 @@ class MainViewController: UIViewController {
 			
 			surveyList.delegate = qList
 		} else if segue.identifier == "resultSegue"{
+			print("resultSegue")
 			let splitResult = segue.destinationViewController as! UISplitViewController
 			
 			let masterNav = splitResult.viewControllers.first as! UINavigationController
