@@ -24,14 +24,17 @@ class ConfidenceLevel: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        let notSelected = UIImage(named: "yellow")
-        let selected = UIImage(named: "green")
-        
-        for _ in 0..<scale {
+        for index in 0..<scale {
+			let con = "confidence" + String(index+1)
+			let confidence = UIImage(named: con)
+			
+			let conSel = con + " selected"
+			let confidenceSelected = UIImage(named: conSel)
+			
             let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-            button.setImage(notSelected, forState: .Normal)
-            button.setImage(selected, forState: .Selected)
-            button.setImage(selected, forState: [.Highlighted, .Selected])
+            button.setImage(confidence, forState: .Normal)
+            button.setImage(confidenceSelected, forState: .Selected)
+            button.setImage(confidenceSelected, forState: [.Highlighted, .Selected])
             
             button.adjustsImageWhenHighlighted = false
             
@@ -39,14 +42,27 @@ class ConfidenceLevel: UIView {
             scaleButtons += [button]
             addSubview(button)
         }
+		
+		let notConfident = UILabel(frame: CGRect(x:0, y:90, width:100, height:80))
+		notConfident.numberOfLines = 4
+		notConfident.text = "Not confident at all"
+		notConfident.lineBreakMode = NSLineBreakMode.ByWordWrapping
+		
+		let confident = UILabel(frame: CGRect(x: 400, y: 90, width: 100, height: 60))
+		confident.numberOfLines = 2
+		confident.text = "Very Confident"
+		confident.lineBreakMode = NSLineBreakMode.ByWordWrapping
+		
+		addSubview(notConfident)
+		addSubview(confident)
     }
     
     override func layoutSubviews() {
         let buttonSize = 100
-        var buttonFrame = CGRect(x: 0, y: 0, width: buttonSize , height: buttonSize)
+        var buttonFrame = CGRect(x: 20, y: 0, width: buttonSize , height: buttonSize)
         
         for (index, button) in scaleButtons.enumerate() {
-            buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
+            buttonFrame.origin.x = CGFloat(index * (buttonSize))
             button.frame = buttonFrame
         }
         
@@ -54,7 +70,7 @@ class ConfidenceLevel: UIView {
     }
     
     override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: 540, height: 160)
+        return CGSize(width: 500, height: 200)
     }
     
     func buttonTapped(button: UIButton) {

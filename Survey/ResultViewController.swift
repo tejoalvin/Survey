@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import MessageUI
 
-class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
+class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var patientNameLabel: UILabel!
     @IBOutlet weak var surveyNameLabel: UILabel!
@@ -23,6 +23,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let config = Realm.Configuration(
         schemaVersion: 1
     )
+	var commentTextFields = [UITextField]()
+	var saveButton : UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +42,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
             navigationItem.title = surveyFinished.surveyName!.name + " Result"
         }
         
-        let saveButton = UIBarButtonItem(title: "Save Comments", style:.Plain, target: self, action: #selector(self.saveButtonAction(_:)))
+        saveButton = UIBarButtonItem(title: "Save Comments", style:.Plain, target: self, action: #selector(self.saveButtonAction(_:)))
         navigationItem.setRightBarButtonItem(saveButton, animated: true)
-        
+		
+		saveButton.enabled = false
+		
         patientNameLabel.text = surveyFinished.patient!.patientsName
         surveyNameLabel.text = surveyFinished.surveyName!.name
         
@@ -243,7 +247,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         }
-        
+        saveButton.enabled = false
         
     }
     
@@ -262,7 +266,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let eachSurvey = surveyFinished.surveyName!.questions[indexPath.row]
         cell.questionNumber.text = String(eachSurvey.questionNumber)
         cell.deviceName.text = eachSurvey.deviceName
-        
+		
+		cell.commentTextField.delegate = self
+		commentTextFields += [cell.commentTextField]
         cell.commentTextField.enabled = false
         
         if indexPath.row > surveyFinished.mainAnswer.count-1{
@@ -290,7 +296,27 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
        
         return cell
     }
-    
+	
+	func textFieldDidEndEditing(textField: UITextField) {
+		saveButton.enabled = true
+	}
+	
+	func textFieldShouldReturn(textField: UITextField) -> Bool {
+		saveButton.enabled = true
+		for text in commentTextFields {
+			text.resignFirstResponder()
+		}
+		return true
+	}
+	
+	func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+		saveButton.enabled = true
+		for text in commentTextFields{
+			text.resignFirstResponder()
+		}
+		return true
+	}
+	
     /*
     // MARK: - Navigation
 
