@@ -71,7 +71,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 	
 	@IBAction func exportTherapistReport(sender: UIButton) {
-		let mailString = createCSVData()
+		let mailString = createCSVDataTherapist()
 		
 		// Converting it to NSData.
 		let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
@@ -101,7 +101,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	@IBAction func exportCSV(sender: UIButton) {
 
-		let mailString = createCSVDataTherapist()
+		let mailString = createCSVData()
 		
         // Converting it to NSData.
         let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
