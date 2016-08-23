@@ -82,7 +82,9 @@ class DoSelectSurveyTableViewController: UITableViewController {
                 var rect = CGRect(x: 400, y: 25, width: 100, height: 100)
                 rect.origin.x = 400 + CGFloat(index) * (rect.width + 20)
                 let imageView = UIImageView(frame: rect)
-                
+				
+                imageView.contentMode = UIViewContentMode.ScaleAspectFit
+				
                 let imgPath = surveyData.questions[index].imagePath
                 if  imgPath != "" {
                     imageView.image = retrieveImage(imgPath)
