@@ -180,18 +180,27 @@ class SurveyListTableViewController: UITableViewController {
         let realm = try! Realm()
         
         let surveyData = realm.objects(SurveyData.self)
-        
-        if surveyData.count == 1{
-            editButton.enabled = false
-            return false
-        } else {
-            editButton.enabled = true
-            return true
-        }
+		
+		let answeredData = realm.objects(SurveyAnswered.self)
+		let currentData = surveyData[indexPath.row]
+		print("current " + currentData.name)
+		
+		for answer in answeredData {
+			if answer.surveyName!.name == currentData.name {
+				return false
+			}
+		}
+		
+		if surveyData.count == 1{
+			editButton.enabled = false
+			return false
+		} else {
+			editButton.enabled = true
+			return true
+		}
     }
-    
-
-    
+	
+	
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
