@@ -328,7 +328,7 @@
             </objects>
             <point key="canvasLocation" x="-2169" y="2329.5"/>
         </scene>
-        <!--Select Survey-->
+        <!--Surveys-->
         <scene sceneID="Qby-0Y-VXc">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="JeV-Qg-eZa" customClass="SurveyListTableViewController" customModule="Survey" customModuleProvider="target" sceneMemberID="viewController">
@@ -395,7 +395,7 @@
                             <outlet property="delegate" destination="JeV-Qg-eZa" id="mwf-l7-5Qs"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Select Survey" id="nHc-xT-5AK">
+                    <navigationItem key="navigationItem" title="Surveys" id="nHc-xT-5AK">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Dj-SP-HHv">
                             <connections>
                                 <action selector="addNewSurvey:" destination="JeV-Qg-eZa" id="GBy-YN-PAG"/>
@@ -975,6 +975,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="deleteQButton" destination="jHI-2d-bhi" id="AHQ-wa-0TR"/>
+                        <outlet property="navItem" destination="rqg-4d-sfb" id="2fL-t7-AJb"/>
                         <outlet property="questionTextField" destination="fTL-5y-b0g" id="WN1-9f-mXr"/>
                         <outlet property="saveButton" destination="nca-uQ-JMS" id="Niv-IB-fhs"/>
                         <outlet property="surveyTitleLabel" destination="bd5-2K-syf" id="CB0-g1-fyD"/>

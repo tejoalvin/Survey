@@ -39,7 +39,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         } else {
             let backButton = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(self.backButtonAction(_:)))
             navigationItem.setLeftBarButtonItem(backButton, animated: true)
-            navigationItem.title = surveyFinished.surveyName!.name + " Result"
+            navigationItem.title = surveyFinished.surveyName + " Result"
         }
         
         saveButton = UIBarButtonItem(title: "Save Comments", style:.Plain, target: self, action: #selector(self.saveButtonAction(_:)))
@@ -48,7 +48,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		saveButton.enabled = false
 		
         patientNameLabel.text = surveyFinished.patient!.patientsName
-        surveyNameLabel.text = surveyFinished.surveyName!.name
+        surveyNameLabel.text = surveyFinished.surveyName
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
@@ -83,13 +83,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		
 		let emailController = MFMailComposeViewController()
 		emailController.mailComposeDelegate = self
-		let subject = "Survey Report " + surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-"
+		let subject = "Survey Report " + surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName + "-"
 			+ timeSurveyStarted.text!
 		emailController.setSubject(subject)
 		emailController.setMessageBody("", isHTML: false)
 		
 		// Attaching the .CSV file to the email.
-		let fileName = surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-" + timeSurveyStarted.text! + ".csv"
+		let fileName = surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName + "-" + timeSurveyStarted.text! + ".csv"
 		emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: fileName)
 		
 		if MFMailComposeViewController.canSendMail() {
@@ -113,13 +113,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		
         let emailController = MFMailComposeViewController()
         emailController.mailComposeDelegate = self
-		let subject = "Survey Report " + surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-"
+		let subject = "Survey Report " + surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName + "-"
 			+ timeSurveyStarted.text!
         emailController.setSubject(subject)
         emailController.setMessageBody("", isHTML: false)
         
         // Attaching the .CSV file to the email.
-		let fileName = surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName!.name + "-" + timeSurveyStarted.text! + ".csv"
+		let fileName = surveyFinished.patient!.patientsName + "-" + surveyFinished.surveyName + "-" + timeSurveyStarted.text! + ".csv"
         emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: fileName)
         
         if MFMailComposeViewController.canSendMail() {
@@ -131,15 +131,15 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func createCSVData() -> NSMutableString {
         let text = NSMutableString()
         text.appendString("Name," + surveyFinished.patient!.patientsName + "\n")
-        text.appendString("Survey Name," + surveyFinished.surveyName!.name + "\n")
+        text.appendString("Survey Name," + surveyFinished.surveyName + "\n")
         text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
         text.appendString("\n\n")
         text.appendString("No.,Technology Name,Used in last month?,Confidence level,Comments\n")
 		
-		let qTotal = surveyFinished.surveyName!.questions.count
+		let qTotal = surveyFinished.devices.count
 		
 		for index in 0..<qTotal {
-			let sData = surveyFinished.surveyName!.questions[index]
+			let deviceName = surveyFinished.devices[index].value
 			var mainQAnswer : String
 			var confidentQAnswer : String
 			var answerComments = ""
@@ -166,7 +166,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				confidentQAnswer = String(confidenceAnswer.answer)
 			}
 
-			let stringAppend = String(sData.questionNumber) + "," + sData.deviceName + "," + mainQAnswer + "," + confidentQAnswer + "," + answerComments + "\n"
+			let stringAppend = String(index+1) + "," + deviceName + "," + mainQAnswer + "," + confidentQAnswer + "," + answerComments + "\n"
             text.appendString(stringAppend)
         }
 		
@@ -176,7 +176,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	func createCSVDataTherapist() -> NSMutableString{
 		let text = NSMutableString()
 		text.appendString("Name," + surveyFinished.patient!.patientsName + "\n")
-		text.appendString("Survey Name," + surveyFinished.surveyName!.name + "\n")
+		text.appendString("Survey Name," + surveyFinished.surveyName + "\n")
 		text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
 		text.appendString("\n\n")
 		
@@ -184,8 +184,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		var main : String = ""
 		var confidence : String = ""
 		
-		for index in 0..<surveyFinished.surveyName!.questions.count {
-			let sData = surveyFinished.surveyName!.questions[index]
+		for index in 0..<surveyFinished.devices.count {
+			let deviceName = surveyFinished.devices[index].value
 			var mainQAnswer : String
 			var confidentQAnswer : String
 			
@@ -208,7 +208,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				confidentQAnswer = String(confidenceAnswer.answer)
 			}
 
-			device = device + sData.deviceName + ","
+			device = device + deviceName + ","
 			main = main + mainQAnswer + ","
 			confidence = confidence + confidentQAnswer + ","
 		}
@@ -256,16 +256,16 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return surveyFinished.surveyName!.questions.count
+        return surveyFinished.devices.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier = "resultCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! ResultTableViewCell
         
-        let eachSurvey = surveyFinished.surveyName!.questions[indexPath.row]
-        cell.questionNumber.text = String(eachSurvey.questionNumber)
-        cell.deviceName.text = eachSurvey.deviceName
+//        let eachSurvey = surveyFinished.deviceName
+        cell.questionNumber.text = String(indexPath.row + 1)
+        cell.deviceName.text = surveyFinished.devices[indexPath.row].value
 		
 		cell.commentTextField.delegate = self
 		commentTextFields += [cell.commentTextField]

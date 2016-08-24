@@ -115,7 +115,7 @@ class SurveyViewController: UIViewController {
                     mainAnswer.id = mainIDStart + currentIndex/2
                     mainAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
                     mainAnswer.patient = patient
-                    mainAnswer.surveyName = survey
+                    mainAnswer.surveyName = survey.name
                     
                     try! realm.write{
                         let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
@@ -182,7 +182,7 @@ class SurveyViewController: UIViewController {
                     confidenceAnswer.id = confidenceIDStart + currentIndex/2
                     confidenceAnswer.patient = patient
                     confidenceAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
-                    confidenceAnswer.surveyName = survey
+                    confidenceAnswer.surveyName = survey.name
                     
                     try! realm.write{
                         let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
@@ -252,7 +252,7 @@ class SurveyViewController: UIViewController {
                     mainAnswer.id = mainIDStart + currentIndex
                     mainAnswer.questionNumber = survey.questions[currentIndex].questionNumber
                     mainAnswer.patient = patient
-                    mainAnswer.surveyName = survey
+                    mainAnswer.surveyName = survey.name
                     
                     try! realm.write{
                         let questionAnsweredOrNot = currentSurveyAnswered.mainAnswer.filter("questionNumber = \(survey.questions[currentIndex].questionNumber)")
@@ -344,7 +344,7 @@ class SurveyViewController: UIViewController {
                     confidenceAnswer.id = confidenceIDStart + arrayIndex
                     confidenceAnswer.patient = patient
                     confidenceAnswer.questionNumber = survey.questions[arrayIndex].questionNumber
-                    confidenceAnswer.surveyName = survey
+                    confidenceAnswer.surveyName = survey.name
                     
                     try! realm.write{
                         let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[arrayIndex].questionNumber)")
@@ -412,7 +412,7 @@ class SurveyViewController: UIViewController {
 				let mainAnswer = SurveyMainResult()
 				mainAnswer.answer = yesAnswer
 				mainAnswer.patient = patient
-				mainAnswer.surveyName = survey
+				mainAnswer.surveyName = survey.name
 				
 				if isAfterEachQuestion == true {
 					//after each
@@ -457,7 +457,7 @@ class SurveyViewController: UIViewController {
 				let confidenceAnswer = SurveyConfidenceResult()
 				confidenceAnswer.answer = questionContainer.confidenceScale.rating
 				confidenceAnswer.patient = patient
-				confidenceAnswer.surveyName = survey
+				confidenceAnswer.surveyName = survey.name
 				
 				if isAfterEachQuestion == true {
 					//after each
@@ -716,7 +716,7 @@ class SurveyViewController: UIViewController {
             confidenceAnswer.id = confidenceIDStart + currentIndex/2
             confidenceAnswer.patient = patient
             confidenceAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
-            confidenceAnswer.surveyName = survey
+            confidenceAnswer.surveyName = survey.name
             
             try! realm.write{
                 let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
@@ -771,7 +771,7 @@ class SurveyViewController: UIViewController {
                     let mainAnswer = SurveyMainResult()
                     mainAnswer.answer = yesAnswer
                     mainAnswer.patient = patient
-                    mainAnswer.surveyName = survey
+                    mainAnswer.surveyName = survey.name
                     
                     if isAfterEachQuestion == true {
                         //after each
@@ -816,7 +816,7 @@ class SurveyViewController: UIViewController {
                     let confidenceAnswer = SurveyConfidenceResult()
                     confidenceAnswer.answer = questionContainer.confidenceScale.rating
                     confidenceAnswer.patient = patient
-                    confidenceAnswer.surveyName = survey
+                    confidenceAnswer.surveyName = survey.name
                     
                     if isAfterEachQuestion == true {
                         //after each

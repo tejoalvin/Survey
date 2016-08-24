@@ -72,19 +72,19 @@ class SurveyDoneTableViewController: UITableViewController {
 		
 		let sortedList = patient.surveyDone.sorted("dateStarted", ascending: false)
 		
-        cell.surveyName.text = sortedList[indexPath.row].surveyName!.name
+        cell.surveyName.text = sortedList[indexPath.row].surveyName
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
         if sortedList[indexPath.row].confidenceAnswer.count > 0{
-            cell.confidenceDone.text = String(sortedList[indexPath.row].confidenceAnswer.count) + "/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
+            cell.confidenceDone.text = String(sortedList[indexPath.row].confidenceAnswer.count) + "/" + String(sortedList[indexPath.row].devices.count) + " questions done"
         } else {
-            cell.confidenceDone.text = "0/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
+            cell.confidenceDone.text = "0/" + String(sortedList[indexPath.row].devices.count) + " questions done"
         }
         
         if sortedList[indexPath.row].mainAnswer.count > 0{
-             cell.mainDone.text = String(sortedList[indexPath.row].mainAnswer.count) + "/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
+             cell.mainDone.text = String(sortedList[indexPath.row].mainAnswer.count) + "/" + String(sortedList[indexPath.row].devices.count) + " questions done"
         } else {
-            cell.mainDone.text = "0/" + String(sortedList[indexPath.row].surveyName!.questions.count) + " questions done"
+            cell.mainDone.text = "0/" + String(sortedList[indexPath.row].devices.count) + " questions done"
         }
 
         let date = sortedList[indexPath.row].dateStarted

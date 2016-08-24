@@ -54,6 +54,14 @@ class ResultPatientTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		//select first item in the table
+		let firstIndex = NSIndexPath(forRow: 0, inSection: 0)
+		tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
+	}
+	
 	func homeButtonAction(sender: UIBarButtonItem) {
 		print("home button clicked")
 		dismissViewControllerAnimated(true, completion: nil)

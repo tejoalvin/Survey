@@ -63,7 +63,14 @@ class SurveyListTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
+	
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		//select first item in the table
+		let firstIndex = NSIndexPath(forRow: 0, inSection: 0)
+		tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
+	}
 
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -181,15 +188,15 @@ class SurveyListTableViewController: UITableViewController {
         
         let surveyData = realm.objects(SurveyData.self)
 		
-		let answeredData = realm.objects(SurveyAnswered.self)
-		let currentData = surveyData[indexPath.row]
-		print("current " + currentData.name)
-		
-		for answer in answeredData {
-			if answer.surveyName!.name == currentData.name {
-				return false
-			}
-		}
+//		let answeredData = realm.objects(SurveyAnswered.self)
+//		let currentData = surveyData[indexPath.row]
+//		print("current " + currentData.name)
+//		
+//		for answer in answeredData {
+//			if answer.surveyName!.name == currentData.name {
+//				return false
+//			}
+//		}
 		
 		if surveyData.count == 1{
 			editButton.enabled = false

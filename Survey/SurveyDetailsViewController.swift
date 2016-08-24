@@ -18,6 +18,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
     var surveyData : SurveyData!
 //    var editButton : UIBarButtonItem!
 	@IBOutlet weak var deleteQButton: UIButton!
+	@IBOutlet weak var navItem: UINavigationItem!
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -40,20 +41,18 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         navigationItem.setLeftBarButtonItems([homeButton], animated: true)
         
         super.viewDidLoad()
-        
-        let surveyName = "Default Survey"
-        surveyTitleTextField.text = surveyName
-        
-        let question = "Have you used this in the last month?"
-        questionTextField.text = question
-        
+		
         Realm.Configuration.defaultConfiguration = config
         let realm = try! Realm()
         
         let surveyList = realm.objects(SurveyData.self)
-        
+		
         survey = surveyList[0]
-        
+		
+		surveyTitleTextField.text = survey.name
+		questionTextField.text = survey.questions.first!.question
+		navItem.title = survey.name
+		
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -489,6 +488,7 @@ extension SurveyDetailsViewController: SurveySelectionDelegate {
         print(self.survey.name)
 //        print(self.survey.questions.first!.question)
         surveyName = survey.name
+		navItem.title = survey.name
         self.refreshUI()
     }
 }

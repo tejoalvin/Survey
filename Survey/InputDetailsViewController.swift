@@ -365,8 +365,18 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
             } else {
                 surveyWillBeAnswered.id = 1
             }
+			
             surveyWillBeAnswered.dateStarted = NSDate()
-            surveyWillBeAnswered.surveyName = survey
+            surveyWillBeAnswered.surveyName = survey.name
+			surveyWillBeAnswered.question = survey.questions.first!.question
+			
+			
+			for question in survey.questions {
+				let device = deviceName()
+				device.value = question.deviceName
+				surveyWillBeAnswered.devices.append(device)
+			}
+			
             
             if patients.count == 0 {
                 

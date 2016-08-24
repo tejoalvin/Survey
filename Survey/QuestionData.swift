@@ -20,12 +20,6 @@ class QuestionData: Object {
     override static func primaryKey() -> String? {
         return "id"
     }
-    
-// Specify properties to ignore (Realm won't persist these)
-    
-//  override static func ignoredProperties() -> [String] {
-//    return []
-//  }
 }
 
 class SurveyData : Object {
@@ -42,7 +36,7 @@ class SurveyData : Object {
 class SurveyMainResult : Object{
     dynamic var questionNumber = 0
     dynamic var answer = false
-    dynamic var surveyName : SurveyData?
+    dynamic var surveyName = ""
     dynamic var id = 0
     dynamic var patient : Patients?
     dynamic var comments = ""
@@ -55,7 +49,7 @@ class SurveyMainResult : Object{
 class SurveyConfidenceResult : Object {
     dynamic var questionNumber = 0
     dynamic var answer = 0
-    dynamic var surveyName : SurveyData?
+    dynamic var surveyName = ""
     dynamic var id = 0
     dynamic var patient : Patients?
     
@@ -71,11 +65,17 @@ class SurveyAnswered : Object {
     let confidenceAnswer = List<SurveyConfidenceResult>()
     dynamic var id = 0
     dynamic var patient : Patients?
-    dynamic var surveyName : SurveyData?
+    dynamic var surveyName = ""
+	dynamic var question = ""
+	let devices = List<deviceName>()
     
     override static func primaryKey() -> String? {
         return "id"
     }
+}
+
+class deviceName : Object {
+	dynamic var value = ""
 }
 
 class Patients : Object {
