@@ -151,7 +151,9 @@ class SurveyViewController: UIViewController {
                     } else {
                         questionContainer.question.text = "Imagine if you use it, how confident do you feel about using this?"
                     }
-                    
+					
+					print("numLines " + String(questionContainer.question.numberOfLines))
+					print(questionContainer.question.frame.height)
                     //                    questionContainer.question.text = survey.questions[currentIndex/2].question
                     if survey.questions[currentIndex/2].imagePath != "" {
                         questionContainer.devicePhoto.image = retrieveImage(survey.questions[currentIndex/2].imagePath)

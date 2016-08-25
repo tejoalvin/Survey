@@ -28,7 +28,7 @@ class SurveyListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         
-        editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
+        editButton = UIBarButtonItem(title: "Delete", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
         navigationItem.leftBarButtonItem = editButton
 		
 //		let indexPath = NSIndexPath(forRow: 0, inSection: 0)

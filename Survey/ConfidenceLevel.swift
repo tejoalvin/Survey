@@ -70,7 +70,7 @@ class ConfidenceLevel: UIView {
     }
     
     override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: 500, height: 200)
+        return CGSize(width: 500, height: 180)
     }
     
     func buttonTapped(button: UIButton) {
