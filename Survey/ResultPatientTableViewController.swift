@@ -26,6 +26,8 @@ class ResultPatientTableViewController: UITableViewController {
 	var patientList = [Patients]()
 	var filteredPatientList = [Patients]()
 	
+	var selectedIndex : Int!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,6 +43,8 @@ class ResultPatientTableViewController: UITableViewController {
 		searchController.dimsBackgroundDuringPresentation = false
 		definesPresentationContext = true
 		tableView.tableHeaderView = searchController.searchBar
+		
+		selectedIndex = 0
 		
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -58,7 +62,7 @@ class ResultPatientTableViewController: UITableViewController {
 		super.viewDidAppear(animated)
 		
 		//select first item in the table
-		let firstIndex = NSIndexPath(forRow: 0, inSection: 0)
+		let firstIndex = NSIndexPath(forRow: selectedIndex, inSection: 0)
 		tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
 	}
 	
@@ -120,13 +124,13 @@ class ResultPatientTableViewController: UITableViewController {
 		} else {
 			patient = patientList[indexPath.row]
 		}
-		
+		selectedIndex = indexPath.row
         self.delegate?.patientSelected(patient)
 
         if let surveyDoneViewController = self.delegate as? SurveyDoneTableViewController {
             splitViewController?.showDetailViewController(surveyDoneViewController.navigationController!, sender: nil)
         }
-        
+		
     }
 
     /*

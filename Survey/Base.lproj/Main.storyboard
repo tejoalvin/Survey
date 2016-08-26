@@ -328,7 +328,7 @@
             </objects>
             <point key="canvasLocation" x="-2169" y="2329.5"/>
         </scene>
-        <!--Surveys-->
+        <!--Questionnaires-->
         <scene sceneID="Qby-0Y-VXc">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="JeV-Qg-eZa" customClass="SurveyListTableViewController" customModule="Survey" customModuleProvider="target" sceneMemberID="viewController">
@@ -395,8 +395,8 @@
                             <outlet property="delegate" destination="JeV-Qg-eZa" id="mwf-l7-5Qs"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Surveys" id="nHc-xT-5AK">
-                        <barButtonItem key="rightBarButtonItem" title="Add Survey" id="4Dj-SP-HHv">
+                    <navigationItem key="navigationItem" title="Questionnaires" id="nHc-xT-5AK">
+                        <barButtonItem key="rightBarButtonItem" title="Add New" id="4Dj-SP-HHv">
                             <connections>
                                 <action selector="addNewSurvey:" destination="JeV-Qg-eZa" id="GBy-YN-PAG"/>
                             </connections>
@@ -521,7 +521,7 @@
             </objects>
             <point key="canvasLocation" x="705.75" y="-1641"/>
         </scene>
-        <!--Surveys Finished-->
+        <!--Questionnaire(s) Finished-->
         <scene sceneID="31l-0j-d1a">
             <objects>
                 <tableViewController id="dNk-jf-2Pk" customClass="SurveyDoneTableViewController" customModule="Survey" customModuleProvider="target" sceneMemberID="viewController">
@@ -729,7 +729,7 @@
                             <outlet property="delegate" destination="dNk-jf-2Pk" id="i2s-8r-wqh"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Surveys Finished" id="ic1-HL-Wvv"/>
+                    <navigationItem key="navigationItem" title="Questionnaire(s) Finished" id="ic1-HL-Wvv"/>
                     <connections>
                         <outlet property="pageName" destination="ic1-HL-Wvv" id="hMg-yx-xgu"/>
                     </connections>
@@ -811,7 +811,7 @@
             </objects>
             <point key="canvasLocation" x="-3532.5" y="2295.75"/>
         </scene>
-        <!--Survey Details-->
+        <!--Questionnaire Details-->
         <scene sceneID="rGD-Me-p9w">
             <objects>
                 <viewController id="qoR-aO-WOQ" customClass="SurveyDetailsViewController" customModule="Survey" customModuleProvider="target" sceneMemberID="viewController">
@@ -829,17 +829,11 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Survey Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FVw-lh-VDd">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Questionnaire Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FVw-lh-VDd">
                                 <rect key="frame" x="150" y="130" width="410" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Questions " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ccm-Rf-ItB">
-                                <rect key="frame" x="30" y="175" width="82" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="150" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5WM-Ot-eIR">
                                 <rect key="frame" x="0.0" y="264" width="600" height="287"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -891,7 +885,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Survey Question" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fTL-5y-b0g">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Questionnaire Question" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fTL-5y-b0g">
                                 <rect key="frame" x="150" y="171" width="410" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -911,6 +905,12 @@
                                     <action selector="deleteQuestionAction:" destination="qoR-aO-WOQ" eventType="touchUpInside" id="hay-Zc-7QS"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ccm-Rf-ItB">
+                                <rect key="frame" x="30" y="175" width="82" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -921,7 +921,9 @@
                             <constraint firstAttribute="trailingMargin" secondItem="fTL-5y-b0g" secondAttribute="trailing" constant="20" id="PE1-eC-Lha"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5WM-Ot-eIR" secondAttribute="trailing" constant="-20" id="SIA-x9-kKo"/>
                             <constraint firstItem="5WM-Ot-eIR" firstAttribute="top" secondItem="DsI-hS-iTw" secondAttribute="bottom" constant="200" id="SiC-7l-UKm"/>
-                            <constraint firstItem="fTL-5y-b0g" firstAttribute="leading" secondItem="Ccm-Rf-ItB" secondAttribute="trailing" constant="38" id="UcM-aY-jod"/>
+                            <constraint firstItem="fTL-5y-b0g" firstAttribute="leading" secondItem="Ccm-Rf-ItB" secondAttribute="trailing" constant="38" id="UcM-aY-jod">
+                                <variation key="heightClass=regular-widthClass=regular" constant="51"/>
+                            </constraint>
                             <constraint firstItem="q1Q-UV-bPO" firstAttribute="top" secondItem="5WM-Ot-eIR" secondAttribute="bottom" id="XII-TR-38q"/>
                             <constraint firstItem="bd5-2K-syf" firstAttribute="leading" secondItem="BUy-Xp-JYV" secondAttribute="leadingMargin" constant="10" id="Xfl-lJ-ZU0"/>
                             <constraint firstItem="5WM-Ot-eIR" firstAttribute="top" secondItem="jHI-2d-bhi" secondAttribute="bottom" constant="8" id="ei4-dX-dXP"/>
@@ -966,7 +968,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Survey Details" id="rqg-4d-sfb">
+                    <navigationItem key="navigationItem" title="Questionnaire Details" id="rqg-4d-sfb">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="nca-uQ-JMS">
                             <connections>
                                 <action selector="saveButtonAction:" destination="qoR-aO-WOQ" id="fdo-Rj-j7b"/>
@@ -1263,7 +1265,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Survey Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRN-M5-hg4">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Questionnaire Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRN-M5-hg4">
                                 <rect key="frame" x="20" y="130" width="102" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1317,27 +1319,33 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confidence Rating" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZb-qO-aMj">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confidence Rating (of 5)" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZb-qO-aMj">
                                 <rect key="frame" x="391" y="226" width="91" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="tpg-ok-nwC"/>
-                                    <constraint firstAttribute="width" constant="91" id="vax-ev-O9p"/>
+                                    <constraint firstAttribute="width" constant="91" id="vax-ev-O9p">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="95"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Used in last month?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ven-MX-MHt">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Have you used this in the last month?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.65000000000000002" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ven-MX-MHt">
                                 <rect key="frame" x="275" y="226" width="89" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="89" id="4iv-KR-FqD"/>
-                                    <constraint firstAttribute="height" constant="48" id="7uE-aZ-IOX"/>
+                                    <constraint firstAttribute="width" constant="89" id="4iv-KR-FqD">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="139"/>
+                                    </constraint>
+                                    <constraint firstAttribute="height" constant="48" id="7uE-aZ-IOX">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="68"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-uO-tRJ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" adjustsLetterSpacingToFitWidth="YES" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zkn-uO-tRJ">
                                 <rect key="frame" x="611" y="239" width="84" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="84" id="5N7-1X-f71"/>
@@ -1348,14 +1356,14 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbQ-LD-mEI">
                                 <rect key="frame" x="415" y="126" width="165" height="30"/>
-                                <state key="normal" title="Export Report (Researcher Format)"/>
+                                <state key="normal" title="Email Data"/>
                                 <connections>
                                     <action selector="exportTherapistReport:" destination="tbD-cU-cDb" eventType="touchUpInside" id="o8Q-o1-uhV"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yY1-6t-0vU">
                                 <rect key="frame" x="431" y="90" width="149" height="30"/>
-                                <state key="normal" title="Export Report "/>
+                                <state key="normal" title="Email Report "/>
                                 <connections>
                                     <action selector="exportCSV:" destination="tbD-cU-cDb" eventType="touchUpInside" id="9Yh-fv-Q5B"/>
                                 </connections>
@@ -1364,7 +1372,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Zkn-uO-tRJ" firstAttribute="leading" secondItem="ZZb-qO-aMj" secondAttribute="trailing" constant="129" id="2y3-en-D6h"/>
-                            <constraint firstItem="ven-MX-MHt" firstAttribute="leading" secondItem="Ae5-G6-Keo" secondAttribute="trailing" constant="38" id="45Y-Iv-rFp"/>
+                            <constraint firstItem="ven-MX-MHt" firstAttribute="leading" secondItem="Ae5-G6-Keo" secondAttribute="trailing" constant="38" id="45Y-Iv-rFp">
+                                <variation key="heightClass=regular-widthClass=regular" constant="19"/>
+                            </constraint>
                             <constraint firstItem="0A8-fU-MaB" firstAttribute="top" secondItem="jlU-wX-n17" secondAttribute="bottom" constant="30" id="4ta-uL-kXj"/>
                             <constraint firstItem="4kb-U0-Sq8" firstAttribute="top" secondItem="ZCh-Ag-Lfv" secondAttribute="bottom" constant="15" id="71q-UF-oBF"/>
                             <constraint firstItem="YRN-M5-hg4" firstAttribute="leading" secondItem="L1F-K8-N67" secondAttribute="leadingMargin" id="9OY-g0-FXN"/>
@@ -1379,15 +1389,25 @@
                             <constraint firstItem="58S-uC-wFN" firstAttribute="top" secondItem="Heo-Xq-oa6" secondAttribute="bottom" constant="86" id="TGb-Wu-tJH"/>
                             <constraint firstItem="58S-uC-wFN" firstAttribute="top" secondItem="ven-MX-MHt" secondAttribute="bottom" constant="-1" id="URA-5T-Wwc"/>
                             <constraint firstItem="cbQ-LD-mEI" firstAttribute="trailing" secondItem="L1F-K8-N67" secondAttribute="trailingMargin" id="UYk-Vz-Glg"/>
-                            <constraint firstItem="pY6-9N-99t" firstAttribute="leading" secondItem="Heo-Xq-oa6" secondAttribute="trailing" constant="66" id="Ug5-wX-10r"/>
-                            <constraint firstItem="ZCh-Ag-Lfv" firstAttribute="leading" secondItem="0A8-fU-MaB" secondAttribute="trailing" constant="121" id="WCp-Fe-VNF"/>
+                            <constraint firstItem="pY6-9N-99t" firstAttribute="leading" secondItem="Heo-Xq-oa6" secondAttribute="trailing" constant="66" id="Ug5-wX-10r">
+                                <variation key="heightClass=regular-widthClass=regular" constant="94"/>
+                            </constraint>
+                            <constraint firstItem="ZCh-Ag-Lfv" firstAttribute="leading" secondItem="0A8-fU-MaB" secondAttribute="trailing" constant="121" id="WCp-Fe-VNF">
+                                <variation key="heightClass=regular-widthClass=regular" constant="149"/>
+                            </constraint>
                             <constraint firstItem="58S-uC-wFN" firstAttribute="leading" secondItem="L1F-K8-N67" secondAttribute="leadingMargin" constant="-20" id="Xzu-nS-lct"/>
-                            <constraint firstItem="4kb-U0-Sq8" firstAttribute="leading" secondItem="YRN-M5-hg4" secondAttribute="trailing" constant="64" id="Zw0-Sw-Xcw"/>
+                            <constraint firstItem="4kb-U0-Sq8" firstAttribute="leading" secondItem="YRN-M5-hg4" secondAttribute="trailing" constant="64" id="Zw0-Sw-Xcw">
+                                <variation key="heightClass=regular-widthClass=regular" constant="38"/>
+                            </constraint>
                             <constraint firstItem="cbQ-LD-mEI" firstAttribute="top" secondItem="yY1-6t-0vU" secondAttribute="bottom" constant="6" id="cP1-7J-IwP"/>
                             <constraint firstItem="58S-uC-wFN" firstAttribute="top" secondItem="sKV-DI-6Ey" secondAttribute="bottom" constant="13" id="d3y-GX-zfL"/>
                             <constraint firstItem="58S-uC-wFN" firstAttribute="top" secondItem="Zkn-uO-tRJ" secondAttribute="bottom" constant="13" id="dhv-5H-eyu"/>
-                            <constraint firstItem="Ae5-G6-Keo" firstAttribute="leading" secondItem="sKV-DI-6Ey" secondAttribute="trailing" constant="47" id="eSw-Kf-eBJ"/>
-                            <constraint firstItem="ZZb-qO-aMj" firstAttribute="leading" secondItem="ven-MX-MHt" secondAttribute="trailing" constant="27" id="em9-VH-ulT"/>
+                            <constraint firstItem="Ae5-G6-Keo" firstAttribute="leading" secondItem="sKV-DI-6Ey" secondAttribute="trailing" constant="47" id="eSw-Kf-eBJ">
+                                <variation key="heightClass=regular-widthClass=regular" constant="33"/>
+                            </constraint>
+                            <constraint firstItem="ZZb-qO-aMj" firstAttribute="leading" secondItem="ven-MX-MHt" secondAttribute="trailing" constant="27" id="em9-VH-ulT">
+                                <variation key="heightClass=regular-widthClass=regular" constant="13"/>
+                            </constraint>
                             <constraint firstAttribute="trailingMargin" secondItem="yY1-6t-0vU" secondAttribute="trailing" id="g8g-LP-oEr"/>
                             <constraint firstItem="yY1-6t-0vU" firstAttribute="top" secondItem="cbQ-LD-mEI" secondAttribute="bottom" constant="8" id="kOf-3Y-ACh"/>
                             <constraint firstItem="YRN-M5-hg4" firstAttribute="top" secondItem="0A8-fU-MaB" secondAttribute="bottom" constant="15" id="smP-LG-eKc"/>
@@ -1413,6 +1433,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="aE8-MT-q29"/>
                     <connections>
+                        <outlet property="mainQLabel" destination="ven-MX-MHt" id="7Lo-F2-Hzb"/>
                         <outlet property="patientNameLabel" destination="ZCh-Ag-Lfv" id="7nz-r8-IHJ"/>
                         <outlet property="surveyNameLabel" destination="4kb-U0-Sq8" id="b5L-Nb-s7L"/>
                         <outlet property="tableView" destination="58S-uC-wFN" id="qZi-hr-Uhi"/>
@@ -1946,19 +1967,13 @@
                                     <constraint firstAttribute="width" constant="300" id="Aaf-f1-6PY"/>
                                 </constraints>
                             </progressView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="50" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7z-Fl-TCV">
-                                <rect key="frame" x="414" y="64" width="21" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="50" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-kz-RTS">
                                 <rect key="frame" x="358" y="64" width="21" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Of" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZs-9p-HYL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="of" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZs-9p-HYL">
                                 <rect key="frame" x="387" y="64" width="19" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2032,6 +2047,12 @@
                                     <segue destination="505-pv-Idq" kind="show" identifier="abortSurvey" id="2ZB-eY-Em2"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="50" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7z-Fl-TCV">
+                                <rect key="frame" x="414" y="64" width="21" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2355,6 +2376,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="MX0-ZE-F5t"/>
-        <segue reference="vKl-JM-oo2"/>
+        <segue reference="CTK-y1-hLk"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -25,6 +25,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
     )
 	var commentTextFields = [UITextField]()
 	var saveButton : UIBarButtonItem!
+	@IBOutlet weak var mainQLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +50,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		
         patientNameLabel.text = surveyFinished.patient!.patientsName
         surveyNameLabel.text = surveyFinished.surveyName
-        
+		
+		mainQLabel.text = surveyFinished.question
+		
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
         

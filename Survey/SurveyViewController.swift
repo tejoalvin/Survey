@@ -61,7 +61,9 @@ class SurveyViewController: UIViewController {
         }
     
         mainProgress.setProgress(mainProgressValue, animated: true)
-        
+		//transform progress bar scale
+		mainProgress.transform = CGAffineTransformScale(mainProgress.transform,1,5)
+		
         prevQuestionButton.hidden = true
         finishButton.hidden = true
         let questionContainer = self.childViewControllers.first as! QuestionContainerViewController

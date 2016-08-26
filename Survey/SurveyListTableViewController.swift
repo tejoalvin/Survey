@@ -21,13 +21,13 @@ class SurveyListTableViewController: UITableViewController {
     )
     
     weak var delegate: SurveySelectionDelegate?
-    
+	var indexSelected : Int!
     var editButton : UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        indexSelected = 0
         editButton = UIBarButtonItem(title: "Delete", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
         navigationItem.leftBarButtonItem = editButton
 		
@@ -44,7 +44,7 @@ class SurveyListTableViewController: UITableViewController {
 
     func editButtonAction(sender: UIBarButtonItem){
         if (tableView.editing) {
-            sender.title = "Edit";
+            sender.title = "Delete";
             tableView.setEditing(false, animated: true)
         } else {
             sender.title = "Done";
@@ -68,7 +68,7 @@ class SurveyListTableViewController: UITableViewController {
 		super.viewDidAppear(animated)
 		
 		//select first item in the table
-		let firstIndex = NSIndexPath(forRow: 0, inSection: 0)
+		let firstIndex = NSIndexPath(forRow: indexSelected, inSection: 0)
 		tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
 	}
 
@@ -115,7 +115,8 @@ class SurveyListTableViewController: UITableViewController {
 
         let selectedSurvey = surveyData[indexPath.row]
         self.delegate?.surveySelected(selectedSurvey)
-        
+		indexSelected = indexPath.row
+		
         if let surveyDetailsViewController = self.delegate as? SurveyDetailsViewController {
             splitViewController?.showDetailViewController(surveyDetailsViewController.navigationController!, sender: nil)
             

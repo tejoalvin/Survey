@@ -60,13 +60,24 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         questionTextField.delegate = self
         
         saveButton.enabled = false
-    }
+		
+		tableView.separatorColor = UIColor.clearColor()
+		
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
+		view.addGestureRecognizer(tapGesture)
+	}
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+	func tap(gesture: UITapGestureRecognizer) {
+		textChecker()
+		surveyTitleTextField.resignFirstResponder()
+		questionTextField.resignFirstResponder()
+	}
+	
     func textFieldDidEndEditing(textField: UITextField) {
         textChecker()
 		surveyTitleTextField.resignFirstResponder()
@@ -133,7 +144,10 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
             cell.deviceImage.image = UIImage(named: "defaultPhoto")
         }
         // Configure the cell...
-        
+		
+		if indexPath.row == questionData.count - 1 {
+			cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0)
+		}
         return cell
     }
     
@@ -331,6 +345,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         }
 		
 		saveButton.enabled = false
+		let splitMaster = splitViewController?.viewControllers[0].childViewControllers.first as! SurveyListTableViewController
+		splitMaster.tableView.reloadData()
+
     }
     
     func homeButtonAction(sender: UIBarButtonItem) {
@@ -453,6 +470,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 
                 }
                 tableView.reloadData()
+				
 				//update the master split to show the current total questions
 				let splitMaster = splitViewController?.viewControllers[0].childViewControllers.first as! SurveyListTableViewController
 				splitMaster.tableView.reloadData()
