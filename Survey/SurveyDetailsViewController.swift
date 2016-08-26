@@ -21,6 +21,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 	@IBOutlet weak var navItem: UINavigationItem!
 
     @IBOutlet weak var saveButton: UIBarButtonItem!
+	@IBOutlet weak var bgView: UIView!
     
     var surveyName = "Default Survey"
     
@@ -63,8 +64,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 		
 		tableView.separatorColor = UIColor.clearColor()
 		
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
-		view.addGestureRecognizer(tapGesture)
+//		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapToRemoveKeyboard(_:)))
+//		view.addGestureRecognizer(tapGesture)
+//		bgView.addGestureRecognizer(tapGesture)
 	}
 
     override func didReceiveMemoryWarning() {
@@ -72,11 +74,11 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         // Dispose of any resources that can be recreated.
     }
 
-	func tap(gesture: UITapGestureRecognizer) {
-		textChecker()
-		surveyTitleTextField.resignFirstResponder()
-		questionTextField.resignFirstResponder()
-	}
+//	func tapToRemoveKeyboard(gesture: UITapGestureRecognizer) {
+//		textChecker()
+//		surveyTitleTextField.resignFirstResponder()
+//		questionTextField.resignFirstResponder()
+//	}
 	
     func textFieldDidEndEditing(textField: UITextField) {
         textChecker()
@@ -92,8 +94,8 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         surveyTitleTextField.resignFirstResponder()
         questionTextField.resignFirstResponder()
         return true
-    }
-    
+	}
+	
     func textChecker(){
         if surveyTitleTextField.text == "" || questionTextField.text == "" {
             saveButton.enabled = false
@@ -345,6 +347,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         }
 		
 		saveButton.enabled = false
+		surveyTitleTextField.resignFirstResponder()
+		questionTextField.resignFirstResponder()
+
 		let splitMaster = splitViewController?.viewControllers[0].childViewControllers.first as! SurveyListTableViewController
 		splitMaster.tableView.reloadData()
 

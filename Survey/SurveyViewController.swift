@@ -85,16 +85,24 @@ class SurveyViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func sendAlertNoAnswer(){
-        
+    func sendAlertNoMainAnswer(){
         //create notification can't go forward
-        let alert = UIAlertController(title: "Warning", message: "Answer the question", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Please answer the question to continue", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
         let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
         alert.addAction(ok)
         presentViewController(alert, animated: true, completion: nil)
-
     }
-    
+	
+//	func sendAlertNoConfidenceAnswer(){
+//		let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+//		let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+//		let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+//		alert.addAction(cancel)
+//		alert.addAction(ok)
+//		presentViewController(alert, animated: true, completion: nil)
+//	}
+	
+	
     @IBAction func nextButtonAction(sender: UIButton) {
         //get answer
         let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
@@ -109,7 +117,7 @@ class SurveyViewController: UIViewController {
                 // main answer
                 //check if already answered
                 if yesAnswer == false && noAnswer == false {
-                    sendAlertNoAnswer()
+                    sendAlertNoMainAnswer()
                     
                 } else {
                     let mainAnswer = SurveyMainResult()
@@ -179,7 +187,74 @@ class SurveyViewController: UIViewController {
                 // confidence answer
                 //check if already answered
                 if questionContainer.confidenceScale.rating == 0 {
-                    sendAlertNoAnswer()
+					let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+					let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+					let ok = UIAlertAction(title: "OK", style: .Default, handler:{
+						UIAlertAction in
+						/* next after OK */
+						let confidenceAnswer = SurveyConfidenceResult()
+						confidenceAnswer.answer = questionContainer.confidenceScale.rating
+						confidenceAnswer.id = self.confidenceIDStart + self.currentIndex/2
+						confidenceAnswer.patient = self.patient
+						confidenceAnswer.questionNumber = self.survey.questions[self.currentIndex/2].questionNumber
+						confidenceAnswer.surveyName = self.survey.name
+						
+						try! realm.write{
+							let questionAnsweredOrNot = self.currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(self.survey.questions[self.currentIndex/2].questionNumber)")
+							
+							if questionAnsweredOrNot.count == 0 {
+								self.currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
+							} else {
+								realm.create(SurveyConfidenceResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : confidenceAnswer.answer],update: true)
+							}
+						}
+						
+						//index for next question
+						self.currentIndex += 1
+						if self.currentIndex == (self.survey.questions.count * 2 - 1){ //later add yes no button to not hidden
+							self.nextQuestionButton.hidden = true
+							self.prevQuestionButton.hidden = false
+							self.finishButton.hidden = false
+						} else {
+							self.nextQuestionButton.hidden = false
+							self.prevQuestionButton.hidden = false
+						}
+						
+						questionContainer.confidenceScale.hidden = true
+						questionContainer.yesButton.hidden = false
+						questionContainer.noButton.hidden = false
+						
+						self.mainProgressValue = self.mainProgressValue + 1/Float(self.survey.questions.count*2)
+						self.mainProgress.setProgress(self.mainProgressValue, animated: true)
+						self.currentQ += 1
+						self.currentQuestion.text = String(self.currentQ)
+						
+						questionContainer.deviceName.text = self.survey.questions[self.currentIndex/2].deviceName
+						questionContainer.question.text = self.survey.questions[self.currentIndex/2].question
+						if self.survey.questions[self.currentIndex/2].imagePath != "" {
+							questionContainer.devicePhoto.image = self.retrieveImage(self.survey.questions[self.currentIndex/2].imagePath)
+						}
+						
+						//after confidence is main
+						let ifAnswered = self.currentSurveyAnswered.mainAnswer.filter("questionNumber = \(self.survey.questions[self.currentIndex/2].questionNumber)")
+						
+						if ifAnswered.count == 0 {
+							//check if question already answered, make the button shows
+							questionContainer.noButton.selected = false
+							questionContainer.yesButton.selected = false
+						} else {
+							questionContainer.yesButton.selected = ifAnswered[0].answer
+							if ifAnswered[0].answer {
+								questionContainer.noButton.selected = false
+							} else {
+								questionContainer.noButton.selected = true
+							}
+						}
+					})
+					alert.addAction(cancel)
+					alert.addAction(ok)
+					presentViewController(alert, animated: true, completion: nil)
+					
                 } else {
                     let confidenceAnswer = SurveyConfidenceResult()
                     confidenceAnswer.answer = questionContainer.confidenceScale.rating
@@ -187,10 +262,10 @@ class SurveyViewController: UIViewController {
                     confidenceAnswer.patient = patient
                     confidenceAnswer.questionNumber = survey.questions[currentIndex/2].questionNumber
                     confidenceAnswer.surveyName = survey.name
-                    
+					
                     try! realm.write{
                         let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
-                        
+						
                         if questionAnsweredOrNot.count == 0 {
                             currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
                         } else {
@@ -248,7 +323,7 @@ class SurveyViewController: UIViewController {
             
             if currentIndex < survey.questions.count {
                 if yesAnswer == false && noAnswer == false {
-                    sendAlertNoAnswer()
+                    sendAlertNoMainAnswer()
                     
                 } else {
                     let mainAnswer = SurveyMainResult()
@@ -339,17 +414,82 @@ class SurveyViewController: UIViewController {
                 }
             } else {
                 if questionContainer.confidenceScale.rating == 0 {
-                    sendAlertNoAnswer()
+					let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+					let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+					let ok = UIAlertAction(title: "OK", style: .Default, handler: {
+						UIAlertAction in
+						var arrayIndex = self.currentIndex - self.survey.questions.count
+						
+						let confidenceAnswer = SurveyConfidenceResult()
+						confidenceAnswer.answer = questionContainer.confidenceScale.rating
+						confidenceAnswer.id = self.confidenceIDStart + arrayIndex
+						confidenceAnswer.patient = self.patient
+						confidenceAnswer.questionNumber = self.survey.questions[arrayIndex].questionNumber
+						confidenceAnswer.surveyName = self.survey.name
+						
+						try! realm.write{
+							let questionAnsweredOrNot = self.currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(self.survey.questions[arrayIndex].questionNumber)")
+							
+							if questionAnsweredOrNot.count == 0 {
+								self.currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
+							} else {
+								realm.create(SurveyConfidenceResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : confidenceAnswer.answer],update: true)
+							}
+						}
+						
+						self.currentIndex += 1
+						if self.currentIndex == (self.survey.questions.count * 2 - 1){
+							self.nextQuestionButton.hidden = true
+							self.prevQuestionButton.hidden = false
+							self.finishButton.hidden = false
+						} else {
+							self.nextQuestionButton.hidden = false
+							self.prevQuestionButton.hidden = false
+						}
+						print(self.currentIndex)
+						
+						arrayIndex = self.currentIndex - self.survey.questions.count
+						
+						self.mainProgressValue = self.mainProgressValue + 1/Float(self.survey.questions.count*2)
+						self.mainProgress.setProgress(self.mainProgressValue, animated: true)
+						self.currentQ += 1
+						self.currentQuestion.text = String(self.currentQ)
+						
+						questionContainer.yesButton.hidden = true
+						questionContainer.noButton.hidden = true
+						questionContainer.confidenceScale.hidden = false
+						
+						print("from confidence " + String(arrayIndex))
+						questionContainer.deviceName.text = self.survey.questions[arrayIndex].deviceName
+						questionContainer.question.text = "How confident do you feel about using this?"
+						if self.survey.questions[arrayIndex].imagePath != "" {
+							questionContainer.devicePhoto.image = self.retrieveImage(self.survey.questions[arrayIndex].imagePath)
+						}
+						
+						//put answer if answered before
+						let ifAnswered = self.currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(self.survey.questions[arrayIndex].questionNumber)")
+						
+						if ifAnswered.count == 0 {
+							questionContainer.confidenceScale.rating = 0
+						} else {
+							questionContainer.confidenceScale.rating = ifAnswered.first!.answer
+						}
+
+					})
+					alert.addAction(cancel)
+					alert.addAction(ok)
+					presentViewController(alert, animated: true, completion: nil)
+
                 } else {
                     var arrayIndex = currentIndex - survey.questions.count
-                    
+					
                     let confidenceAnswer = SurveyConfidenceResult()
                     confidenceAnswer.answer = questionContainer.confidenceScale.rating
                     confidenceAnswer.id = confidenceIDStart + arrayIndex
                     confidenceAnswer.patient = patient
                     confidenceAnswer.questionNumber = survey.questions[arrayIndex].questionNumber
                     confidenceAnswer.surveyName = survey.name
-                    
+					
                     try! realm.write{
                         let questionAnsweredOrNot = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[arrayIndex].questionNumber)")
                         
@@ -712,7 +852,34 @@ class SurveyViewController: UIViewController {
         let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
         
         if questionContainer.confidenceScale.rating == 0 { // later need to change to the rating scale
-            sendAlertNoAnswer()
+			let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+			let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+			let ok = UIAlertAction(title: "OK", style: .Default, handler: {
+				UIAlertAction in
+				
+				self.navigationController?.setNavigationBarHidden(false, animated: true)
+				let confidenceAnswer = SurveyConfidenceResult()
+				confidenceAnswer.answer = questionContainer.confidenceScale.rating
+				confidenceAnswer.id = self.confidenceIDStart + self.currentIndex/2
+				confidenceAnswer.patient = self.patient
+				confidenceAnswer.questionNumber = self.survey.questions[self.currentIndex/2].questionNumber
+				confidenceAnswer.surveyName = self.survey.name
+				
+				try! realm.write{
+					let questionAnsweredOrNot = self.currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(self.survey.questions[self.currentIndex/2].questionNumber)")
+					
+					if questionAnsweredOrNot.count == 0 {
+						self.currentSurveyAnswered.confidenceAnswer.append(confidenceAnswer)
+					} else {
+						realm.create(SurveyConfidenceResult.self, value: ["id": questionAnsweredOrNot[0].id, "answer" : confidenceAnswer.answer],update: true)
+					}
+				}
+				
+				self.performSegueWithIdentifier("finishSurvey", sender: self)
+			})
+			alert.addAction(cancel)
+			alert.addAction(ok)
+			presentViewController(alert, animated: true, completion: nil)
         } else {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             let confidenceAnswer = SurveyConfidenceResult()

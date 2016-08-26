@@ -79,7 +79,7 @@
 		E11D51F21D527FD8000E859A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E1234F101D5A5C9200A22D4C /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		E1234F121D5A7A3400A22D4C /* ResultTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewCell.swift; sourceTree = "<group>"; };
-		E12880B91D460C8300F36CDA /* Survey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Survey.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E12880B91D460C8300F36CDA /* ATQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E12880BC1D460C8300F36CDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E12880BE1D460C8300F36CDA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E12880C11D460C8300F36CDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 		E12880BA1D460C8300F36CDA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E12880B91D460C8300F36CDA /* Survey.app */,
+				E12880B91D460C8300F36CDA /* ATQ.app */,
 				E12880CD1D460C8300F36CDA /* SurveyTests.xctest */,
 			);
 			name = Products;
@@ -227,7 +227,7 @@
 			);
 			name = Survey;
 			productName = Survey;
-			productReference = E12880B91D460C8300F36CDA /* Survey.app */;
+			productReference = E12880B91D460C8300F36CDA /* ATQ.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E12880CC1D460C8300F36CDA /* SurveyTests */ = {
@@ -499,7 +499,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atejo.Survey;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ATQ;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -519,7 +519,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atejo.Survey;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ATQ;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};

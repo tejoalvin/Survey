@@ -58,13 +58,16 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         timeSurveyStarted.text = dateFormatter.stringFromDate(surveyFinished.dateStarted)
         // Do any additional setup after loading the view.
+		
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapToRemoveKeyboard(_:)))
+		view.addGestureRecognizer(tapGesture)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+	
     func homeButtonAction(sender:UIBarButtonItem){
         if presentingViewController is UINavigationController {
 			self.performSegueWithIdentifier("unwindToMain", sender: self)
@@ -137,7 +140,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         text.appendString("Survey Name," + surveyFinished.surveyName + "\n")
         text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
         text.appendString("\n\n")
-        text.appendString("No.,Technology Name,Used in last month?,Confidence level,Comments\n")
+        text.appendString("No.,Technology Name," + mainQLabel.text! + ",Confidence level (of 5),Comments\n")
 		
 		let qTotal = surveyFinished.devices.count
 		
@@ -294,18 +297,23 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
              cell.confidentQuestionAnswer.text = "N/A"
         } else {
             let confidenceAnswer = surveyFinished.confidenceAnswer[indexPath.row]
-            cell.confidentQuestionAnswer.text = String(confidenceAnswer.answer)
-        }
+			if confidenceAnswer == 0 {
+				cell.confidentQuestionAnswer.text = "N/A"
+			} else {
+				cell.confidentQuestionAnswer.text = String(confidenceAnswer.answer)
+
+			}
+		}
        
         return cell
     }
 	
 	func textFieldDidEndEditing(textField: UITextField) {
-		saveButton.enabled = true
+		textChecker()
 	}
 	
 	func textFieldShouldReturn(textField: UITextField) -> Bool {
-		saveButton.enabled = true
+		textChecker()
 		for text in commentTextFields {
 			text.resignFirstResponder()
 		}
@@ -313,11 +321,31 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 	
 	func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-		saveButton.enabled = true
+		textChecker()
 		for text in commentTextFields{
 			text.resignFirstResponder()
 		}
 		return true
+	}
+	
+	func textFieldDidBeginEditing(textField: UITextField) {
+		saveButton.enabled = false
+	}
+	
+	func tapToRemoveKeyboard(gesture: UITapGestureRecognizer){
+		textChecker()
+		for text in commentTextFields {
+			text.resignFirstResponder()
+		}
+	}
+	
+	func textChecker(){
+		saveButton.enabled = false
+		for text in commentTextFields {
+			if text.text != "" {
+				saveButton.enabled = true
+			}
+		}
 	}
 	
     /*

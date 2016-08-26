@@ -47,10 +47,16 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 		
 		print(presentingViewController)
 		
+//		let tapGestures = UITapGestureRecognizer(target: self, action: #selector(self.tapToResignKeyboard(_:)))
+//		view.addGestureRecognizer(tapGestures)
+		
         print(survey.name)
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
+		nameField.delegate = self
+		dobField.delegate = self
+		recentStrokeField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -186,12 +192,31 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         datePicker.addTarget(self, action: #selector(self.datePickerValueChangedDOB), forControlEvents: UIControlEvents.ValueChanged)
     }
     
-    func doneButton(sender:UIButton)
-    {
+    func doneButton(sender:UIButton){
         dobField.resignFirstResponder()
         recentStrokeField.resignFirstResponder()
     }
+	
+	func textFieldDidEndEditing(textField: UITextField) {
+		nameField.resignFirstResponder()
+	}
 
+	func textFieldShouldReturn(textField: UITextField) -> Bool {
+		nameField.resignFirstResponder()
+		return true
+	}
+	
+	func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+		nameField.resignFirstResponder()
+		return true
+	}
+	
+//	func tapToResignKeyboard(gestures: UITapGestureRecognizer){
+//		nameField.resignFirstResponder()
+//		dobField.resignFirstResponder()
+//		recentStrokeField.resignFirstResponder()
+//	}
+	
     @IBAction func recentStrokeAction(sender: UITextField) {
         let inputView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 240))
         
