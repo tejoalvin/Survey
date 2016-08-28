@@ -208,50 +208,121 @@ class SurveyListTableViewController: UITableViewController {
 		}
     }
 	
+	override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+		let delete = UITableViewRowAction(style: .Default, title: "Delete", handler: {
+			action,index in
+				print("delete pressed")
+				Realm.Configuration.defaultConfiguration = self.config
+				
+				let realm = try! Realm()
+				
+				let surveyData = realm.objects(SurveyData.self)
+				let surveyToBeDeleted = surveyData[indexPath.row]
+				let surveyNameToBeDeleted = surveyToBeDeleted.name
+				let surveyQuestions = surveyToBeDeleted.questions
+				
+				try! realm.write{
+					for question in surveyQuestions{
+						realm.delete(question)
+					}
+					realm.delete(surveyToBeDeleted)
+				}
+				
+				//delete survey folder
+				let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+				
+				let imagePath = (paths as NSString).stringByAppendingPathComponent(surveyNameToBeDeleted)
+				
+				do{
+					try NSFileManager.defaultManager().removeItemAtPath(imagePath)
+				} catch let error as NSError{
+					print("can't delete photo file \n" + String(error))
+				}
+				
+				tableView.reloadData()
+				
+				self.delegate?.surveySelected(surveyData[0])
+				
+				if let surveyDetailsViewController = self.delegate as? SurveyDetailsViewController {
+					self.splitViewController?.showDetailViewController(surveyDetailsViewController.navigationController!, sender: nil)
+					
+				}
+
+		})
+		
+		delete.backgroundColor = UIColor.redColor()
+		
+		let duplicate = UITableViewRowAction(style: .Normal, title: "Duplicate", handler: {
+			action,index in
+			print("duplicate pressed")
+		
+			Realm.Configuration.defaultConfiguration = self.config
+			
+			let realm = try! Realm()
+		
+			let surveyData = realm.objects(SurveyData.self)
+			let questionsData = realm.objects(QuestionData.self)
+			let	surveyToBeDuplicated = surveyData[indexPath.row]
+			
+			let newSurvey = SurveyData()
+			var index = 2
+			
+			while index > 0{
+				let newName = surveyToBeDuplicated.name + " " + String(index)
+				let predicate = NSPredicate(format: "name = %@", newName)
+				let duplicate = realm.objects(SurveyData.self).filter(predicate)
+				if duplicate.count > 0 {
+					index += 1
+					print(newName)
+				} else {
+					newSurvey.name = newName
+					print(newName + " break")
+					break
+				}
+			}
+			
+			do {
+				let documentDirectoryPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
+				let originPath = documentDirectoryPath.URLByAppendingPathComponent(surveyToBeDuplicated.name)
+				let destinationPath = documentDirectoryPath.URLByAppendingPathComponent(newSurvey.name)
+				try NSFileManager.defaultManager().copyItemAtURL(originPath, toURL: destinationPath)
+			} catch let error as NSError {
+				print(error)
+			}
+
+			
+			for i in 0...surveyToBeDuplicated.questions.count-1{
+				let question = QuestionData()
+				question.question = surveyToBeDuplicated.questions[i].question
+				question.deviceName = surveyToBeDuplicated.questions[i].deviceName
+				question.questionNumber = i+1
+				question.surveyName = newSurvey
+				
+				if surveyToBeDuplicated.questions[i].imagePath != "" {
+					question.imagePath = newSurvey.name + "/" + surveyToBeDuplicated.questions[i].deviceName
+
+				}
+				question.id = questionsData.last!.id + i + 1
+				
+				newSurvey.questions.append(question)
+			}
+
+			
+			newSurvey.id = surveyData.last!.id + 1
+			newSurvey.lastUpdated = NSDate()
+			
+			try! realm.write{
+				realm.add(newSurvey)
+			}
+			tableView.reloadData()
+		})
+		
+		return [delete,duplicate]
+	}
 	
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            Realm.Configuration.defaultConfiguration = config
-            
-            let realm = try! Realm()
-            
-            let surveyData = realm.objects(SurveyData.self)
-            let surveyToBeDeleted = surveyData[indexPath.row]
-            let surveyNameToBeDeleted = surveyToBeDeleted.name
-            let surveyQuestions = surveyToBeDeleted.questions
-            
-            try! realm.write{
-                for question in surveyQuestions{
-                    realm.delete(question)
-                }
-                realm.delete(surveyToBeDeleted)
-            }
-            
-            //delete survey folder
-            let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-            
-            let imagePath = (paths as NSString).stringByAppendingPathComponent(surveyNameToBeDeleted)
-            
-            do{
-                try NSFileManager.defaultManager().removeItemAtPath(imagePath)
-            } catch let error as NSError{
-                print("can't delete photo file \n" + String(error))
-            }
-            
-            tableView.reloadData()
-            
-            self.delegate?.surveySelected(surveyData[0])
-            
-            if let surveyDetailsViewController = self.delegate as? SurveyDetailsViewController {
-                splitViewController?.showDetailViewController(surveyDetailsViewController.navigationController!, sender: nil)
-                
-            }
-//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+
     }
     
 
