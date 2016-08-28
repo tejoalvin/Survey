@@ -35,17 +35,7 @@ class MainViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
 		print(segue.identifier)
-        if segue.identifier == "doSurvey"{
-            let splitView = segue.destinationViewController as! UISplitViewController
-            print("doSurvey split: " + String(splitView))
-            let masterNav = splitView.viewControllers.first as! UINavigationController
-            print("doSurvey masterNav: " + String(masterNav))
-            let master = masterNav.topViewController as! SelectSurveyTableViewController
-            let detailNav = splitView.viewControllers.last as! UINavigationController
-            let detail = detailNav.topViewController as! PreviewCollectionViewController
-            
-            master.delegate = detail
-		} else if segue.identifier == "createEditSegue" {
+        if segue.identifier == "createEditSegue" {
 			let split = segue.destinationViewController as! UISplitViewController
 			let master = split.viewControllers.first as! UINavigationController
 			let surveyList = master.topViewController as! SurveyListTableViewController

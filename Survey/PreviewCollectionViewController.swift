@@ -21,22 +21,14 @@ class PreviewCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Realm.Configuration.defaultConfiguration = config
-        
-        let realm = try! Realm()
-        
-        survey = realm.objects(SurveyData.self).sorted("id")[0]
-        
-        navigationItem.leftItemsSupplementBackButton = true
-        let showMasterButton = splitViewController!.displayModeButtonItem()
 
-        let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
+
+        let homeButton = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
         
-        navigationItem.setLeftBarButtonItems([showMasterButton, homeButton], animated: true)
+        navigationItem.setLeftBarButtonItem(homeButton, animated: true)
 
         
-        
+        navigationItem.title = survey.name + " Preview"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -160,10 +152,10 @@ class PreviewCollectionViewController: UICollectionViewController {
 
 }
 
-extension PreviewCollectionViewController: selectedSurveyDelegate {
-    func selectedSurvey(surveySelected: SurveyData) {
-        self.survey = surveySelected
-        print(self.survey.name)
-        refreshUI()
-    }
-}
+//extension PreviewCollectionViewController: selectedSurveyDelegate {
+//    func selectedSurvey(surveySelected: SurveyData) {
+//        self.survey = surveySelected
+//        print(self.survey.name)
+//        refreshUI()
+//    }
+//}

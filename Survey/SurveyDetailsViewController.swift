@@ -413,7 +413,11 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
             
             surveyDetailView.questionData = qData
             surveyDetailView.isNewQuestion = true
-        }
+        } else if segue.identifier == "showPreview"{
+			let navView = segue.destinationViewController as! UINavigationController
+			let previewView = navView.topViewController as! PreviewCollectionViewController
+			previewView.survey = survey
+		}
 
     }
     
