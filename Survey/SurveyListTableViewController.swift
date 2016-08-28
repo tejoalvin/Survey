@@ -28,7 +28,7 @@ class SurveyListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         indexSelected = 0
-        editButton = UIBarButtonItem(title: "Delete", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
+        editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
         navigationItem.leftBarButtonItem = editButton
 		
 //		let indexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -44,7 +44,7 @@ class SurveyListTableViewController: UITableViewController {
 
     func editButtonAction(sender: UIBarButtonItem){
         if (tableView.editing) {
-            sender.title = "Delete";
+            sender.title = "Edit";
             tableView.setEditing(false, animated: true)
         } else {
             sender.title = "Done";
@@ -181,32 +181,33 @@ class SurveyListTableViewController: UITableViewController {
     
     
     // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        Realm.Configuration.defaultConfiguration = config
-        
-        let realm = try! Realm()
-        
-        let surveyData = realm.objects(SurveyData.self)
-		
-//		let answeredData = realm.objects(SurveyAnswered.self)
-//		let currentData = surveyData[indexPath.row]
-//		print("current " + currentData.name)
+//    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        // Return false if you do not want the specified item to be editable.
+//        Realm.Configuration.defaultConfiguration = config
+//        
+//        let realm = try! Realm()
+//        
+//        let surveyData = realm.objects(SurveyData.self)
 //		
-//		for answer in answeredData {
-//			if answer.surveyName!.name == currentData.name {
-//				return false
-//			}
+//		
+////		let answeredData = realm.objects(SurveyAnswered.self)
+////		let currentData = surveyData[indexPath.row]
+////		print("current " + currentData.name)
+////		
+////		for answer in answeredData {
+////			if answer.surveyName!.name == currentData.name {
+////				return false
+////			}
+////		}
+//		
+//		if surveyData.count == 1{
+//			editButton.enabled = false
+//			return false
+//		} else {
+//			editButton.enabled = true
+//			return true
 //		}
-		
-		if surveyData.count == 1{
-			editButton.enabled = false
-			return false
-		} else {
-			editButton.enabled = true
-			return true
-		}
-    }
+//    }
 	
 	override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 		let delete = UITableViewRowAction(style: .Default, title: "Delete", handler: {
@@ -317,7 +318,11 @@ class SurveyListTableViewController: UITableViewController {
 			tableView.reloadData()
 		})
 		
-		return [delete,duplicate]
+		if indexPath.row == 0 {
+			return [duplicate]
+		} else {
+			return [delete,duplicate]
+		}
 	}
 	
     // Override to support editing the table view.

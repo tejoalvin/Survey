@@ -493,8 +493,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         print("paths")
         print(paths)
-        
-        let imageFolderPath = surveyName + "/" + filenameToBe
+		
+		let filenameToBeSaved = filenameToBe.stringByReplacingOccurrencesOfString("/", withString: "")
+        let imageFolderPath = surveyName + "/" + filenameToBeSaved
         
         let imagePath = (paths as NSString).stringByAppendingPathComponent(imageFolderPath)
         

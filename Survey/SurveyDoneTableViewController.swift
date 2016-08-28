@@ -26,8 +26,14 @@ class SurveyDoneTableViewController: UITableViewController {
         let realm = try! Realm()
         
         patient = realm.objects(Patients.self).sorted("patientsName").first
-        
-        pageName.title = patient.patientsName
+		
+		if realm.objects(Patients.self).count == 0 {
+			pageName.title = "Result"
+		} else {
+			 pageName.title = patient.patientsName
+		}
+		
+		
         
 //        navigationItem.leftItemsSupplementBackButton = true
 //        let showMasterButton = splitViewController!.displayModeButtonItem()
@@ -61,12 +67,17 @@ class SurveyDoneTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        
-        return patient.surveyDone.count
+		
+		if patient == nil {
+			return 0
+		} else {
+			return patient.surveyDone.count
+		}
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		
         let identifier = "surveyDoneCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! SurveyDoneTableViewCell
 		

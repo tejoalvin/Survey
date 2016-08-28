@@ -62,8 +62,10 @@ class ResultPatientTableViewController: UITableViewController {
 		super.viewDidAppear(animated)
 		
 		//select first item in the table
-		let firstIndex = NSIndexPath(forRow: selectedIndex, inSection: 0)
-		tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
+		if patientList.count != 0{
+			let firstIndex = NSIndexPath(forRow: selectedIndex, inSection: 0)
+			tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
+		}
 	}
 	
 	func homeButtonAction(sender: UIBarButtonItem) {

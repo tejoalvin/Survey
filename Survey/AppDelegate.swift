@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func populateRealm(){
         let survey1 = SurveyData()
-        survey1.name = "Default Survey"
+        survey1.name = "Aphasia Technology Questionnaire Default"
         survey1.lastUpdated = NSDate()
         survey1.id = 1
         
@@ -105,24 +105,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
         
-        let patient1 = Patients()
-        patient1.patientsName = "Homer Simpson"
-        patient1.dateOfBirth = dateFormatter.dateFromString("Oct 5, 1960")!
-        patient1.isMale = true
-        patient1.id = 1
-        
-        let patient2 = Patients()
-        patient2.patientsName = "Ash Ketchum"
-        patient2.dateOfBirth = dateFormatter.dateFromString("Mar 13, 1980")!
-        patient2.isMale = true
-        patient2.id = 2
-        
-        let patient3 = Patients()
-        patient3.patientsName = "Lyo Dumb"
-        patient3.dateOfBirth = dateFormatter.dateFromString("Dec 10, 1950")!
-        patient3.isMale = false
-        patient3.id = 3
-        
+//        let patient1 = Patients()
+//        patient1.patientsName = "Homer Simpson"
+//        patient1.dateOfBirth = dateFormatter.dateFromString("Oct 5, 1960")!
+//        patient1.isMale = true
+//        patient1.id = 1
+//        
+//        let patient2 = Patients()
+//        patient2.patientsName = "Ash Ketchum"
+//        patient2.dateOfBirth = dateFormatter.dateFromString("Mar 13, 1980")!
+//        patient2.isMale = true
+//        patient2.id = 2
+//        
+//        let patient3 = Patients()
+//        patient3.patientsName = "Lyo Dumb"
+//        patient3.dateOfBirth = dateFormatter.dateFromString("Dec 10, 1950")!
+//        patient3.isMale = false
+//        patient3.id = 3
+		
         let config = Realm.Configuration(
             schemaVersion: 1
         )
@@ -130,19 +130,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Realm.Configuration.defaultConfiguration = config
         
         let questionString = "Have you used this in the last month?"
-        var deviceName = ["Television", "Television Remote Control", "Electronic Programme Guide", "DVD Player", "Washing Machine", "Microwave", "Vending Machine"
-                        , "Ticket Machine", "Cash Machine", "Mobile Telephone for calls", "Mobile Telephone for text messages", "Email", "Skype", "Online Shopping",
-                          "Facebook or Twitter", "Games", "Speech and Language Practice", "Information"]
-        
+        let deviceNameString = ["Television", "Television Remote Control", "Electronic Programme Guide", "DVD/CD Player", "Washing Machine", "Microwave", "Vending Machine"
+                        , "Ticket Machine", "Cash Machine", "Mobile Telephone for calls", "Mobile Telephone for text messages", "Mobile/Computer/iPad/ for Email", "Mobile/Computer/iPad/ for Skype", "Mobile/Computer/iPad/ for Online Shopping",
+                          "Mobile/Computer/iPad/ for Facebook or Twitter", "Mobile/Computer/iPad/ for Games", "Mobile/Computer/iPad/ for Speech and Language Practice", "Mobile/Computer/iPad/ for Information"]
+		
+		let deviceName = ["Television", "Television Remote Control", "Electronic Programme Guide", "DVD Player", "Washing Machine", "Microwave", "Vending Machine"
+			, "Ticket Machine", "Cash Machine", "Mobile Telephone for calls", "Mobile Telephone for text messages", "Email", "Skype", "Online Shopping",
+			  "Facebook or Twitter", "Games", "Speech and Language Practice", "Information"]
+		
         var device = ["Telly", "Bank", "PS4"]
         
         let realm = try! Realm()
         
         try! realm.write{
-            realm.add(patient1)
-            realm.add(patient2)
-            realm.add(patient3)
-            
+//            realm.add(patient1)
+//            realm.add(patient2)
+//            realm.add(patient3)
+			
             realm.add(survey1)
             createDir(survey1.name)
             
@@ -153,10 +157,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             for i in 0...deviceName.count-1{
                 let question = QuestionData()
                 question.question = questionString
-                question.deviceName = deviceName[i]
+                question.deviceName = deviceNameString[i]
                 question.questionNumber = i+1
                 question.surveyName = survey1
-                question.imagePath = copyImage(survey1.name, filenameToBe: question.deviceName)
+                question.imagePath = copyImage(survey1.name, filenameToBe: deviceName[i])
                 question.id = i+1
                 //pKey = surveyName-questionNumber i.e. survey1-2
 //                question.pKey = survey1.name+"-"+String(i+1)
