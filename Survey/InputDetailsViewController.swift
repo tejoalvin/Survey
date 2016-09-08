@@ -294,7 +294,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         
         
         if identifier == "backToPreview"{
-            let alert = UIAlertController(title: "Warning", message: "You will lose any data you have inputted", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "You will lose any data you have inputted", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
             
             let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
                 UIAlertAction in
@@ -319,14 +319,14 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
             print(nameField.text)
             print(dobField.text)
             if (nameField.text == "") || (dobField.text == ""){
-                let alert = UIAlertController(title: "Warning", message: "Name / Date Of Birth is empty", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert = UIAlertController(title: "Name / Date Of Birth is empty", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
                 let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alert.addAction(ok)
                 presentViewController(alert, animated: true, completion: nil)
                 return false
             } else if earlierDate?.isEqualToDate(NSDateDOB!) == false {
                 //need to check again when time today is with time while date from textfield is 00
-                let alert = UIAlertController(title: "Warning", message: "Date Of Birth can't be later or same as today date", preferredStyle: UIAlertControllerStyle.Alert)
+                let alert = UIAlertController(title: "Date Of Birth can't be later or same as today date", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
                 let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alert.addAction(ok)
                 presentViewController(alert, animated: true, completion: nil)

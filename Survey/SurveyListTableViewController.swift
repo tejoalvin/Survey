@@ -132,7 +132,7 @@ class SurveyListTableViewController: UITableViewController {
         
         let newSurvey = SurveyData()
         
-        var surveyName = "New Survey"
+        var surveyName = "New Questionnaire"
         
         let predicate = NSPredicate(format: "name contains %@", surveyName)
         let data = realm.objects(SurveyData.self).filter(predicate)

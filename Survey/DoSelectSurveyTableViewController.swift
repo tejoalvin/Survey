@@ -165,7 +165,7 @@ class DoSelectSurveyTableViewController: UITableViewController {
 	
     func sendAlertNoSelectedSurvey(){
         //create notification can't go forward
-        let alert = UIAlertController(title: "Warning", message: "Please select one of the survey", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Please select one of the questionnaire", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
         let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
         alert.addAction(ok)
         presentViewController(alert, animated: true, completion: nil)

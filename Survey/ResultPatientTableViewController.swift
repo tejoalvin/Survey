@@ -112,7 +112,7 @@ class ResultPatientTableViewController: UITableViewController {
 		}
 		
         cell.patientName.text = patient.patientsName
-        cell.surveyDone.text = String(patient.surveyDone.count) + " Surveys Done"
+        cell.surveyDone.text = String(patient.surveyDone.count) + " Questionnaire(s) Done"
 
         // Configure the cell...
 
