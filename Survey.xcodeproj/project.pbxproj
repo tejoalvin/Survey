@@ -500,7 +500,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hcid.survey;
 				PRODUCT_NAME = ATQ;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5517fff0-c1ec-44a8-b314-1910b361db9d";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -520,7 +520,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hcid.survey;
 				PRODUCT_NAME = ATQ;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5517fff0-c1ec-44a8-b314-1910b361db9d";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

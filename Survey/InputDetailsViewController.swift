@@ -402,46 +402,64 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 				surveyWillBeAnswered.devices.append(device)
 			}
 			
-            
+            //not from existing
             if patients.count == 0 {
-                
-                let patient = Patients()
-                patient.patientsName = name!
-                patient.isMale = genderIsMale
-                patient.dateOfBirth = NSDateDOB!
-                patient.recentStroke = NSDateStroke
-                
-                let patientData = realm.objects(Patients.self).sorted("id")
-                
-                if patientData.count > 0{
-                    let patientID = patientData.last?.id
-                    patient.id = patientID! + 1
-                } else {
-                    patient.id = 1
-                }
-                
-                surveyWillBeAnswered.patient = patient
-                
-                try! realm.write{
-                    realm.add(patient)
-                    patient.surveyDone.append(surveyWillBeAnswered)
-                }
-                
-                print("nearly1")
-                
-                let destinationSegue = segue.destinationViewController as! SurveyViewController
-                destinationSegue.isAfterEachQuestion = isAfterEachQuestion
-                destinationSegue.survey = survey
-                destinationSegue.patient = patient
-                destinationSegue.currentSurveyAnswered = surveyWillBeAnswered
-                
-                
-                print("send1")
+				
+				let predicate = NSPredicate(format: "patientsName = %@ AND dateOfBirth = %@ AND isMale = %@", name!, NSDateDOB!, genderIsMale)
+				let ifAvail = realm.objects(Patients.self).filter(predicate)
+				
+				if ifAvail.count == 0 {
+					let patient = Patients()
+					patient.patientsName = name!
+					patient.isMale = genderIsMale
+					patient.dateOfBirth = NSDateDOB!
+					patient.recentStroke = NSDateStroke
+					
+					let patientData = realm.objects(Patients.self).sorted("id")
+					
+					if patientData.count > 0{
+						let patientID = patientData.last?.id
+						patient.id = patientID! + 1
+					} else {
+						patient.id = 1
+					}
+					
+					surveyWillBeAnswered.patient = patient
+					
+					try! realm.write{
+						realm.add(patient)
+						patient.surveyDone.append(surveyWillBeAnswered)
+					}
+					
+					print("nearly1")
+					
+					let destinationSegue = segue.destinationViewController as! SurveyViewController
+					destinationSegue.isAfterEachQuestion = isAfterEachQuestion
+					destinationSegue.survey = survey
+					destinationSegue.patient = patient
+					destinationSegue.currentSurveyAnswered = surveyWillBeAnswered
+					
+					
+					print("send1")
+				} else {
+					print("same person")
+					surveyWillBeAnswered.patient = ifAvail.first
+					
+					try! realm.write{
+						ifAvail.first!.surveyDone.append(surveyWillBeAnswered)
+					}
+					
+					let destinationSegue = segue.destinationViewController as! SurveyViewController
+					destinationSegue.isAfterEachQuestion = isAfterEachQuestion
+					destinationSegue.survey = survey
+					destinationSegue.patient = ifAvail.first
+					destinationSegue.currentSurveyAnswered = surveyWillBeAnswered
+				}
             } else {
                 /*
                  check whether after selected whether name / dob edited
                  */
-                
+                //from existing
                 if name != patients.first?.patientsName || NSDateDOB != patients.first?.dateOfBirth || genderIsMale != patients.first?.isMale {
                     //create new patient
                     

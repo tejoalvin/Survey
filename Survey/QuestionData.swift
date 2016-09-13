@@ -16,7 +16,6 @@ class QuestionData: Object {
     dynamic var id = 0
     dynamic var questionNumber = 0
     
-    //pKey = surveyName-questionNumber i.e. survey1-2
     override static func primaryKey() -> String? {
         return "id"
     }
