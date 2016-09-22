@@ -489,8 +489,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Alvin Tejo (SNG6ED8CHU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alvin Tejo (SNG6ED8CHU)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -500,7 +500,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hcid.survey;
 				PRODUCT_NAME = ATQ;
-				PROVISIONING_PROFILE = "5517fff0-c1ec-44a8-b314-1910b361db9d";
+				PROVISIONING_PROFILE = "0d5fd36b-a83a-4b60-a6d0-76311226ed28";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -509,8 +509,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Alvin Tejo (SNG6ED8CHU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alvin Tejo (SNG6ED8CHU)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -520,7 +520,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hcid.survey;
 				PRODUCT_NAME = ATQ;
-				PROVISIONING_PROFILE = "5517fff0-c1ec-44a8-b314-1910b361db9d";
+				PROVISIONING_PROFILE = "0d5fd36b-a83a-4b60-a6d0-76311226ed28";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
