@@ -34,29 +34,29 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         
         if isFromResultTable == false {
-            let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
-            navigationItem.setLeftBarButtonItem(homeButton, animated: true)
+            let homeButton = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(self.homeButtonAction(_:)))
+            navigationItem.setLeftBarButton(homeButton, animated: true)
             navigationItem.title = "Result"
         } else {
-            let backButton = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(self.backButtonAction(_:)))
-            navigationItem.setLeftBarButtonItem(backButton, animated: true)
+            let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.backButtonAction(_:)))
+            navigationItem.setLeftBarButton(backButton, animated: true)
             navigationItem.title = surveyFinished.surveyName + " Result"
         }
         
-        saveButton = UIBarButtonItem(title: "Save Comments", style:.Plain, target: self, action: #selector(self.saveButtonAction(_:)))
-        navigationItem.setRightBarButtonItem(saveButton, animated: true)
+        saveButton = UIBarButtonItem(title: "Save Comments", style:.plain, target: self, action: #selector(self.saveButtonAction(_:)))
+        navigationItem.setRightBarButton(saveButton, animated: true)
 		
-		saveButton.enabled = false
+		saveButton.isEnabled = false
 		
         patientNameLabel.text = surveyFinished.patient!.patientsName
         surveyNameLabel.text = surveyFinished.surveyName
 		
 		mainQLabel.text = surveyFinished.question
 		
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
         
-        timeSurveyStarted.text = dateFormatter.stringFromDate(surveyFinished.dateStarted)
+        timeSurveyStarted.text = dateFormatter.string(from: surveyFinished.dateStarted as Date)
         // Do any additional setup after loading the view.
 		
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapToRemoveKeyboard(_:)))
@@ -68,19 +68,19 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
 	
-    func homeButtonAction(sender:UIBarButtonItem){
+    func homeButtonAction(_ sender:UIBarButtonItem){
         if presentingViewController is UINavigationController {
-			self.performSegueWithIdentifier("unwindToMain", sender: self)
+			self.performSegue(withIdentifier: "unwindToMain", sender: self)
         } else {
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
         }
     }
 	
-	@IBAction func exportTherapistReport(sender: UIButton) {
+	@IBAction func exportTherapistReport(_ sender: UIButton) {
 		let mailString = createCSVDataTherapist()
 		
 		// Converting it to NSData.
-		let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+		let data = mailString.data(using: String.Encoding.utf8.rawValue, allowLossyConversion: false)
 		
 		// Unwrapping the optional.
 		if let content = data {
@@ -99,18 +99,18 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: fileName)
 		
 		if MFMailComposeViewController.canSendMail() {
-			self.presentViewController(emailController, animated: true, completion: nil)
+			self.present(emailController, animated: true, completion: nil)
 		}
 
 	}
 	
 
-	@IBAction func exportCSV(sender: UIButton) {
+	@IBAction func exportCSV(_ sender: UIButton) {
 
 		let mailString = createCSVData()
 		
         // Converting it to NSData.
-        let data = mailString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        let data = mailString.data(using: String.Encoding.utf8.rawValue, allowLossyConversion: false)
 		
         // Unwrapping the optional.
         if let content = data {
@@ -129,18 +129,18 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         emailController.addAttachmentData(data!, mimeType: "text/csv", fileName: fileName)
         
         if MFMailComposeViewController.canSendMail() {
-            self.presentViewController(emailController, animated: true, completion: nil)
+            self.present(emailController, animated: true, completion: nil)
         }
     }
 
     
     func createCSVData() -> NSMutableString {
         let text = NSMutableString()
-        text.appendString("Name," + surveyFinished.patient!.patientsName + "\n")
-        text.appendString("Survey Name," + surveyFinished.surveyName + "\n")
-        text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
-        text.appendString("\n\n")
-        text.appendString("No.,Technology Name," + mainQLabel.text! + ",Confidence level (of 5),Comments\n")
+        text.append("Name," + surveyFinished.patient!.patientsName + "\n")
+        text.append("Survey Name," + surveyFinished.surveyName + "\n")
+        text.append("Time Started," + timeSurveyStarted.text! + "\n")
+        text.append("\n\n")
+        text.append("No.,Technology Name," + mainQLabel.text! + ",Confidence level (of 5),Comments\n")
 		
 		let qTotal = surveyFinished.devices.count
 		
@@ -172,8 +172,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				confidentQAnswer = String(confidenceAnswer.answer)
 			}
 
-			let stringAppend = String(index+1) + "," + deviceName + "," + mainQAnswer + "," + confidentQAnswer + "," + answerComments + "\n"
-            text.appendString(stringAppend)
+			var stringAppend = String(index+1) + "," + deviceName + ","
+			stringAppend = stringAppend + mainQAnswer + "," + confidentQAnswer + "," + answerComments + "\n"
+            text.append(stringAppend)
         }
 		
         return text
@@ -181,10 +182,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	
 	func createCSVDataTherapist() -> NSMutableString{
 		let text = NSMutableString()
-		text.appendString("Name," + surveyFinished.patient!.patientsName + "\n")
-		text.appendString("Survey Name," + surveyFinished.surveyName + "\n")
-		text.appendString("Time Started," + timeSurveyStarted.text! + "\n")
-		text.appendString("\n\n")
+		text.append("Name," + surveyFinished.patient!.patientsName + "\n")
+		text.append("Survey Name," + surveyFinished.surveyName + "\n")
+		text.append("Time Started," + timeSurveyStarted.text! + "\n")
+		text.append("\n\n")
 		
 		var device : String = ""
 		var main : String = ""
@@ -219,24 +220,24 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			confidence = confidence + confidentQAnswer + ","
 		}
 		
-		text.appendString(device + "\n")
-		text.appendString(main + "\n")
-		text.appendString(confidence + "\n")
+		text.append(device + "\n")
+		text.append(main + "\n")
+		text.append(confidence + "\n")
 		
 		return text
 	}
 	
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func backButtonAction(sender:UIBarButtonItem){
+    func backButtonAction(_ sender:UIBarButtonItem){
         print("backButton pressed")
         
-        self.performSegueWithIdentifier("unwindToSurveyDone", sender: self)
+        self.performSegue(withIdentifier: "unwindToSurveyDone", sender: self)
     }
     
-    func saveButtonAction(sender:UIBarButtonItem){
+    func saveButtonAction(_ sender:UIBarButtonItem){
         print("save comments")
         
         Realm.Configuration.defaultConfiguration = config
@@ -253,34 +254,34 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         }
-        saveButton.enabled = false
+        saveButton.isEnabled = false
         
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return surveyFinished.devices.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "resultCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! ResultTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! ResultTableViewCell
         
 //        let eachSurvey = surveyFinished.deviceName
-        cell.questionNumber.text = String(indexPath.row + 1)
-        cell.deviceName.text = surveyFinished.devices[indexPath.row].value
+        cell.questionNumber.text = String((indexPath as NSIndexPath).row + 1)
+        cell.deviceName.text = surveyFinished.devices[(indexPath as NSIndexPath).row].value
 		
 		cell.commentTextField.delegate = self
 		commentTextFields += [cell.commentTextField]
-        cell.commentTextField.enabled = false
+        cell.commentTextField.isEnabled = false
         
-        if indexPath.row > surveyFinished.mainAnswer.count-1{
+        if (indexPath as NSIndexPath).row > surveyFinished.mainAnswer.count-1{
             cell.mainQuestionAnswer.text = "N/A"
         } else {
-            let mainAnswer = surveyFinished.mainAnswer[indexPath.row]
+            let mainAnswer = surveyFinished.mainAnswer[(indexPath as NSIndexPath).row]
             
             if mainAnswer.answer == true {
                 cell.mainQuestionAnswer.text = "Yes"
@@ -288,19 +289,20 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 cell.mainQuestionAnswer.text = "No"
             }
             
-            cell.commentTextField.enabled = true
+            cell.commentTextField.isEnabled = true
             cell.commentTextField.text = mainAnswer.comments
         }
         
        
-        if indexPath.row > surveyFinished.confidenceAnswer.count-1{
+        if (indexPath as NSIndexPath).row > surveyFinished.confidenceAnswer.count-1{
              cell.confidentQuestionAnswer.text = "N/A"
         } else {
-            let confidenceAnswer = surveyFinished.confidenceAnswer[indexPath.row]
+            let confidenceAnswer = surveyFinished.confidenceAnswer[indexPath.row].answer
+			
 			if confidenceAnswer == 0 {
 				cell.confidentQuestionAnswer.text = "N/A"
 			} else {
-				cell.confidentQuestionAnswer.text = String(confidenceAnswer.answer)
+				cell.confidentQuestionAnswer.text = String(confidenceAnswer)
 
 			}
 		}
@@ -308,11 +310,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
 	
-	func textFieldDidEndEditing(textField: UITextField) {
+	func textFieldDidEndEditing(_ textField: UITextField) {
 		textChecker()
 	}
 	
-	func textFieldShouldReturn(textField: UITextField) -> Bool {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textChecker()
 		for text in commentTextFields {
 			text.resignFirstResponder()
@@ -320,7 +322,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		return true
 	}
 	
-	func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+	func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
 		textChecker()
 		for text in commentTextFields{
 			text.resignFirstResponder()
@@ -328,11 +330,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		return true
 	}
 	
-	func textFieldDidBeginEditing(textField: UITextField) {
-		saveButton.enabled = false
+	func textFieldDidBeginEditing(_ textField: UITextField) {
+		saveButton.isEnabled = false
 	}
 	
-	func tapToRemoveKeyboard(gesture: UITapGestureRecognizer){
+	func tapToRemoveKeyboard(_ gesture: UITapGestureRecognizer){
 		textChecker()
 		for text in commentTextFields {
 			text.resignFirstResponder()
@@ -340,10 +342,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 	
 	func textChecker(){
-		saveButton.enabled = false
+		saveButton.isEnabled = false
 		for text in commentTextFields {
 			if text.text != "" {
-				saveButton.enabled = true
+				saveButton.isEnabled = true
 			}
 		}
 	}

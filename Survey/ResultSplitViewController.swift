@@ -13,7 +13,7 @@ class ResultSplitViewController: UISplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		self.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
+		self.preferredDisplayMode = UISplitViewControllerDisplayMode.allVisible
         // Do any additional setup after loading the view.
     }
 

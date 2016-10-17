@@ -45,8 +45,8 @@ class SurveyViewController: UIViewController {
         
         Realm.Configuration.defaultConfiguration = config
         let realm = try! Realm()
-        let mainResult = realm.objects(SurveyMainResult.self).sorted("id")
-        let confidenceResult = realm.objects(SurveyConfidenceResult.self).sorted("id")
+        let mainResult = realm.objects(SurveyMainResult.self).sorted(byProperty: "id")
+        let confidenceResult = realm.objects(SurveyConfidenceResult.self).sorted(byProperty: "id")
         
         if mainResult.count == 0{
             mainIDStart = 1
@@ -62,14 +62,14 @@ class SurveyViewController: UIViewController {
     
         mainProgress.setProgress(mainProgressValue, animated: true)
 		//transform progress bar scale
-		mainProgress.transform = CGAffineTransformScale(mainProgress.transform,1,5)
+		mainProgress.transform = mainProgress.transform.scaledBy(x: 1,y: 5)
 		
-        prevQuestionButton.hidden = true
-        finishButton.hidden = true
+        prevQuestionButton.isHidden = true
+        finishButton.isHidden = true
         let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
         questionContainer.deviceName.text = survey.questions[currentIndex].deviceName
         questionContainer.question.text = survey.questions[currentIndex].question
-        questionContainer.confidenceScale.hidden = true
+        questionContainer.confidenceScale.isHidden = true
         
         currentQuestion.text = String(currentQ)
         totalQuestion.text = String(survey.questions.count * 2)
@@ -87,10 +87,10 @@ class SurveyViewController: UIViewController {
     
     func sendAlertNoMainAnswer(){
         //create notification can't go forward
-        let alert = UIAlertController(title: "Please answer the question to continue", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-        let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let alert = UIAlertController(title: "Please answer the question to continue", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(ok)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 	
 //	func sendAlertNoConfidenceAnswer(){
@@ -103,11 +103,11 @@ class SurveyViewController: UIViewController {
 //	}
 	
 	
-    @IBAction func nextButtonAction(sender: UIButton) {
+    @IBAction func nextButtonAction(_ sender: UIButton) {
         //get answer
         let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
-        let yesAnswer = questionContainer.yesButton.selected
-        let noAnswer = questionContainer.noButton.selected
+        let yesAnswer = questionContainer.yesButton.isSelected
+        let noAnswer = questionContainer.noButton.isSelected
         
         let realm = try! Realm()
         
@@ -140,12 +140,12 @@ class SurveyViewController: UIViewController {
                     //later add confidence hidden
                     currentIndex += 1
                     if currentIndex == (survey.questions.count * 2 - 1){
-                        nextQuestionButton.hidden = true
-                        prevQuestionButton.hidden = false
-                        finishButton.hidden = false
+                        nextQuestionButton.isHidden = true
+                        prevQuestionButton.isHidden = false
+                        finishButton.isHidden = false
                     } else {
-                        nextQuestionButton.hidden = false
-                        prevQuestionButton.hidden = false
+                        nextQuestionButton.isHidden = false
+                        prevQuestionButton.isHidden = false
                     }
                     
                     mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
@@ -171,9 +171,9 @@ class SurveyViewController: UIViewController {
 
                     let ifAnswered = currentSurveyAnswered.confidenceAnswer.filter("questionNumber = \(survey.questions[currentIndex/2].questionNumber)")
                     
-                    questionContainer.confidenceScale.hidden = false
-                    questionContainer.yesButton.hidden = true
-                    questionContainer.noButton.hidden = true
+                    questionContainer.confidenceScale.isHidden = false
+                    questionContainer.yesButton.isHidden = true
+                    questionContainer.noButton.isHidden = true
                     
                     
                     if ifAnswered.count == 0 {
@@ -187,9 +187,9 @@ class SurveyViewController: UIViewController {
                 // confidence answer
                 //check if already answered
                 if questionContainer.confidenceScale.rating == 0 {
-					let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-					let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-					let ok = UIAlertAction(title: "OK", style: .Default, handler:{
+					let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+					let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+					let ok = UIAlertAction(title: "OK", style: .default, handler:{
 						UIAlertAction in
 						/* next after OK */
 						let confidenceAnswer = SurveyConfidenceResult()
@@ -212,17 +212,17 @@ class SurveyViewController: UIViewController {
 						//index for next question
 						self.currentIndex += 1
 						if self.currentIndex == (self.survey.questions.count * 2 - 1){ //later add yes no button to not hidden
-							self.nextQuestionButton.hidden = true
-							self.prevQuestionButton.hidden = false
-							self.finishButton.hidden = false
+							self.nextQuestionButton.isHidden = true
+							self.prevQuestionButton.isHidden = false
+							self.finishButton.isHidden = false
 						} else {
-							self.nextQuestionButton.hidden = false
-							self.prevQuestionButton.hidden = false
+							self.nextQuestionButton.isHidden = false
+							self.prevQuestionButton.isHidden = false
 						}
 						
-						questionContainer.confidenceScale.hidden = true
-						questionContainer.yesButton.hidden = false
-						questionContainer.noButton.hidden = false
+						questionContainer.confidenceScale.isHidden = true
+						questionContainer.yesButton.isHidden = false
+						questionContainer.noButton.isHidden = false
 						
 						self.mainProgressValue = self.mainProgressValue + 1/Float(self.survey.questions.count*2)
 						self.mainProgress.setProgress(self.mainProgressValue, animated: true)
@@ -240,20 +240,20 @@ class SurveyViewController: UIViewController {
 						
 						if ifAnswered.count == 0 {
 							//check if question already answered, make the button shows
-							questionContainer.noButton.selected = false
-							questionContainer.yesButton.selected = false
+							questionContainer.noButton.isSelected = false
+							questionContainer.yesButton.isSelected = false
 						} else {
-							questionContainer.yesButton.selected = ifAnswered[0].answer
+							questionContainer.yesButton.isSelected = ifAnswered[0].answer
 							if ifAnswered[0].answer {
-								questionContainer.noButton.selected = false
+								questionContainer.noButton.isSelected = false
 							} else {
-								questionContainer.noButton.selected = true
+								questionContainer.noButton.isSelected = true
 							}
 						}
 					})
 					alert.addAction(cancel)
 					alert.addAction(ok)
-					presentViewController(alert, animated: true, completion: nil)
+					present(alert, animated: true, completion: nil)
 					
                 } else {
                     let confidenceAnswer = SurveyConfidenceResult()
@@ -276,17 +276,17 @@ class SurveyViewController: UIViewController {
                     //index for next question
                     currentIndex += 1
                     if currentIndex == (survey.questions.count * 2 - 1){ //later add yes no button to not hidden
-                        nextQuestionButton.hidden = true
-                        prevQuestionButton.hidden = false
-                        finishButton.hidden = false
+                        nextQuestionButton.isHidden = true
+                        prevQuestionButton.isHidden = false
+                        finishButton.isHidden = false
                     } else {
-                        nextQuestionButton.hidden = false
-                        prevQuestionButton.hidden = false
+                        nextQuestionButton.isHidden = false
+                        prevQuestionButton.isHidden = false
                     }
                     
-                    questionContainer.confidenceScale.hidden = true
-                    questionContainer.yesButton.hidden = false
-                    questionContainer.noButton.hidden = false
+                    questionContainer.confidenceScale.isHidden = true
+                    questionContainer.yesButton.isHidden = false
+                    questionContainer.noButton.isHidden = false
                     
                     mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
                     mainProgress.setProgress(mainProgressValue, animated: true)
@@ -304,14 +304,14 @@ class SurveyViewController: UIViewController {
                     
                     if ifAnswered.count == 0 {
                         //check if question already answered, make the button shows
-                        questionContainer.noButton.selected = false
-                        questionContainer.yesButton.selected = false
+                        questionContainer.noButton.isSelected = false
+                        questionContainer.yesButton.isSelected = false
                     } else {
-                        questionContainer.yesButton.selected = ifAnswered[0].answer
+                        questionContainer.yesButton.isSelected = ifAnswered[0].answer
                         if ifAnswered[0].answer {
-                            questionContainer.noButton.selected = false
+                            questionContainer.noButton.isSelected = false
                         } else {
-                            questionContainer.noButton.selected = true
+                            questionContainer.noButton.isSelected = true
                         }
                     }
                     
@@ -345,20 +345,20 @@ class SurveyViewController: UIViewController {
                     
                     currentIndex += 1
                     if currentIndex == (survey.questions.count * 2 - 1){
-                        nextQuestionButton.hidden = true
-                        prevQuestionButton.hidden = false
-                        finishButton.hidden = false
+                        nextQuestionButton.isHidden = true
+                        prevQuestionButton.isHidden = false
+                        finishButton.isHidden = false
                     } else {
-                        nextQuestionButton.hidden = false
-                        prevQuestionButton.hidden = false
+                        nextQuestionButton.isHidden = false
+                        prevQuestionButton.isHidden = false
                     }
                     
                     print(currentIndex)
                     if currentIndex == survey.questions.count {
                         
-                        questionContainer.yesButton.hidden = true
-                        questionContainer.noButton.hidden = true
-                        questionContainer.confidenceScale.hidden = false
+                        questionContainer.yesButton.isHidden = true
+                        questionContainer.noButton.isHidden = true
+                        questionContainer.confidenceScale.isHidden = false
                         
                         mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
                         mainProgress.setProgress(mainProgressValue, animated: true)
@@ -381,9 +381,9 @@ class SurveyViewController: UIViewController {
                         }
 
                     } else {
-                        questionContainer.yesButton.hidden = false
-                        questionContainer.noButton.hidden = false
-                        questionContainer.confidenceScale.hidden = true
+                        questionContainer.yesButton.isHidden = false
+                        questionContainer.noButton.isHidden = false
+                        questionContainer.confidenceScale.isHidden = true
                         
                         mainProgressValue = mainProgressValue + 1/Float(survey.questions.count*2)
                         mainProgress.setProgress(mainProgressValue, animated: true)
@@ -400,23 +400,23 @@ class SurveyViewController: UIViewController {
                         
                         if ifAnswered.count == 0 {
                             //check if question already answered, make the button shows
-                            questionContainer.noButton.selected = false
-                            questionContainer.yesButton.selected = false
+                            questionContainer.noButton.isSelected = false
+                            questionContainer.yesButton.isSelected = false
                         } else {
-                            questionContainer.yesButton.selected = ifAnswered[0].answer
+                            questionContainer.yesButton.isSelected = ifAnswered[0].answer
                             if ifAnswered[0].answer {
-                                questionContainer.noButton.selected = false
+                                questionContainer.noButton.isSelected = false
                             } else {
-                                questionContainer.noButton.selected = true
+                                questionContainer.noButton.isSelected = true
                             }
                         }
                     }
                 }
             } else {
                 if questionContainer.confidenceScale.rating == 0 {
-					let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-					let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-					let ok = UIAlertAction(title: "OK", style: .Default, handler: {
+					let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+					let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+					let ok = UIAlertAction(title: "OK", style: .default, handler: {
 						UIAlertAction in
 						var arrayIndex = self.currentIndex - self.survey.questions.count
 						
@@ -439,12 +439,12 @@ class SurveyViewController: UIViewController {
 						
 						self.currentIndex += 1
 						if self.currentIndex == (self.survey.questions.count * 2 - 1){
-							self.nextQuestionButton.hidden = true
-							self.prevQuestionButton.hidden = false
-							self.finishButton.hidden = false
+							self.nextQuestionButton.isHidden = true
+							self.prevQuestionButton.isHidden = false
+							self.finishButton.isHidden = false
 						} else {
-							self.nextQuestionButton.hidden = false
-							self.prevQuestionButton.hidden = false
+							self.nextQuestionButton.isHidden = false
+							self.prevQuestionButton.isHidden = false
 						}
 						print(self.currentIndex)
 						
@@ -455,9 +455,9 @@ class SurveyViewController: UIViewController {
 						self.currentQ += 1
 						self.currentQuestion.text = String(self.currentQ)
 						
-						questionContainer.yesButton.hidden = true
-						questionContainer.noButton.hidden = true
-						questionContainer.confidenceScale.hidden = false
+						questionContainer.yesButton.isHidden = true
+						questionContainer.noButton.isHidden = true
+						questionContainer.confidenceScale.isHidden = false
 						
 						print("from confidence " + String(arrayIndex))
 						questionContainer.deviceName.text = self.survey.questions[arrayIndex].deviceName
@@ -478,7 +478,7 @@ class SurveyViewController: UIViewController {
 					})
 					alert.addAction(cancel)
 					alert.addAction(ok)
-					presentViewController(alert, animated: true, completion: nil)
+					present(alert, animated: true, completion: nil)
 
                 } else {
                     var arrayIndex = currentIndex - survey.questions.count
@@ -502,12 +502,12 @@ class SurveyViewController: UIViewController {
                     
                     currentIndex += 1
                     if currentIndex == (survey.questions.count * 2 - 1){
-                        nextQuestionButton.hidden = true
-                        prevQuestionButton.hidden = false
-                        finishButton.hidden = false
+                        nextQuestionButton.isHidden = true
+                        prevQuestionButton.isHidden = false
+                        finishButton.isHidden = false
                     } else {
-                        nextQuestionButton.hidden = false
-                        prevQuestionButton.hidden = false
+                        nextQuestionButton.isHidden = false
+                        prevQuestionButton.isHidden = false
                     }
                     print(currentIndex)
                     
@@ -518,9 +518,9 @@ class SurveyViewController: UIViewController {
                     currentQ += 1
                     currentQuestion.text = String(currentQ)
                     
-                    questionContainer.yesButton.hidden = true
-                    questionContainer.noButton.hidden = true
-                    questionContainer.confidenceScale.hidden = false
+                    questionContainer.yesButton.isHidden = true
+                    questionContainer.noButton.isHidden = true
+                    questionContainer.confidenceScale.isHidden = false
                     
                     print("from confidence " + String(arrayIndex))
                     questionContainer.deviceName.text = survey.questions[arrayIndex].deviceName
@@ -544,14 +544,14 @@ class SurveyViewController: UIViewController {
         }
     }
     
-    @IBAction func prevButtonAction(sender: UIButton) {
+    @IBAction func prevButtonAction(_ sender: UIButton) {
 		 let realm = try! Realm()
 		 let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
-		if questionContainer.yesButton.hidden == false {
+		if questionContainer.yesButton.isHidden == false {
 			//main question
-			if questionContainer.yesButton.selected == true || questionContainer.noButton.selected == true {
+			if questionContainer.yesButton.isSelected == true || questionContainer.noButton.isSelected == true {
 				//question answered
-				let yesAnswer = questionContainer.yesButton.selected
+				let yesAnswer = questionContainer.yesButton.isSelected
 				
 				let mainAnswer = SurveyMainResult()
 				mainAnswer.answer = yesAnswer
@@ -646,13 +646,13 @@ class SurveyViewController: UIViewController {
 		
 		currentIndex -= 1
         if currentIndex == 0 {
-            prevQuestionButton.hidden = true
-            nextQuestionButton.hidden = false
-            finishButton.hidden = true
+            prevQuestionButton.isHidden = true
+            nextQuestionButton.isHidden = false
+            finishButton.isHidden = true
         } else {
-            prevQuestionButton.hidden = false
-            nextQuestionButton.hidden = false
-            finishButton.hidden = true
+            prevQuestionButton.isHidden = false
+            nextQuestionButton.isHidden = false
+            finishButton.isHidden = true
         }
 		
         if isAfterEachQuestion == true {
@@ -661,9 +661,9 @@ class SurveyViewController: UIViewController {
                 print("prev after, main")
                 let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
 				
-                questionContainer.yesButton.hidden = false
-                questionContainer.noButton.hidden = false
-                questionContainer.confidenceScale.hidden = true
+                questionContainer.yesButton.isHidden = false
+                questionContainer.noButton.isHidden = false
+                questionContainer.confidenceScale.isHidden = true
 				
                 mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
                 mainProgress.setProgress(mainProgressValue, animated: true)
@@ -681,14 +681,14 @@ class SurveyViewController: UIViewController {
 				
                 if ifAnswered.count == 0 {
                     //check if question already answered, make the button shows
-                    questionContainer.noButton.selected = false
-                    questionContainer.yesButton.selected = false
+                    questionContainer.noButton.isSelected = false
+                    questionContainer.yesButton.isSelected = false
                 } else {
-                    questionContainer.yesButton.selected = ifAnswered[0].answer
+                    questionContainer.yesButton.isSelected = ifAnswered[0].answer
                     if ifAnswered[0].answer {
-                        questionContainer.noButton.selected = false
+                        questionContainer.noButton.isSelected = false
                     } else {
-                        questionContainer.noButton.selected = true
+                        questionContainer.noButton.isSelected = true
                     }
                 }
 
@@ -701,9 +701,9 @@ class SurveyViewController: UIViewController {
                 
                 let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
                 
-                questionContainer.yesButton.hidden = true
-                questionContainer.noButton.hidden = true
-                questionContainer.confidenceScale.hidden = false
+                questionContainer.yesButton.isHidden = true
+                questionContainer.noButton.isHidden = true
+                questionContainer.confidenceScale.isHidden = false
                 
                 mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
                 mainProgress.setProgress(mainProgressValue, animated: true)
@@ -743,9 +743,9 @@ class SurveyViewController: UIViewController {
                 print("prev all, main")
                 let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
                 
-                questionContainer.yesButton.hidden = false
-                questionContainer.noButton.hidden = false
-                questionContainer.confidenceScale.hidden = true
+                questionContainer.yesButton.isHidden = false
+                questionContainer.noButton.isHidden = false
+                questionContainer.confidenceScale.isHidden = true
                 
                 mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
                 mainProgress.setProgress(mainProgressValue, animated: true)
@@ -763,14 +763,14 @@ class SurveyViewController: UIViewController {
                 
                 if ifAnswered.count == 0 {
                     //check if question already answered, make the button shows
-                    questionContainer.noButton.selected = false
-                    questionContainer.yesButton.selected = false
+                    questionContainer.noButton.isSelected = false
+                    questionContainer.yesButton.isSelected = false
                 } else {
-                    questionContainer.yesButton.selected = ifAnswered[0].answer
+                    questionContainer.yesButton.isSelected = ifAnswered[0].answer
                     if ifAnswered[0].answer {
-                        questionContainer.noButton.selected = false
+                        questionContainer.noButton.isSelected = false
                     } else {
-                        questionContainer.noButton.selected = true
+                        questionContainer.noButton.isSelected = true
                     }
                 }
 
@@ -784,9 +784,9 @@ class SurveyViewController: UIViewController {
                 
                 let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
                 
-                questionContainer.yesButton.hidden = true
-                questionContainer.noButton.hidden = true
-                questionContainer.confidenceScale.hidden = false
+                questionContainer.yesButton.isHidden = true
+                questionContainer.noButton.isHidden = true
+                questionContainer.confidenceScale.isHidden = false
                 
                 mainProgressValue = mainProgressValue - 1/Float(survey.questions.count*2)
                 mainProgress.setProgress(mainProgressValue, animated: true)
@@ -844,7 +844,7 @@ class SurveyViewController: UIViewController {
 //        }
     }
     
-    @IBAction func finishButtonAction(sender: UIButton) {
+    @IBAction func finishButtonAction(_ sender: UIButton) {
         //save last question (confidence question)
         
         let realm = try! Realm()
@@ -852,9 +852,9 @@ class SurveyViewController: UIViewController {
         let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
         
         if questionContainer.confidenceScale.rating == 0 { // later need to change to the rating scale
-			let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-			let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-			let ok = UIAlertAction(title: "OK", style: .Default, handler: {
+			let alert = UIAlertController(title: "Skip this question?", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+			let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+			let ok = UIAlertAction(title: "OK", style: .default, handler: {
 				UIAlertAction in
 				
 				self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -875,11 +875,11 @@ class SurveyViewController: UIViewController {
 					}
 				}
 				
-				self.performSegueWithIdentifier("finishSurvey", sender: self)
+				self.performSegue(withIdentifier: "finishSurvey", sender: self)
 			})
 			alert.addAction(cancel)
 			alert.addAction(ok)
-			presentViewController(alert, animated: true, completion: nil)
+			present(alert, animated: true, completion: nil)
         } else {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
             let confidenceAnswer = SurveyConfidenceResult()
@@ -901,14 +901,14 @@ class SurveyViewController: UIViewController {
         }
     }
     
-    func retrieveImage(imageFolderPath : String) -> UIImage{
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let imagePath = (paths as NSString).stringByAppendingPathComponent(imageFolderPath)
-        let checkImage = NSFileManager.defaultManager()
+    func retrieveImage(_ imageFolderPath : String) -> UIImage{
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let imagePath = (paths as NSString).appendingPathComponent(imageFolderPath)
+        let checkImage = FileManager.default
         print(imagePath)
         var image = UIImage()
         
-        if (checkImage.fileExistsAtPath(imagePath)) {
+        if (checkImage.fileExists(atPath: imagePath)) {
             image = UIImage(contentsOfFile: imagePath)!
         } else {
             print("Error: \(imageFolderPath) is not available")
@@ -921,11 +921,11 @@ class SurveyViewController: UIViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "finishSurvey" {
-            let result = segue.destinationViewController.childViewControllers.first as! ResultViewController
+            let result = segue.destination.childViewControllers.first as! ResultViewController
             result.isFromResultTable = false
             result.surveyFinished = currentSurveyAnswered
         } else if segue.identifier == "abortSurvey" {
@@ -933,11 +933,11 @@ class SurveyViewController: UIViewController {
              let realm = try! Realm()
             
             let questionContainer = self.childViewControllers.first as! QuestionContainerViewController
-            if questionContainer.yesButton.hidden == false {
+            if questionContainer.yesButton.isHidden == false {
                 //main question
-                if questionContainer.yesButton.selected == true || questionContainer.noButton.selected == true {
+                if questionContainer.yesButton.isSelected == true || questionContainer.noButton.isSelected == true {
                     //question answered
-                    let yesAnswer = questionContainer.yesButton.selected
+                    let yesAnswer = questionContainer.yesButton.isSelected
                     
                     let mainAnswer = SurveyMainResult()
                     mainAnswer.answer = yesAnswer
@@ -1027,7 +1027,7 @@ class SurveyViewController: UIViewController {
                 }
             }
             
-            let result = segue.destinationViewController.childViewControllers.first as! ResultViewController
+            let result = segue.destination.childViewControllers.first as! ResultViewController
             result.isFromResultTable = false
             result.surveyFinished = currentSurveyAnswered
         }

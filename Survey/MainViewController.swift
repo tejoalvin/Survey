@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-	@IBAction func unwindToMain(sender: UIStoryboardSegue){
+	@IBAction func unwindToMain(_ sender: UIStoryboardSegue){
 		print("unwind To Main")
 	}
 
@@ -31,12 +31,12 @@ class MainViewController: UIViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
 		print(segue.identifier)
         if segue.identifier == "createEditSegue" {
-			let split = segue.destinationViewController as! UISplitViewController
+			let split = segue.destination as! UISplitViewController
 			let master = split.viewControllers.first as! UINavigationController
 			let surveyList = master.topViewController as! SurveyListTableViewController
 			let detail = split.viewControllers.last as! UINavigationController
@@ -45,7 +45,7 @@ class MainViewController: UIViewController {
 			surveyList.delegate = qList
 		} else if segue.identifier == "resultSegue"{
 			print("resultSegue")
-			let splitResult = segue.destinationViewController as! UISplitViewController
+			let splitResult = segue.destination as! UISplitViewController
 			
 			let masterNav = splitResult.viewControllers.first as! UINavigationController
 			let masterPatient = masterNav.topViewController as! ResultPatientTableViewController

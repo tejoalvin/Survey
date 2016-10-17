@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 protocol SurveySelectionDelegate: class {
-    func surveySelected(newSurvey: SurveyData)
+    func surveySelected(_ newSurvey: SurveyData)
 }
 
 class SurveyListTableViewController: UITableViewController {
@@ -28,7 +28,7 @@ class SurveyListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         indexSelected = 0
-        editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
+        editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(self.editButtonAction(_:)))
         navigationItem.leftBarButtonItem = editButton
 		
 //		let indexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -42,8 +42,8 @@ class SurveyListTableViewController: UITableViewController {
         print(self.delegate)
     }
 
-    func editButtonAction(sender: UIBarButtonItem){
-        if (tableView.editing) {
+    func editButtonAction(_ sender: UIBarButtonItem){
+        if (tableView.isEditing) {
             sender.title = "Edit";
             tableView.setEditing(false, animated: true)
         } else {
@@ -59,21 +59,21 @@ class SurveyListTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 	
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
 		//select first item in the table
-		let firstIndex = NSIndexPath(forRow: indexSelected, inSection: 0)
-		tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
+		let firstIndex = IndexPath(row: indexSelected, section: 0)
+		tableView.selectRow(at: firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.bottom)
 	}
 
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
         Realm.Configuration.defaultConfiguration = config
@@ -86,10 +86,10 @@ class SurveyListTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "SurveyListTableViewCell"
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! SurveyListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! SurveyListTableViewCell
         
         Realm.Configuration.defaultConfiguration = config
         
@@ -97,15 +97,15 @@ class SurveyListTableViewController: UITableViewController {
         
         let surveyData = realm.objects(SurveyData.self)
         
-        cell.surveyNameLabel.text = surveyData[indexPath.row].name
-        cell.numberOfQuestionsAvailable.text = String(surveyData[indexPath.row].questions.count) + " Questions"
+        cell.surveyNameLabel.text = surveyData[(indexPath as NSIndexPath).row].name
+        cell.numberOfQuestionsAvailable.text = String(surveyData[(indexPath as NSIndexPath).row].questions.count) + " Questions"
 
         // Configure the cell...
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         Realm.Configuration.defaultConfiguration = config
         
@@ -113,9 +113,9 @@ class SurveyListTableViewController: UITableViewController {
         
         let surveyData = realm.objects(SurveyData.self)
 
-        let selectedSurvey = surveyData[indexPath.row]
+        let selectedSurvey = surveyData[(indexPath as NSIndexPath).row]
         self.delegate?.surveySelected(selectedSurvey)
-		indexSelected = indexPath.row
+		indexSelected = (indexPath as NSIndexPath).row
 		
         if let surveyDetailsViewController = self.delegate as? SurveyDetailsViewController {
             splitViewController?.showDetailViewController(surveyDetailsViewController.navigationController!, sender: nil)
@@ -124,7 +124,7 @@ class SurveyListTableViewController: UITableViewController {
         
     }
 
-    @IBAction func addNewSurvey(sender: UIBarButtonItem) {
+    @IBAction func addNewSurvey(_ sender: UIBarButtonItem) {
         print("+ button pressed")
         Realm.Configuration.defaultConfiguration = config
         
@@ -137,7 +137,7 @@ class SurveyListTableViewController: UITableViewController {
         let predicate = NSPredicate(format: "name contains %@", surveyName)
         let data = realm.objects(SurveyData.self).filter(predicate)
         
-        let index = realm.objects(QuestionData.self).sorted("id").last?.id
+        let index = realm.objects(QuestionData.self).sorted(byProperty: "id").last?.id
         
         let surveyData = realm.objects(SurveyData.self)
         
@@ -146,7 +146,7 @@ class SurveyListTableViewController: UITableViewController {
         }
         
         newSurvey.name = surveyName
-        newSurvey.lastUpdated = NSDate()
+        newSurvey.lastUpdated = Date()
         newSurvey.id = surveyData.last!.id + 1
         
         let newQuestion = QuestionData()
@@ -167,12 +167,12 @@ class SurveyListTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    func createDir(surveyName : String){
-        let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-        let dirPath = documentsPath.URLByAppendingPathComponent(surveyName)
+    func createDir(_ surveyName : String){
+        let documentsPath = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+        let dirPath = documentsPath.appendingPathComponent(surveyName)
         print(dirPath)
         do {
-            try NSFileManager.defaultManager().createDirectoryAtPath(dirPath.path!, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(atPath: dirPath.path, withIntermediateDirectories: true, attributes: nil)
         } catch let error as NSError {
             NSLog("Unable to create directory \(error.debugDescription)")
         }
@@ -209,8 +209,8 @@ class SurveyListTableViewController: UITableViewController {
 //		}
 //    }
 	
-	override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		let delete = UITableViewRowAction(style: .Default, title: "Delete", handler: {
+	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		let delete = UITableViewRowAction(style: .default, title: "Delete", handler: {
 			action,index in
 				print("delete pressed")
 				Realm.Configuration.defaultConfiguration = self.config
@@ -218,7 +218,7 @@ class SurveyListTableViewController: UITableViewController {
 				let realm = try! Realm()
 				
 				let surveyData = realm.objects(SurveyData.self)
-				let surveyToBeDeleted = surveyData[indexPath.row]
+				let surveyToBeDeleted = surveyData[(indexPath as NSIndexPath).row]
 				let surveyNameToBeDeleted = surveyToBeDeleted.name
 				let surveyQuestions = surveyToBeDeleted.questions
 				
@@ -230,14 +230,14 @@ class SurveyListTableViewController: UITableViewController {
 				}
 				
 				//delete survey folder
-				let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+				let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
 				
-				let imagePath = (paths as NSString).stringByAppendingPathComponent(surveyNameToBeDeleted)
+				let imagePath = (paths as NSString).appendingPathComponent(surveyNameToBeDeleted)
 				
 				do{
-					try NSFileManager.defaultManager().removeItemAtPath(imagePath)
+					try FileManager.default.removeItem(atPath: imagePath)
 				} catch let error as NSError{
-					print("can't delete photo file \n" + String(error))
+					print("can't delete photo file \n" + String(describing: error))
 				}
 				
 				tableView.reloadData()
@@ -251,9 +251,9 @@ class SurveyListTableViewController: UITableViewController {
 
 		})
 		
-		delete.backgroundColor = UIColor.redColor()
+		delete.backgroundColor = UIColor.red
 		
-		let duplicate = UITableViewRowAction(style: .Normal, title: "Duplicate", handler: {
+		let duplicate = UITableViewRowAction(style: .normal, title: "Duplicate", handler: {
 			action,index in
 			print("duplicate pressed")
 		
@@ -263,7 +263,7 @@ class SurveyListTableViewController: UITableViewController {
 		
 			let surveyData = realm.objects(SurveyData.self)
 			let questionsData = realm.objects(QuestionData.self)
-			let	surveyToBeDuplicated = surveyData[indexPath.row]
+			let	surveyToBeDuplicated = surveyData[(indexPath as NSIndexPath).row]
 			
 			let newSurvey = SurveyData()
 			var index = 2
@@ -283,10 +283,10 @@ class SurveyListTableViewController: UITableViewController {
 			}
 			
 			do {
-				let documentDirectoryPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-				let originPath = documentDirectoryPath.URLByAppendingPathComponent(surveyToBeDuplicated.name)
-				let destinationPath = documentDirectoryPath.URLByAppendingPathComponent(newSurvey.name)
-				try NSFileManager.defaultManager().copyItemAtURL(originPath, toURL: destinationPath)
+				let documentDirectoryPath = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+				let originPath = documentDirectoryPath.appendingPathComponent(surveyToBeDuplicated.name)
+				let destinationPath = documentDirectoryPath.appendingPathComponent(newSurvey.name)
+				try FileManager.default.copyItem(at: originPath, to: destinationPath)
 			} catch let error as NSError {
 				print(error)
 			}
@@ -310,7 +310,7 @@ class SurveyListTableViewController: UITableViewController {
 
 			
 			newSurvey.id = surveyData.last!.id + 1
-			newSurvey.lastUpdated = NSDate()
+			newSurvey.lastUpdated = Date()
 			
 			try! realm.write{
 				realm.add(newSurvey)
@@ -318,7 +318,7 @@ class SurveyListTableViewController: UITableViewController {
 			tableView.reloadData()
 		})
 		
-		if indexPath.row == 0 {
+		if (indexPath as NSIndexPath).row == 0 {
 			return [duplicate]
 		} else {
 			return [delete,duplicate]
@@ -326,7 +326,7 @@ class SurveyListTableViewController: UITableViewController {
 	}
 	
     // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 
     }
     

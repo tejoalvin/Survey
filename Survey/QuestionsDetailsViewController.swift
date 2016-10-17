@@ -51,22 +51,23 @@ class QuestionsDetailsViewController: UIViewController, UIImagePickerControllerD
 //        }
 //    }
     
-    @IBAction func selectImage(sender: UITapGestureRecognizer) {
-        print("image clicked")
-        deviceName.resignFirstResponder()
-        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .PhotoLibrary
-        
-        imagePickerController.delegate = self
-        
-        presentViewController(imagePickerController, animated: true, completion: nil)
-    }
+	@IBAction func selectImage(_ sender: UITapGestureRecognizer) {
+		print("image clicked")
+		deviceName.resignFirstResponder()
+		// UIImagePickerController is a view controller that lets a user pick media from their photo library.
+		let imagePickerController = UIImagePickerController()
+		imagePickerController.sourceType = .photoLibrary
+		
+		imagePickerController.delegate = self
+		
+		present(imagePickerController, animated: true, completion: nil)
+	}
+
 
     // MARK: UIImagePickerControllerDelegate
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // Dismiss the picker if the user canceled.
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
 //    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
@@ -76,7 +77,7 @@ class QuestionsDetailsViewController: UIViewController, UIImagePickerControllerD
 //        presentViewController(picker, animated: true, completion: nil)
 //    }
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // The info dictionary contains multiple representations of the image, and this uses the original.
         let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         
@@ -89,17 +90,17 @@ class QuestionsDetailsViewController: UIViewController, UIImagePickerControllerD
         imageView.image = selectedImage
         
         // Dismiss the picker.
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    func retrieveImage(imageFolderPath : String) -> UIImage{
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let imagePath = (paths as NSString).stringByAppendingPathComponent(imageFolderPath)
-        let checkImage = NSFileManager.defaultManager()
+    func retrieveImage(_ imageFolderPath : String) -> UIImage{
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let imagePath = (paths as NSString).appendingPathComponent(imageFolderPath)
+        let checkImage = FileManager.default
         print(imagePath)
         var image = UIImage()
         
-        if (checkImage.fileExistsAtPath(imagePath)) {
+        if (checkImage.fileExists(atPath: imagePath)) {
             image = UIImage(contentsOfFile: imagePath)!
         } else {
             print("Error: \(imageFolderPath) is not available")
@@ -108,43 +109,44 @@ class QuestionsDetailsViewController: UIViewController, UIImagePickerControllerD
         return image
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
 		deviceName.resignFirstResponder()
         textChecker()
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
-        saveButton.enabled = false
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        saveButton.isEnabled = false
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         deviceName.resignFirstResponder()
         return true
     }
     
     func textChecker(){
         if deviceName.text == "" {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
         } else {
-            saveButton.enabled = true
+            saveButton.isEnabled = true
         }
     }
-    
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-
-        if saveButton === sender {
-            let name = deviceName.text ?? ""
-            let picture = imageView.image
+		print("going in prepare")
+		
+        if saveButton == sender as? UIBarButtonItem{
+            let name = self.deviceName.text ?? ""
+            let picture = self.imageView.image
 //            let pKey = questionData!.pKey
 
             question = Question(deviceName: name, image: picture!, id: questionData.id, questionNumber: questionData.questionNumber)
 //                , pKey: pKey)
-
+			print("going in saveButton === sender")
         }
     }
     

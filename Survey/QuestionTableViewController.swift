@@ -40,7 +40,7 @@ class QuestionTableViewController: UITableViewController{
         data = Array(surveyData[0].questions)
     }
     
-    func loadList(notification: NSNotification){
+    func loadList(_ notification: Foundation.Notification){
         //load data here
         print("loadList")
 //        self.tableView.reloadData()
@@ -53,12 +53,12 @@ class QuestionTableViewController: UITableViewController{
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, 
         //return the number of rows
 
@@ -66,11 +66,11 @@ class QuestionTableViewController: UITableViewController{
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "QuestionTableViewCell"
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! QuestionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! QuestionTableViewCell
 
         
         Realm.Configuration.defaultConfiguration = config
@@ -80,7 +80,7 @@ class QuestionTableViewController: UITableViewController{
         
         let questionData = realm.objects(QuestionData.self).filter(predicate)
         
-        let data = questionData[indexPath.row]
+        let data = questionData[(indexPath as NSIndexPath).row]
         
         cell.deviceNameLabel.text = data.deviceName
         cell.questionNumberLabel.text = String(data.questionNumber)
@@ -131,12 +131,12 @@ class QuestionTableViewController: UITableViewController{
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "showQuestionDetails"{
             
-            let surveyDetailView = segue.destinationViewController as! QuestionsDetailsViewController
+            let surveyDetailView = segue.destination as! QuestionsDetailsViewController
         
             Realm.Configuration.defaultConfiguration = config
             
@@ -146,8 +146,8 @@ class QuestionTableViewController: UITableViewController{
             let questionData = realm.objects(QuestionData.self).filter(predicate)
 
             if let selectedQuestionCell = sender as? QuestionTableViewCell {
-                let indexPath = tableView.indexPathForCell(selectedQuestionCell)!
-                let selectedQuestion = questionData[indexPath.row]
+                let indexPath = tableView.indexPath(for: selectedQuestionCell)!
+                let selectedQuestion = questionData[(indexPath as NSIndexPath).row]
 
                 surveyDetailView.questionData = selectedQuestion
             }

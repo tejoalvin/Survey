@@ -38,7 +38,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
     
     override func viewDidLoad() {
 //        editButton = UIBarButtonItem(title: "Edit", style: .Plain, target: self, action: #selector(self.editButtonAction(_:)))
-        let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
+        let homeButton = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(self.homeButtonAction(_:)))
         navigationItem.setLeftBarButtonItems([homeButton], animated: true)
         
         super.viewDidLoad()
@@ -60,9 +60,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         surveyTitleTextField.delegate = self
         questionTextField.delegate = self
         
-        saveButton.enabled = false
+        saveButton.isEnabled = false
 		
-		tableView.separatorColor = UIColor.clearColor()
+		tableView.separatorColor = UIColor.clear
 		
 //		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapToRemoveKeyboard(_:)))
 //		view.addGestureRecognizer(tapGesture)
@@ -80,17 +80,17 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 //		questionTextField.resignFirstResponder()
 //	}
 	
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textChecker()
 		surveyTitleTextField.resignFirstResponder()
 		questionTextField.resignFirstResponder()
     }
 	
-    func textFieldDidBeginEditing(textField: UITextField) {
-        saveButton.enabled = true
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        saveButton.isEnabled = true
     }
 	
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         surveyTitleTextField.resignFirstResponder()
         questionTextField.resignFirstResponder()
         return true
@@ -98,18 +98,18 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 	
     func textChecker(){
         if surveyTitleTextField.text == "" || questionTextField.text == "" {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
         } else {
-            saveButton.enabled = true
+            saveButton.isEnabled = true
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation,
         //return the number of rows
         
@@ -117,11 +117,11 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "QuestionTableViewCell"
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! QuestionTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! QuestionTableViewCell
         
         
 //        Realm.Configuration.defaultConfiguration = config
@@ -131,9 +131,9 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 //        
 //        let questionData = realm.objects(QuestionData.self).filter(predicate)
 //        
-        let questionData = Array(survey.questions.sorted("questionNumber"))
+        let questionData = Array(survey.questions.sorted(byProperty: "questionNumber"))
         
-        let data = questionData[indexPath.row]
+        let data = questionData[(indexPath as NSIndexPath).row]
         
         cell.deviceNameLabel.text = data.deviceName
         cell.questionNumberLabel.text = String(data.questionNumber)
@@ -147,7 +147,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         }
         // Configure the cell...
 		
-		if indexPath.row == questionData.count - 1 {
+		if (indexPath as NSIndexPath).row == questionData.count - 1 {
 			cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0)
 		}
         return cell
@@ -164,46 +164,46 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 //    }
 
 	
-	@IBAction func deleteQuestionAction(sender: UIButton) {
-		if (tableView.editing) {
-			sender.setTitle("Delete Question", forState: .Normal)
+	@IBAction func deleteQuestionAction(_ sender: UIButton) {
+		if (tableView.isEditing) {
+			sender.setTitle("Delete Question", for: UIControlState())
 			tableView.setEditing(false, animated: true)
 		} else {
-			sender.setTitle("Done", forState: .Normal)
+			sender.setTitle("Done", for: UIControlState())
 			tableView.setEditing(true, animated: true)
 		}
 		
 	}
 	
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             // Delete the row from the data source
             print("delete")
-            print(indexPath.row)
+            print((indexPath as NSIndexPath).row)
             
-            let questionsArray = Array(survey.questions.sorted("questionNumber"))
-            let questionToBeDeleted = questionsArray[indexPath.row]
+            let questionsArray = Array(survey.questions.sorted(byProperty: "questionNumber"))
+            let questionToBeDeleted = questionsArray[(indexPath as NSIndexPath).row]
             
-            deleteQuestionFromRealm(questionToBeDeleted, index: indexPath.row)
+            deleteQuestionFromRealm(questionToBeDeleted, index: (indexPath as NSIndexPath).row)
             tableView.reloadData()
 //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
+        } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         if survey.questions.count == 1{
-            deleteQButton.enabled = false
+            deleteQButton.isEnabled = false
             return false
         } else {
-            deleteQButton.enabled = true
+            deleteQButton.isEnabled = true
             return true
         }
     }
     
-    private func deleteQuestionFromRealm(questionToBeDeleted: QuestionData, index:Int){
+    fileprivate func deleteQuestionFromRealm(_ questionToBeDeleted: QuestionData, index:Int){
 //        let deletedID = questionToBeDeleted.id
         let deletedQNumber = questionToBeDeleted.questionNumber
         let deletedImagePath = questionToBeDeleted.imagePath
@@ -222,7 +222,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         
         let newSurvey = Array(surveyObject[0].questions)
         print(newSurvey.count)
-        if deletedQNumber-1 != surveyBeforeDeleted.questions.sorted("questionNumber").last?.questionNumber {
+        if deletedQNumber-1 != surveyBeforeDeleted?.questions.sorted(byProperty: "questionNumber").last?.questionNumber {
             try! realm.write{
                 //because QNumber 1 more than index in array
                 let i = deletedQNumber - 1
@@ -236,21 +236,21 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                     print("tobe: " + String(currentQuestionNumber-1))
                     realm.create(QuestionData.self, value: ["questionNumber": currentQuestionNumber-1, "id":currentID], update: true)
                 }
-                realm.create(SurveyData.self, value: ["id": id, "lastUpdated": NSDate()], update: true)
+                realm.create(SurveyData.self, value: ["id": id, "lastUpdated": Date()], update: true)
 
             }
         }
         
         //delete file used
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
 		
 		if deletedImagePath != "" {
-			let imagePath = (paths as NSString).stringByAppendingPathComponent(deletedImagePath)
+			let imagePath = (paths as NSString).appendingPathComponent(deletedImagePath)
 			do{
-				try NSFileManager.defaultManager().removeItemAtPath(imagePath)
+				try FileManager.default.removeItem(atPath: imagePath)
 				print("deleted " + imagePath)
 			} catch let error as NSError{
-				print("can't delete photo file \n" + String(error))
+				print("can't delete photo file \n" + String(describing: error))
 			}
 		}
 
@@ -259,14 +259,14 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 		splitMaster.tableView.reloadData()
     }
 
-    func retrieveImage(imageFolderPath : String) -> UIImage{
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let imagePath = (paths as NSString).stringByAppendingPathComponent(imageFolderPath)
-        let checkImage = NSFileManager.defaultManager()
+    func retrieveImage(_ imageFolderPath : String) -> UIImage{
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let imagePath = (paths as NSString).appendingPathComponent(imageFolderPath)
+        let checkImage = FileManager.default
         print(imagePath)
         var image = UIImage()
         
-        if (checkImage.fileExistsAtPath(imagePath)) {
+        if (checkImage.fileExists(atPath: imagePath)) {
             image = UIImage(contentsOfFile: imagePath)!
         } else {
             print("Error: \(imageFolderPath) is not available")
@@ -288,7 +288,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.reloadData()
     }
     
-    @IBAction func saveButtonAction(sender: UIBarButtonItem) {
+    @IBAction func saveButtonAction(_ sender: UIBarButtonItem) {
         let surveyTitle = surveyTitleTextField.text
         let surveyQuestion = questionTextField.text
         
@@ -299,7 +299,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         Realm.Configuration.defaultConfiguration = config
         let realm = try! Realm()
         
-        let questionsData = Array(survey.questions.sorted("questionNumber"))
+        let questionsData = Array(survey.questions.sorted(byProperty: "questionNumber"))
         let oldSurveyName = survey.name
         let oldQuestion = survey.questions.last?.question
         
@@ -316,10 +316,10 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                         //change path into new
                         if !qd.imagePath.isEmpty{
                             let imgPath = qd.imagePath
-                            let imgPathArray = imgPath.componentsSeparatedByString("/")
+                            let imgPathArray = imgPath.components(separatedBy: "/")
                             let newImgPath = surveyTitle! + "/" + imgPathArray[1]
                             realm.create(QuestionData.self, value: ["id":id, "imagePath":newImgPath], update: true)
-                            realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": NSDate()], update: true)
+                            realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": Date()], update: true)
 
                         }
                     }
@@ -327,7 +327,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                     if oldQuestion != surveyQuestion{
                         //change questions name on all question data
                         realm.create(QuestionData.self, value: ["id":id, "question":surveyQuestion!], update: true)
-                        realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": NSDate()], update: true)
+                        realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": Date()], update: true)
 
                     }
                 }
@@ -337,16 +337,16 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         if oldSurveyName != surveyTitle {
             //change folder name into new name
             do {
-                let documentDirectoryPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-                let originPath = documentDirectoryPath.URLByAppendingPathComponent(oldSurveyName)
-                let destinationPath = documentDirectoryPath.URLByAppendingPathComponent(surveyTitle!)
-                try NSFileManager.defaultManager().moveItemAtURL(originPath, toURL: destinationPath)
+                let documentDirectoryPath = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+                let originPath = documentDirectoryPath.appendingPathComponent(oldSurveyName)
+                let destinationPath = documentDirectoryPath.appendingPathComponent(surveyTitle!)
+                try FileManager.default.moveItem(at: originPath, to: destinationPath)
             } catch let error as NSError {
                 print(error)
             }
         }
 		
-		saveButton.enabled = false
+		saveButton.isEnabled = false
 		surveyTitleTextField.resignFirstResponder()
 		questionTextField.resignFirstResponder()
 
@@ -355,15 +355,15 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 
     }
     
-    func homeButtonAction(sender: UIBarButtonItem) {
+    func homeButtonAction(_ sender: UIBarButtonItem) {
         print("home button clicked")
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
@@ -371,7 +371,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         
         if segue.identifier == "showQuestionDetail"{
             
-            let surveyDetailView = segue.destinationViewController.childViewControllers.first as! QuestionsDetailsViewController
+            let surveyDetailView = segue.destination.childViewControllers.first as! QuestionsDetailsViewController
             
 //            Realm.Configuration.defaultConfiguration = config
 //            
@@ -380,19 +380,19 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 //            
 //            let questionData = realm.objects(QuestionData.self).filter(predicate)
             
-            let questionData = Array(survey.questions.sorted("questionNumber"))
+            let questionData = Array(survey.questions.sorted(byProperty: "questionNumber"))
             
             if let selectedQuestionCell = sender as? QuestionTableViewCell {
-                let indexPath = tableView.indexPathForCell(selectedQuestionCell)!
+                let indexPath = tableView.indexPath(for: selectedQuestionCell)!
                 
-                let selectedQuestion = questionData[indexPath.row]
+                let selectedQuestion = questionData[(indexPath as NSIndexPath).row]
                 surveyDetailView.questionData = selectedQuestion
                 surveyDetailView.isNewQuestion = false
             }
             
         }
         else if segue.identifier == "addNew" {
-            let uiNav = segue.destinationViewController as! UINavigationController
+            let uiNav = segue.destination as! UINavigationController
             let surveyDetailView = uiNav.topViewController as! QuestionsDetailsViewController
             
             let config = Realm.Configuration(
@@ -403,7 +403,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
             
             let realm = try! Realm()
             
-            let index = realm.objects(QuestionData.self).sorted("id").last!.id
+            let index = realm.objects(QuestionData.self).sorted(byProperty: "id").last!.id
             
             let qData = QuestionData()
             qData.questionNumber = survey.questions.count + 1
@@ -414,18 +414,18 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
             surveyDetailView.questionData = qData
             surveyDetailView.isNewQuestion = true
         } else if segue.identifier == "showPreview"{
-			let navView = segue.destinationViewController as! UINavigationController
+			let navView = segue.destination as! UINavigationController
 			let previewView = navView.topViewController as! PreviewCollectionViewController
 			previewView.survey = survey
 		}
 
     }
     
-    @IBAction func unwindToSurveyDetails(sender: UIStoryboardSegue){
+    @IBAction func unwindToSurveyDetails(_ sender: UIStoryboardSegue){
         
          splitViewController?.presentsWithGesture = true
         
-         if let sourceViewController = sender.sourceViewController as? QuestionsDetailsViewController, question = sourceViewController.question {
+         if let sourceViewController = sender.source as? QuestionsDetailsViewController, let question = sourceViewController.question {
             if let selectedIndexPath = tableView.indexPathForSelectedRow{
                 let name = question.deviceName
                 let picture = question.image
@@ -443,7 +443,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                     let imgPath = saveImage(picture, surveyName: survey.name, filenameToBe: name)
                     realm.create(QuestionData.self, value: ["imagePath": imgPath,"deviceName": name, "id": id], update: true)
 
-                    realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": NSDate()], update: true)
+                    realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": Date()], update: true)
                 }
                 
                 tableView.reloadData()
@@ -475,7 +475,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
                     questionData.surveyName = survey
                     
                     survey.questions.append(questionData)
-                    realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": NSDate()], update: true)
+                    realm.create(SurveyData.self, value: ["id": survey.id, "lastUpdated": Date()], update: true)
 
                 }
                 tableView.reloadData()
@@ -489,17 +489,17 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
         
     }
     
-    func saveImage(image : UIImage, surveyName : String, filenameToBe : String) -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+    func saveImage(_ image : UIImage, surveyName : String, filenameToBe : String) -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         print("paths")
         print(paths)
 		
-		let filenameToBeSaved = filenameToBe.stringByReplacingOccurrencesOfString("/", withString: "")
+		let filenameToBeSaved = filenameToBe.replacingOccurrences(of: "/", with: "")
         let imageFolderPath = surveyName + "/" + filenameToBeSaved
         
-        let imagePath = (paths as NSString).stringByAppendingPathComponent(imageFolderPath)
+        let imagePath = (paths as NSString).appendingPathComponent(imageFolderPath)
         
-        if UIImageJPEGRepresentation(image, 1.0)!.writeToFile(imagePath, atomically: true){
+        if (try? UIImageJPEGRepresentation(image, 1.0)!.write(to: URL(fileURLWithPath: imagePath), options: [.atomic])) != nil{
             print("file saved")
         }else{
             print("file save failed")
@@ -511,7 +511,7 @@ class SurveyDetailsViewController: UIViewController, UITableViewDelegate, UITabl
 }
 
 extension SurveyDetailsViewController: SurveySelectionDelegate {
-    func surveySelected(newSurvey: SurveyData) {
+    func surveySelected(_ newSurvey: SurveyData) {
         self.survey = newSurvey
         print(self.survey.name)
 //        print(self.survey.questions.first!.question)

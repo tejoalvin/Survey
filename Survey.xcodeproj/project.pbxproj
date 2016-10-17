@@ -17,7 +17,6 @@
 		E12880C21D460C8300F36CDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E12880C01D460C8300F36CDA /* Main.storyboard */; };
 		E12880C41D460C8300F36CDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E12880C31D460C8300F36CDA /* Assets.xcassets */; };
 		E12880C71D460C8300F36CDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E12880C51D460C8300F36CDA /* LaunchScreen.storyboard */; };
-		E12880D21D460C8300F36CDA /* SurveyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12880D11D460C8300F36CDA /* SurveyTests.swift */; };
 		E12880DD1D460CDB00F36CDA /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12880DC1D460CDB00F36CDA /* Question.swift */; };
 		E12880DF1D46173D00F36CDA /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12880DE1D46173D00F36CDA /* Preview.swift */; };
 		E13A316E1D57B67300E5A4D6 /* ResultPatientTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13A316D1D57B67300E5A4D6 /* ResultPatientTableViewController.swift */; };
@@ -33,10 +32,6 @@
 		E181980F1D4B6B8700004710 /* SurveyListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181980E1D4B6B8700004710 /* SurveyListTableViewCell.swift */; };
 		E18198131D4BB5A900004710 /* TherapistSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18198121D4BB5A900004710 /* TherapistSurveyViewController.swift */; };
 		E18198151D4BCC9300004710 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18198141D4BCC9300004710 /* TabBarViewController.swift */; };
-		E186AE421D46603000740EC6 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E186AE401D46603000740EC6 /* Realm.framework */; };
-		E186AE431D46603000740EC6 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E186AE401D46603000740EC6 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E186AE441D46603000740EC6 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E186AE411D46603000740EC6 /* RealmSwift.framework */; };
-		E186AE451D46603000740EC6 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E186AE411D46603000740EC6 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1A97CBF1D4690BB0036E339 /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A97CBE1D4690BB0036E339 /* QuestionTableViewCell.swift */; };
 		E1A97CC11D46A8F70036E339 /* QuestionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A97CC01D46A8F70036E339 /* QuestionTableViewController.swift */; };
 		E1AEAE6F1D523C9D00A29A52 /* PreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AEAE6E1D523C9D00A29A52 /* PreviewCollectionViewCell.swift */; };
@@ -45,6 +40,10 @@
 		E1B8EA4C1D533E7100880D3D /* InputDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B8EA4B1D533E7100880D3D /* InputDetailsViewController.swift */; };
 		E1B8EA4E1D53526800880D3D /* PatientListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B8EA4D1D53526800880D3D /* PatientListTableViewCell.swift */; };
 		E1C0F4961D548357005E7D21 /* SurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C0F4951D548357005E7D21 /* SurveyViewController.swift */; };
+		E1EAACB41DA598D300B96395 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB21DA598D300B96395 /* Realm.framework */; };
+		E1EAACB51DA598D300B96395 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB21DA598D300B96395 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1EAACB61DA598D300B96395 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB31DA598D300B96395 /* RealmSwift.framework */; };
+		E1EAACB71DA598D300B96395 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB31DA598D300B96395 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1ED687F1D47691C006A1E0C /* QuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ED687E1D47691C006A1E0C /* QuestionData.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,14 +58,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E186AE461D46603000740EC6 /* Embed Frameworks */ = {
+		E1EAACB81DA598D300B96395 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E186AE451D46603000740EC6 /* RealmSwift.framework in Embed Frameworks */,
-				E186AE431D46603000740EC6 /* Realm.framework in Embed Frameworks */,
+				E1EAACB71DA598D300B96395 /* RealmSwift.framework in Embed Frameworks */,
+				E1EAACB51DA598D300B96395 /* Realm.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,8 +86,6 @@
 		E12880C61D460C8300F36CDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E12880C81D460C8300F36CDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E12880CD1D460C8300F36CDA /* SurveyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SurveyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E12880D11D460C8300F36CDA /* SurveyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyTests.swift; sourceTree = "<group>"; };
-		E12880D31D460C8300F36CDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E12880DC1D460CDB00F36CDA /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		E12880DE1D46173D00F36CDA /* Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		E13A316D1D57B67300E5A4D6 /* ResultPatientTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultPatientTableViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +111,8 @@
 		E1B8EA4B1D533E7100880D3D /* InputDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputDetailsViewController.swift; sourceTree = "<group>"; };
 		E1B8EA4D1D53526800880D3D /* PatientListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientListTableViewCell.swift; sourceTree = "<group>"; };
 		E1C0F4951D548357005E7D21 /* SurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
+		E1EAACB21DA598D300B96395 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		E1EAACB31DA598D300B96395 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		E1ED687E1D47691C006A1E0C /* QuestionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,8 +121,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E186AE441D46603000740EC6 /* RealmSwift.framework in Frameworks */,
-				E186AE421D46603000740EC6 /* Realm.framework in Frameworks */,
+				E1EAACB61DA598D300B96395 /* RealmSwift.framework in Frameworks */,
+				E1EAACB41DA598D300B96395 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,10 +139,11 @@
 		E12880B01D460C8200F36CDA = {
 			isa = PBXGroup;
 			children = (
+				E1EAACB21DA598D300B96395 /* Realm.framework */,
+				E1EAACB31DA598D300B96395 /* RealmSwift.framework */,
 				E186AE401D46603000740EC6 /* Realm.framework */,
 				E186AE411D46603000740EC6 /* RealmSwift.framework */,
 				E12880BB1D460C8300F36CDA /* Survey */,
-				E12880D01D460C8300F36CDA /* SurveyTests */,
 				E12880BA1D460C8300F36CDA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -199,15 +199,6 @@
 			path = Survey;
 			sourceTree = "<group>";
 		};
-		E12880D01D460C8300F36CDA /* SurveyTests */ = {
-			isa = PBXGroup;
-			children = (
-				E12880D11D460C8300F36CDA /* SurveyTests.swift */,
-				E12880D31D460C8300F36CDA /* Info.plist */,
-			);
-			path = SurveyTests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -218,8 +209,8 @@
 				E12880B51D460C8200F36CDA /* Sources */,
 				E12880B61D460C8200F36CDA /* Frameworks */,
 				E12880B71D460C8200F36CDA /* Resources */,
-				E186AE461D46603000740EC6 /* Embed Frameworks */,
 				E186AE471D46644800740EC6 /* ShellScript */,
+				E1EAACB81DA598D300B96395 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -255,16 +246,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Alvin Tejo";
 				TargetAttributes = {
 					E12880B81D460C8200F36CDA = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = THZB6KR5TJ;
+						LastSwiftMigration = 0800;
 					};
 					E12880CC1D460C8300F36CDA = {
 						CreatedOnToolsVersion = 7.3;
-						TestTargetID = E12880B81D460C8200F36CDA;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -366,7 +358,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E12880D21D460C8300F36CDA /* SurveyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,8 +405,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -437,7 +430,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -460,8 +453,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -477,9 +472,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -496,11 +492,12 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Survey/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hcid.survey;
 				PRODUCT_NAME = ATQ;
 				PROVISIONING_PROFILE = "0d5fd36b-a83a-4b60-a6d0-76311226ed28";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -516,11 +513,12 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Survey/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hcid.survey;
 				PRODUCT_NAME = ATQ;
 				PROVISIONING_PROFILE = "0d5fd36b-a83a-4b60-a6d0-76311226ed28";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
@@ -528,24 +526,22 @@
 		E12880DA1D460C8300F36CDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = SurveyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atejo.SurveyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Survey.app/Survey";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		E12880DB1D460C8300F36CDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = SurveyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atejo.SurveyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Survey.app/Survey";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

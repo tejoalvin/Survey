@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 protocol patientSelectionDelegate : class {
-    func patientSelected(patientSelected : Patients)
+    func patientSelected(_ patientSelected : Patients)
 }
 
 class ResultPatientTableViewController: UITableViewController {
@@ -31,13 +31,13 @@ class ResultPatientTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		let homeButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
+		let homeButton = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(self.homeButtonAction(_:)))
 		navigationItem.setLeftBarButtonItems([homeButton], animated: true)
 
 		
 		Realm.Configuration.defaultConfiguration = config
 		let realm = try! Realm()
-		patientList = Array(realm.objects(Patients.self).sorted("patientsName"))
+		patientList = Array(realm.objects(Patients.self).sorted(byProperty: "patientsName"))
 		
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
@@ -58,41 +58,41 @@ class ResultPatientTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		
 		//select first item in the table
 		if patientList.count != 0{
-			let firstIndex = NSIndexPath(forRow: selectedIndex, inSection: 0)
-			tableView.selectRowAtIndexPath(firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.Bottom)
+			let firstIndex = IndexPath(row: selectedIndex, section: 0)
+			tableView.selectRow(at: firstIndex, animated: true, scrollPosition: UITableViewScrollPosition.bottom)
 		}
 	}
 	
-	func homeButtonAction(sender: UIBarButtonItem) {
+	func homeButtonAction(_ sender: UIBarButtonItem) {
 		print("home button clicked")
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 
 	
-	func filterContent(searchText : String){
+	func filterContent(_ searchText : String){
 		print(searchText)
 		filteredPatientList = patientList.filter {
-			eachPatient in return eachPatient.patientsName.lowercaseString.containsString(searchText.lowercaseString)
+			eachPatient in return eachPatient.patientsName.lowercased().contains(searchText.lowercased())
 		}
 		tableView.reloadData()
 	}
 	
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
 		
-		if searchController.active && searchController.searchBar.text != "" {
+		if searchController.isActive && searchController.searchBar.text != "" {
 			return filteredPatientList.count
 		}
 		
@@ -100,15 +100,15 @@ class ResultPatientTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "patientCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! ResultPatientTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! ResultPatientTableViewCell
 		
 		let patient : Patients
-		if searchController.active && searchController.searchBar.text != "" {
-			patient = filteredPatientList[indexPath.row]
+		if searchController.isActive && searchController.searchBar.text != "" {
+			patient = filteredPatientList[(indexPath as NSIndexPath).row]
 		} else {
-			patient = patientList[indexPath.row]
+			patient = patientList[(indexPath as NSIndexPath).row]
 		}
 		
         cell.patientName.text = patient.patientsName
@@ -119,14 +119,14 @@ class ResultPatientTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let patient : Patients
-		if searchController.active && searchController.searchBar.text != "" {
-			patient = filteredPatientList[indexPath.row]
+		if searchController.isActive && searchController.searchBar.text != "" {
+			patient = filteredPatientList[(indexPath as NSIndexPath).row]
 		} else {
-			patient = patientList[indexPath.row]
+			patient = patientList[(indexPath as NSIndexPath).row]
 		}
-		selectedIndex = indexPath.row
+		selectedIndex = (indexPath as NSIndexPath).row
         self.delegate?.patientSelected(patient)
 
         if let surveyDoneViewController = self.delegate as? SurveyDoneTableViewController {
@@ -183,7 +183,7 @@ class ResultPatientTableViewController: UITableViewController {
 }
 
 extension ResultPatientTableViewController: UISearchResultsUpdating {
-	func updateSearchResultsForSearchController(searchController: UISearchController) {
+	func updateSearchResults(for searchController: UISearchController) {
 		filterContent(searchController.searchBar.text!)
 	}
 }

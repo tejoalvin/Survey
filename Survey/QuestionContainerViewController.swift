@@ -23,8 +23,8 @@ class QuestionContainerViewController: UIViewController {
         yesButton.adjustsImageWhenHighlighted = false
         noButton.adjustsImageWhenHighlighted = false
         
-        yesButton.setImage(UIImage(named: "yes Button pressed"), forState: .Selected)
-        noButton.setImage(UIImage(named: "no button pressed"), forState: .Selected)
+        yesButton.setImage(UIImage(named: "yes Button pressed"), for: .selected)
+        noButton.setImage(UIImage(named: "no button pressed"), for: .selected)
 
         // Do any additional setup after loading the view.
     }
@@ -34,27 +34,27 @@ class QuestionContainerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func noButtonAction(sender: UIButton) {
+    @IBAction func noButtonAction(_ sender: UIButton) {
         
-        print("noButton " + String(noButton.highlighted))
-        print("yesButton " + String(yesButton.highlighted))
+        print("noButton " + String(noButton.isHighlighted))
+        print("yesButton " + String(yesButton.isHighlighted))
         
-        noButton.highlighted = true
-        yesButton.highlighted = false
-        noButton.selected = true
-        yesButton.selected = false
+        noButton.isHighlighted = true
+        yesButton.isHighlighted = false
+        noButton.isSelected = true
+        yesButton.isSelected = false
     }
 
-    @IBAction func yesButtonAction(sender: UIButton) {
-        yesButton.highlighted = true
-        noButton.highlighted = false
+    @IBAction func yesButtonAction(_ sender: UIButton) {
+        yesButton.isHighlighted = true
+        noButton.isHighlighted = false
         
-        yesButton.selected = true
-        noButton.selected = false
+        yesButton.isSelected = true
+        noButton.isSelected = false
         
         
-        print("noButton " + String(noButton.highlighted))
-        print("yesButton " + String(yesButton.highlighted))
+        print("noButton " + String(noButton.isHighlighted))
+        print("yesButton " + String(yesButton.isHighlighted))
     }
 
     /*

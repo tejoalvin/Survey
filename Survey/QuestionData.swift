@@ -24,7 +24,7 @@ class QuestionData: Object {
 class SurveyData : Object {
     dynamic var name = ""
     let questions = List<QuestionData>()
-    dynamic var lastUpdated = NSDate()
+    dynamic var lastUpdated = Date()
     dynamic var id = 0
     
     override static func primaryKey() -> String? {
@@ -58,8 +58,8 @@ class SurveyConfidenceResult : Object {
 }
 
 class SurveyAnswered : Object {
-    dynamic var dateStarted = NSDate()
-    dynamic var dateFinished : NSDate? = nil
+    dynamic var dateStarted = Date()
+    dynamic var dateFinished : Date? = nil
     let mainAnswer = List<SurveyMainResult>()
     let confidenceAnswer = List<SurveyConfidenceResult>()
     dynamic var id = 0
@@ -79,8 +79,8 @@ class deviceName : Object {
 
 class Patients : Object {
     dynamic var patientsName = ""
-    dynamic var dateOfBirth = NSDate()
-    dynamic var recentStroke : NSDate? = nil
+    dynamic var dateOfBirth = Date()
+    dynamic var recentStroke : Date? = nil
     dynamic var isMale = true
     dynamic var id = 0
     let surveyDone = List<SurveyAnswered>()

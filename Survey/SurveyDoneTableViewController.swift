@@ -25,7 +25,7 @@ class SurveyDoneTableViewController: UITableViewController {
         Realm.Configuration.defaultConfiguration = config
         let realm = try! Realm()
         
-        patient = realm.objects(Patients.self).sorted("patientsName").first
+        patient = realm.objects(Patients.self).sorted(byProperty: "patientsName").first
 		
 		if realm.objects(Patients.self).count == 0 {
 			pageName.title = "Result"
@@ -60,12 +60,12 @@ class SurveyDoneTableViewController: UITableViewController {
 	
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
 		
 		if patient == nil {
@@ -76,33 +76,33 @@ class SurveyDoneTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
         let identifier = "surveyDoneCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! SurveyDoneTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! SurveyDoneTableViewCell
 		
-		let sortedList = patient.surveyDone.sorted("dateStarted", ascending: false)
+		let sortedList = patient.surveyDone.sorted(byProperty: "dateStarted", ascending: false)
 		
-        cell.surveyName.text = sortedList[indexPath.row].surveyName
-        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        cell.surveyName.text = sortedList[(indexPath as NSIndexPath).row].surveyName
+        cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
-        if sortedList[indexPath.row].confidenceAnswer.count > 0{
-            cell.confidenceDone.text = String(sortedList[indexPath.row].confidenceAnswer.count) + "/" + String(sortedList[indexPath.row].devices.count) + " questions done"
+        if sortedList[(indexPath as NSIndexPath).row].confidenceAnswer.count > 0{
+            cell.confidenceDone.text = String(sortedList[(indexPath as NSIndexPath).row].confidenceAnswer.count) + "/" + String(sortedList[(indexPath as NSIndexPath).row].devices.count) + " questions done"
         } else {
-            cell.confidenceDone.text = "0/" + String(sortedList[indexPath.row].devices.count) + " questions done"
+            cell.confidenceDone.text = "0/" + String(sortedList[(indexPath as NSIndexPath).row].devices.count) + " questions done"
         }
         
-        if sortedList[indexPath.row].mainAnswer.count > 0{
-             cell.mainDone.text = String(sortedList[indexPath.row].mainAnswer.count) + "/" + String(sortedList[indexPath.row].devices.count) + " questions done"
+        if sortedList[(indexPath as NSIndexPath).row].mainAnswer.count > 0{
+             cell.mainDone.text = String(sortedList[(indexPath as NSIndexPath).row].mainAnswer.count) + "/" + String(sortedList[(indexPath as NSIndexPath).row].devices.count) + " questions done"
         } else {
-            cell.mainDone.text = "0/" + String(sortedList[indexPath.row].devices.count) + " questions done"
+            cell.mainDone.text = "0/" + String(sortedList[(indexPath as NSIndexPath).row].devices.count) + " questions done"
         }
 
-        let date = sortedList[indexPath.row].dateStarted
-        let time = NSDateFormatter()
+        let date = sortedList[(indexPath as NSIndexPath).row].dateStarted
+        let time = DateFormatter()
         time.dateFormat = "dd MMM yyyy HH.mm"
         
-        cell.surveyTimestamp.text = time.stringFromDate(date)
+        cell.surveyTimestamp.text = time.string(from: date)
 
         return cell
     }
@@ -147,33 +147,33 @@ class SurveyDoneTableViewController: UITableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         splitViewController?.presentsWithGesture = false
         
         if segue.identifier == "showPatientResult" {
-            let resultViewController = segue.destinationViewController.childViewControllers.first as! ResultViewController
+            let resultViewController = segue.destination.childViewControllers.first as! ResultViewController
             if let selectedSurveyDoneCell = sender as? SurveyDoneTableViewCell {
-                let indexPath = tableView.indexPathForCell(selectedSurveyDoneCell)!
+                let indexPath = tableView.indexPath(for: selectedSurveyDoneCell)!
 				
-				let sortedSurvey = patient.surveyDone.sorted("dateStarted", ascending: false)
+				let sortedSurvey = patient.surveyDone.sorted(byProperty: "dateStarted", ascending: false)
 				
-                resultViewController.surveyFinished = sortedSurvey[indexPath.row]
+                resultViewController.surveyFinished = sortedSurvey[(indexPath as NSIndexPath).row]
                 resultViewController.isFromResultTable = true
             }
         }
     }
  
-    @IBAction func unwindToSurveyDone(sender: UIStoryboardSegue){
+    @IBAction func unwindToSurveyDone(_ sender: UIStoryboardSegue){
         print("unwind")
         splitViewController?.presentsWithGesture = true
     }
 }
 
 extension SurveyDoneTableViewController : patientSelectionDelegate{
-    func patientSelected(patientSelected: Patients) {
+    func patientSelected(_ patientSelected: Patients) {
         patient = patientSelected
         tableView.reloadData()
         pageName.title = patient.patientsName

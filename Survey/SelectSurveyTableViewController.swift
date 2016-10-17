@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 protocol selectedSurveyDelegate : class {
-    func selectedSurvey(surveySelected : SurveyData)
+    func selectedSurvey(_ surveySelected : SurveyData)
 }
 
 class SelectSurveyTableViewController: UITableViewController {
@@ -38,12 +38,12 @@ class SelectSurveyTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
         Realm.Configuration.defaultConfiguration = config
@@ -54,9 +54,9 @@ class SelectSurveyTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "SurveyListTableViewCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! SurveyListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! SurveyListTableViewCell
 
         // Configure the cell...
 
@@ -66,18 +66,18 @@ class SelectSurveyTableViewController: UITableViewController {
         
         let surveyData = realm.objects(SurveyData.self)
         
-        cell.surveyNameLabel.text = surveyData[indexPath.row].name
-        cell.numberOfQuestionsAvailable.text = String(surveyData[indexPath.row].questions.count) + " Questions"
+        cell.surveyNameLabel.text = surveyData[(indexPath as NSIndexPath).row].name
+        cell.numberOfQuestionsAvailable.text = String(surveyData[(indexPath as NSIndexPath).row].questions.count) + " Questions"
         
         return cell
     }
  
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Realm.Configuration.defaultConfiguration = config
         let realm = try! Realm()
         let surveys = realm.objects(SurveyData.self)
         
-        let surveySelected = surveys[indexPath.row]
+        let surveySelected = surveys[(indexPath as NSIndexPath).row]
         self.delegate?.selectedSurvey(surveySelected)
         
         if let previewViewController = self.delegate as? PreviewCollectionViewController {

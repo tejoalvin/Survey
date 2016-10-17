@@ -23,9 +23,9 @@ class PreviewCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
 
 
-        let homeButton = UIBarButtonItem(title: "Back", style: .Plain, target: self, action: #selector(self.homeButtonAction(_:)))
+        let homeButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.homeButtonAction(_:)))
         
-        navigationItem.setLeftBarButtonItem(homeButton, animated: true)
+        navigationItem.setLeftBarButton(homeButton, animated: true)
 
         
         navigationItem.title = survey.name + " Preview"
@@ -47,42 +47,42 @@ class PreviewCollectionViewController: UICollectionViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
         splitViewController?.presentsWithGesture = false
         
         if segue.identifier == "patientDetailSegue" {
-            let inputDetail = segue.destinationViewController as! InputDetailsViewController
+            let inputDetail = segue.destination as! InputDetailsViewController
             inputDetail.survey = survey
         }
     }
     
-    @IBAction func unwindToPreview(sender: UIStoryboardSegue) {
+    @IBAction func unwindToPreview(_ sender: UIStoryboardSegue) {
         splitViewController?.presentsWithGesture = true
     }
     
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return survey.questions.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = "previewCell"
-        let questionsData = Array(survey.questions.sorted("questionNumber"))
+        let questionsData = Array(survey.questions.sorted(byProperty: "questionNumber"))
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! PreviewCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! PreviewCollectionViewCell
     
-        let thisCellData = questionsData[indexPath.row]
+        let thisCellData = questionsData[(indexPath as NSIndexPath).row]
         cell.deviceName.text = thisCellData.deviceName
         cell.question.text = thisCellData.question
         if thisCellData.imagePath != "" {
@@ -93,20 +93,20 @@ class PreviewCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    func homeButtonAction(sender: UIBarButtonItem) {
+    func homeButtonAction(_ sender: UIBarButtonItem) {
         print("home button clicked")
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
 
     }
 
-    func retrieveImage(imageFolderPath : String) -> UIImage{
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let imagePath = (paths as NSString).stringByAppendingPathComponent(imageFolderPath)
-        let checkImage = NSFileManager.defaultManager()
+    func retrieveImage(_ imageFolderPath : String) -> UIImage{
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let imagePath = (paths as NSString).appendingPathComponent(imageFolderPath)
+        let checkImage = FileManager.default
         print(imagePath)
         var image = UIImage()
         
-        if (checkImage.fileExistsAtPath(imagePath)) {
+        if (checkImage.fileExists(atPath: imagePath)) {
             image = UIImage(contentsOfFile: imagePath)!
         } else {
             print("Error: \(imageFolderPath) is not available")

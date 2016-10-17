@@ -27,8 +27,8 @@ class DoSelectSurveyTableViewController: UITableViewController {
         
         survey = Array(realm.objects(SurveyData.self))
         
-        let backButton = UIBarButtonItem(title: "Home", style: .Plain, target: self, action: #selector(self.backButtonAction(_:)))
-        navigationItem.setLeftBarButtonItem(backButton, animated: true)
+        let backButton = UIBarButtonItem(title: "Home", style: .plain, target: self, action: #selector(self.backButtonAction(_:)))
+        navigationItem.setLeftBarButton(backButton, animated: true)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -42,22 +42,22 @@ class DoSelectSurveyTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func backButtonAction(sender:UIBarButtonItem){
-        dismissViewControllerAnimated(true, completion: nil)
+    func backButtonAction(_ sender:UIBarButtonItem){
+        dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func nextStage(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("nextPatient", sender: self)
+    @IBAction func nextStage(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "nextPatient", sender: self)
     }
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
         
@@ -65,11 +65,11 @@ class DoSelectSurveyTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "selectSurveyCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! SelectSurveyTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! SelectSurveyTableViewCell
 
-        let surveyData = survey[indexPath.row]
+        let surveyData = survey[(indexPath as NSIndexPath).row]
         cell.surveyName.text = surveyData.name
         cell.question.text = surveyData.questions.first!.question
         cell.noOfQuestion.text = String(surveyData.questions.count) + " questions"
@@ -83,7 +83,7 @@ class DoSelectSurveyTableViewController: UITableViewController {
                 rect.origin.x = 400 + CGFloat(index) * (rect.width + 20)
                 let imageView = UIImageView(frame: rect)
 				
-                imageView.contentMode = UIViewContentMode.ScaleAspectFit
+                imageView.contentMode = UIViewContentMode.scaleAspectFit
 				
                 let imgPath = surveyData.questions[index].imagePath
                 if  imgPath != "" {
@@ -100,8 +100,8 @@ class DoSelectSurveyTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedRow = indexPath.row
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedRow = (indexPath as NSIndexPath).row
         print(selectedRow)
     }
 
@@ -144,14 +144,14 @@ class DoSelectSurveyTableViewController: UITableViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "nextPatient" {
             if selectedRow == -1 {
                 sendAlertNoSelectedSurvey()
             } else {
-                let nextPage = segue.destinationViewController as! InputDetailsViewController
+                let nextPage = segue.destination as! InputDetailsViewController
                 nextPage.survey = survey[selectedRow]
 				nextPage.isFromNewSurveySelect = true
             }
@@ -159,27 +159,27 @@ class DoSelectSurveyTableViewController: UITableViewController {
         }
     }
 	
-	@IBAction func unwindToSelectSurvey(sender: UIStoryboardSegue){
+	@IBAction func unwindToSelectSurvey(_ sender: UIStoryboardSegue){
 		print("unwind To Select Survey")
 	}
 	
     func sendAlertNoSelectedSurvey(){
         //create notification can't go forward
-        let alert = UIAlertController(title: "Please select one of the questionnaire", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-        let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let alert = UIAlertController(title: "Please select one of the questionnaire", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(ok)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
         
     }
 
-    func retrieveImage(imageFolderPath : String) -> UIImage{
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let imagePath = (paths as NSString).stringByAppendingPathComponent(imageFolderPath)
-        let checkImage = NSFileManager.defaultManager()
+    func retrieveImage(_ imageFolderPath : String) -> UIImage{
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let imagePath = (paths as NSString).appendingPathComponent(imageFolderPath)
+        let checkImage = FileManager.default
         print(imagePath)
         var image = UIImage()
         
-        if (checkImage.fileExistsAtPath(imagePath)) {
+        if (checkImage.fileExists(atPath: imagePath)) {
             image = UIImage(contentsOfFile: imagePath)!
         } else {
             print("Error: \(imageFolderPath) is not available")

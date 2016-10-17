@@ -38,7 +38,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 		Realm.Configuration.defaultConfiguration = config
 		let realm = try! Realm()
 		
-		patients = Array(realm.objects(Patients.self).sorted("patientsName"))
+		patients = Array(realm.objects(Patients.self).sorted(byProperty: "patientsName"))
 		
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
@@ -64,23 +64,23 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         // Dispose of any resources that can be recreated.
     }
 	
-	func filterContent(searchText : String){
+	func filterContent(_ searchText : String){
 		filteredPatients = patients.filter{
-			patient in return patient.patientsName.lowercaseString.containsString(searchText.lowercaseString)
+			patient in return patient.patientsName.lowercased().contains(searchText.lowercased())
 		}
 		tableView.reloadData()
 	}
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation,
         //return the number of rows
 		
-		if searchController.active && searchController.searchBar.text != "" {
+		if searchController.isActive && searchController.searchBar.text != "" {
 			return filteredPatients.count
 		}
 		
@@ -88,26 +88,26 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let identifier = "patients"
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! PatientListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! PatientListTableViewCell
         
 		var patient : Patients
 		
-		if searchController.active && searchController.searchBar.text != "" {
-			patient = filteredPatients[indexPath.row]
+		if searchController.isActive && searchController.searchBar.text != "" {
+			patient = filteredPatients[(indexPath as NSIndexPath).row]
 		} else {
-			patient = patients[indexPath.row]
+			patient = patients[(indexPath as NSIndexPath).row]
 		}
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
-        let date = dateFormatter.stringFromDate(patient.dateOfBirth)
-		let mostRecentSurvey = patient.surveyDone.sorted("dateStarted", ascending: false)
+        let date = dateFormatter.string(from: patient.dateOfBirth as Date)
+		let mostRecentSurvey = patient.surveyDone.sorted(byProperty: "dateStarted", ascending: false)
 		dateFormatter.dateFormat = "dd MMM yyyy HH:mm"
 		if mostRecentSurvey.count > 0 {
-			let lastSurveyDone = dateFormatter.stringFromDate(mostRecentSurvey.first!.dateStarted)
+			let lastSurveyDone = dateFormatter.string(from: mostRecentSurvey.first!.dateStarted)
 			cell.lastSurveyDone.text = lastSurveyDone
 		} else {
 			cell.lastSurveyDone.text = "N/A"
@@ -131,7 +131,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 //		}
 //	}
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        Realm.Configuration.defaultConfiguration = config
 //        let realm = try! Realm()
 //        
@@ -139,10 +139,10 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 		
 		var patient : Patients
 		
-		if searchController.active && searchController.searchBar.text != "" {
-			patient = filteredPatients[indexPath.row]
+		if searchController.isActive && searchController.searchBar.text != "" {
+			patient = filteredPatients[(indexPath as NSIndexPath).row]
 		} else {
-			patient = patients[indexPath.row]
+			patient = patients[(indexPath as NSIndexPath).row]
 		}
 		
         nameField.text = patient.patientsName
@@ -152,9 +152,9 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
             genderChooser.selectedSegmentIndex = 1
         }
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
-        let date = dateFormatter.stringFromDate(patient.dateOfBirth)
+        let date = dateFormatter.string(from: patient.dateOfBirth as Date)
         dobField.text = date
         
         id = patient.id
@@ -162,51 +162,52 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         
         if patient.recentStroke != nil {
             print("not nil")
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = dateFormat
-            let stringRecentStroke = dateFormatter.stringFromDate(patient.recentStroke!)
+            let stringRecentStroke = dateFormatter.string(from: patient.recentStroke! as Date)
             recentStrokeField.text = stringRecentStroke
         }
         
     }
     
-    @IBAction func dobAction(sender: UITextField) {
-        let inputView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 240))
+    @IBAction func dobAction(_ sender: UITextField) {
+        let inputView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 240))
         
-        let datePicker  : UIDatePicker = UIDatePicker(frame: CGRectMake(0, 40, self.view.frame.size.width, 180))
+        let datePicker  : UIDatePicker = UIDatePicker(frame: CGRect(x: 0, y: 40, width: self.view.frame.size.width, height: 180))
         
-        datePicker.datePickerMode = UIDatePickerMode.Date
+        datePicker.datePickerMode = UIDatePickerMode.date
         inputView.addSubview(datePicker) // add date picker to UIView
         
-        let doneButton = UIButton(frame: CGRectMake((self.view.frame.size.width/2) - (100/2), 0, 100, 50))
-        doneButton.setTitle("Done", forState: UIControlState.Normal)
-        doneButton.setTitle("Done", forState: UIControlState.Highlighted)
-        doneButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        doneButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
+        let doneButton = UIButton(frame: CGRect(x: (self.view.frame.size.width/2) - (100/2), y: 0, width: 100, height: 50))
+        doneButton.setTitle("Done", for: UIControlState())
+        doneButton.setTitle("Done", for: UIControlState.highlighted)
+        doneButton.setTitleColor(UIColor.black, for: UIControlState())
+        doneButton.setTitleColor(UIColor.gray, for: UIControlState.highlighted)
         
         inputView.addSubview(doneButton) // add Button to UIView
         
-        doneButton.addTarget(self, action: #selector(InputDetailsViewController.doneButton(_:)), forControlEvents: UIControlEvents.TouchUpInside) // set button click event
+        doneButton.addTarget(self, action: #selector(InputDetailsViewController.doneButton(_:)), for: UIControlEvents.touchUpInside) // set button click event
         
         sender.inputView = inputView
-        datePicker.addTarget(self, action: #selector(self.datePickerValueChangedDOB), forControlEvents: UIControlEvents.ValueChanged)
+		datePicker.locale = Locale.init(identifier: "en_GB")
+        datePicker.addTarget(self, action: #selector(self.datePickerValueChangedDOB), for: UIControlEvents.valueChanged)
     }
     
-    func doneButton(sender:UIButton){
+    func doneButton(_ sender:UIButton){
         dobField.resignFirstResponder()
         recentStrokeField.resignFirstResponder()
     }
 	
-	func textFieldDidEndEditing(textField: UITextField) {
+	func textFieldDidEndEditing(_ textField: UITextField) {
 		nameField.resignFirstResponder()
 	}
 
-	func textFieldShouldReturn(textField: UITextField) -> Bool {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		nameField.resignFirstResponder()
 		return true
 	}
 	
-	func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+	func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
 		nameField.resignFirstResponder()
 		return true
 	}
@@ -217,72 +218,76 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 //		recentStrokeField.resignFirstResponder()
 //	}
 	
-    @IBAction func recentStrokeAction(sender: UITextField) {
-        let inputView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 240))
+    @IBAction func recentStrokeAction(_ sender: UITextField) {
+        let inputView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 240))
         
-        let datePicker  : UIDatePicker = UIDatePicker(frame: CGRectMake(0, 40, self.view.frame.size.width, 180))
+        let datePicker  : UIDatePicker = UIDatePicker(frame: CGRect(x: 0, y: 40, width: self.view.frame.size.width, height: 180))
         
-        datePicker.datePickerMode = UIDatePickerMode.Date
+        datePicker.datePickerMode = UIDatePickerMode.date
         inputView.addSubview(datePicker) // add date picker to UIView
         
-        let doneButton = UIButton(frame: CGRectMake((self.view.frame.size.width/2) - (100/2), 0, 100, 50))
-        doneButton.setTitle("Done", forState: UIControlState.Normal)
-        doneButton.setTitle("Done", forState: UIControlState.Highlighted)
-        doneButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        doneButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Highlighted)
+        let doneButton = UIButton(frame: CGRect(x: (self.view.frame.size.width/2) - (100/2), y: 0, width: 100, height: 50))
+        doneButton.setTitle("Done", for: UIControlState())
+        doneButton.setTitle("Done", for: UIControlState.highlighted)
+        doneButton.setTitleColor(UIColor.black, for: UIControlState())
+        doneButton.setTitleColor(UIColor.gray, for: UIControlState.highlighted)
         
         inputView.addSubview(doneButton) // add Button to UIView
         
-        doneButton.addTarget(self, action: #selector(InputDetailsViewController.doneButton(_:)), forControlEvents: UIControlEvents.TouchUpInside) // set button click event
+        doneButton.addTarget(self, action: #selector(InputDetailsViewController.doneButton(_:)), for: UIControlEvents.touchUpInside) // set button click event
         
         sender.inputView = inputView
         
-        datePicker.addTarget(self, action: #selector(self.datePickerValueChangedRecentStroke), forControlEvents: UIControlEvents.ValueChanged)
+        datePicker.addTarget(self, action: #selector(self.datePickerValueChangedRecentStroke), for: UIControlEvents.valueChanged)
     }
     
 
     
-    func datePickerValueChangedDOB(sender:UIDatePicker) {
+    func datePickerValueChangedDOB(_ sender:UIDatePicker) {
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
-        dateFormatter.locale = NSLocale.currentLocale()
-        dateFormatter.timeZone = NSTimeZone.localTimeZone()
+        dateFormatter.locale = Locale.init(identifier: "en_GB")
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
         
 //        dateFormatter.dateFormat = "dd MMMM yyyy"
         
-        dateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
+        dateFormatter.dateStyle = DateFormatter.Style.long
         
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        dateFormatter.timeStyle = DateFormatter.Style.none
         
-        dobField.text = dateFormatter.stringFromDate(sender.date)
+        dobField.text = dateFormatter.string(from: sender.date)
         
     }
     
-    func datePickerValueChangedRecentStroke(sender:UIDatePicker) {
+    func datePickerValueChangedRecentStroke(_ sender:UIDatePicker) {
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         
-        dateFormatter.locale = NSLocale.currentLocale()
-        dateFormatter.timeZone = NSTimeZone.localTimeZone()
+        dateFormatter.locale = Locale.init(identifier: "en_GB")
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
         
 //        dateFormatter.dateFormat = "dd MMMM yyyy"
         
-        dateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
+        dateFormatter.dateStyle = DateFormatter.Style.long
         
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        dateFormatter.timeStyle = DateFormatter.Style.none
         
-        recentStrokeField.text = dateFormatter.stringFromDate(sender.date)
+        recentStrokeField.text = dateFormatter.string(from: sender.date)
         
     }
     
     // MARK: - Navigation
 
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        let dateFormatter = NSDateFormatter()
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
-        let NSDateDOB = dateFormatter.dateFromString(dobField.text!)
-        let earlierDate = NSDateDOB?.earlierDate(NSDate())
+		dateFormatter.locale = Locale.init(identifier: "en_GB")
+		let dateSelected = dobField.text!
+		print(dateSelected)
+        let NSDateDOB = dateFormatter.date(from: dateSelected)
+		print(dateFormatter.string(from: Date()))
+        let earlierDate = (NSDateDOB as NSDate?)?.earlierDate(Date())
         
 //        let dateComponent = NSCalendar.currentCalendar().components([.Day,.Month,.Year], fromDate: NSDate())
 //        let date = NSCalendar.dateFromComponents(dateComponent)
@@ -294,42 +299,42 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
         
         
         if identifier == "backToPreview"{
-            let alert = UIAlertController(title: "You will lose any data you have inputted", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "You will lose any data you have inputted", message: nil, preferredStyle: UIAlertControllerStyle.alert)
             
-            let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: {
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {
                 UIAlertAction in
                 
             })
             
-            let ok = UIAlertAction(title: "OK", style: .Default, handler: {
+            let ok = UIAlertAction(title: "OK", style: .default, handler: {
                 UIAlertAction in
 				if self.isFromNewSurveySelect == true {
-					self.performSegueWithIdentifier("unwindToSelectSurvey", sender: nil)
+					self.performSegue(withIdentifier: "unwindToSelectSurvey", sender: nil)
 				} else {
-					self.performSegueWithIdentifier("backToPreview", sender: nil)
+					self.performSegue(withIdentifier: "backToPreview", sender: nil)
 				}
             })
             
             alert.addAction(cancel)
             alert.addAction(ok)
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
             
             return true
         } else if identifier == "startSurvey" {
             print(nameField.text)
             print(dobField.text)
             if (nameField.text == "") || (dobField.text == ""){
-                let alert = UIAlertController(title: "Name / Date Of Birth is empty", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-                let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                let alert = UIAlertController(title: "Name / Date Of Birth is empty", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+                let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alert.addAction(ok)
-                presentViewController(alert, animated: true, completion: nil)
+                present(alert, animated: true, completion: nil)
                 return false
-            } else if earlierDate?.isEqualToDate(NSDateDOB!) == false {
+            } else if (earlierDate == NSDateDOB!) == false {
                 //need to check again when time today is with time while date from textfield is 00
-                let alert = UIAlertController(title: "Date Of Birth can't be later or same as today date", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-                let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                let alert = UIAlertController(title: "Date Of Birth can't be later or same as today date", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+                let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alert.addAction(ok)
-                presentViewController(alert, animated: true, completion: nil)
+                present(alert, animated: true, completion: nil)
                 return false
             } else {
                 return true
@@ -341,7 +346,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
@@ -357,9 +362,9 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
             let name = nameField.text
             let dob = dobField.text
             
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = dateFormat
-            let NSDateDOB = dateFormatter.dateFromString(dob!)
+            let NSDateDOB = dateFormatter.date(from: dob!)
             print(NSDateDOB)
             
             var genderIsMale = true
@@ -369,12 +374,12 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
             }
             
             let recentStroke : String
-            var NSDateStroke: NSDate? = nil
+            var NSDateStroke: Date? = nil
             if recentStrokeField.text != "" {
                 recentStroke = recentStrokeField.text!
-                let dateFormatter = NSDateFormatter()
+                let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = dateFormat
-                NSDateStroke = dateFormatter.dateFromString(recentStroke)!
+                NSDateStroke = dateFormatter.date(from: recentStroke)!
             }
         
             var isAfterEachQuestion : Bool = true
@@ -382,7 +387,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
                 isAfterEachQuestion = false
             }
             
-            let surveyAnsweredList = realm.objects(SurveyAnswered.self).sorted("id")
+            let surveyAnsweredList = realm.objects(SurveyAnswered.self).sorted(byProperty: "id")
             // send survey & patient data to next segue, with confidence level survey settings
             let surveyWillBeAnswered = SurveyAnswered()
             if surveyAnsweredList.count > 0 {
@@ -391,7 +396,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
                 surveyWillBeAnswered.id = 1
             }
 			
-            surveyWillBeAnswered.dateStarted = NSDate()
+            surveyWillBeAnswered.dateStarted = Date()
             surveyWillBeAnswered.surveyName = survey.name
 			surveyWillBeAnswered.question = survey.questions.first!.question
 			
@@ -405,7 +410,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
             //not from existing
             if patients.count == 0 {
 				
-				let predicate = NSPredicate(format: "patientsName = %@ AND dateOfBirth = %@ AND isMale = %@", name!, NSDateDOB!, genderIsMale)
+				let predicate = NSPredicate(format: "patientsName = %@ AND dateOfBirth = %@ AND isMale = %@", name!, NSDateDOB! as CVarArg, genderIsMale as CVarArg)
 				let ifAvail = realm.objects(Patients.self).filter(predicate)
 				
 				if ifAvail.count == 0 {
@@ -415,7 +420,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 					patient.dateOfBirth = NSDateDOB!
 					patient.recentStroke = NSDateStroke
 					
-					let patientData = realm.objects(Patients.self).sorted("id")
+					let patientData = realm.objects(Patients.self).sorted(byProperty: "id")
 					
 					if patientData.count > 0{
 						let patientID = patientData.last?.id
@@ -433,7 +438,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 					
 					print("nearly1")
 					
-					let destinationSegue = segue.destinationViewController as! SurveyViewController
+					let destinationSegue = segue.destination as! SurveyViewController
 					destinationSegue.isAfterEachQuestion = isAfterEachQuestion
 					destinationSegue.survey = survey
 					destinationSegue.patient = patient
@@ -449,7 +454,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 						ifAvail.first!.surveyDone.append(surveyWillBeAnswered)
 					}
 					
-					let destinationSegue = segue.destinationViewController as! SurveyViewController
+					let destinationSegue = segue.destination as! SurveyViewController
 					destinationSegue.isAfterEachQuestion = isAfterEachQuestion
 					destinationSegue.survey = survey
 					destinationSegue.patient = ifAvail.first
@@ -469,7 +474,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
                     patient.dateOfBirth = NSDateDOB!
                     patient.recentStroke = NSDateStroke
                     
-                    let patientData = realm.objects(Patients.self).sorted("id")
+                    let patientData = realm.objects(Patients.self).sorted(byProperty: "id")
                     
                     if patientData.count > 0 {
                         let patientID = patientData.last?.id
@@ -488,7 +493,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
                     
                     print("nearly2")
                     
-                    let destinationSegue = segue.destinationViewController as! SurveyViewController
+                    let destinationSegue = segue.destination as! SurveyViewController
                     destinationSegue.isAfterEachQuestion = isAfterEachQuestion
                     destinationSegue.survey = survey
                     destinationSegue.patient = patient
@@ -512,7 +517,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
                     
                     print("nearly3")
                     
-                    let destinationSegue = segue.destinationViewController as! SurveyViewController
+                    let destinationSegue = segue.destination as! SurveyViewController
                     destinationSegue.isAfterEachQuestion = isAfterEachQuestion
                     destinationSegue.survey = survey
                     destinationSegue.patient = patientData
@@ -529,7 +534,7 @@ class InputDetailsViewController: UIViewController, UITextFieldDelegate, UITable
 }
 
 extension InputDetailsViewController : UISearchResultsUpdating {
-	func updateSearchResultsForSearchController(searchController: UISearchController) {
+	func updateSearchResults(for searchController: UISearchController) {
 		filterContent(searchController.searchBar.text!)
 	}
 }
