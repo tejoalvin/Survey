@@ -40,11 +40,13 @@
 		E1B8EA4C1D533E7100880D3D /* InputDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B8EA4B1D533E7100880D3D /* InputDetailsViewController.swift */; };
 		E1B8EA4E1D53526800880D3D /* PatientListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B8EA4D1D53526800880D3D /* PatientListTableViewCell.swift */; };
 		E1C0F4961D548357005E7D21 /* SurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C0F4951D548357005E7D21 /* SurveyViewController.swift */; };
-		E1EAACB41DA598D300B96395 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB21DA598D300B96395 /* Realm.framework */; };
-		E1EAACB51DA598D300B96395 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB21DA598D300B96395 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E1EAACB61DA598D300B96395 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB31DA598D300B96395 /* RealmSwift.framework */; };
-		E1EAACB71DA598D300B96395 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1EAACB31DA598D300B96395 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1ED687F1D47691C006A1E0C /* QuestionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ED687E1D47691C006A1E0C /* QuestionData.swift */; };
+		E1F443AF1DB5103700F96C27 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F443A81DB50E6800F96C27 /* Realm.framework */; };
+		E1F443B01DB5103700F96C27 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1F443A81DB50E6800F96C27 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1F443B11DB5103700F96C27 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F443A91DB50E6800F96C27 /* RealmSwift.framework */; };
+		E1F443B21DB5103700F96C27 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1F443A91DB50E6800F96C27 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1F443B41DB510AA00F96C27 /* Realm.framework in Resources */ = {isa = PBXBuildFile; fileRef = E1F443A81DB50E6800F96C27 /* Realm.framework */; };
+		E1F443B51DB510AA00F96C27 /* RealmSwift.framework in Resources */ = {isa = PBXBuildFile; fileRef = E1F443A91DB50E6800F96C27 /* RealmSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,14 +60,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E1EAACB81DA598D300B96395 /* Embed Frameworks */ = {
+		E1F443AE1DB50F7500F96C27 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1F443B31DB5103700F96C27 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E1EAACB71DA598D300B96395 /* RealmSwift.framework in Embed Frameworks */,
-				E1EAACB51DA598D300B96395 /* Realm.framework in Embed Frameworks */,
+				E1F443B21DB5103700F96C27 /* RealmSwift.framework in Embed Frameworks */,
+				E1F443B01DB5103700F96C27 /* Realm.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,8 +112,6 @@
 		E181980E1D4B6B8700004710 /* SurveyListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyListTableViewCell.swift; sourceTree = "<group>"; };
 		E18198121D4BB5A900004710 /* TherapistSurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TherapistSurveyViewController.swift; sourceTree = "<group>"; };
 		E18198141D4BCC9300004710 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		E186AE401D46603000740EC6 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
-		E186AE411D46603000740EC6 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		E1A97CBE1D4690BB0036E339 /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
 		E1A97CC01D46A8F70036E339 /* QuestionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewController.swift; sourceTree = "<group>"; };
 		E1AEAE6E1D523C9D00A29A52 /* PreviewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -111,9 +120,9 @@
 		E1B8EA4B1D533E7100880D3D /* InputDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputDetailsViewController.swift; sourceTree = "<group>"; };
 		E1B8EA4D1D53526800880D3D /* PatientListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientListTableViewCell.swift; sourceTree = "<group>"; };
 		E1C0F4951D548357005E7D21 /* SurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
-		E1EAACB21DA598D300B96395 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
-		E1EAACB31DA598D300B96395 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		E1ED687E1D47691C006A1E0C /* QuestionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionData.swift; sourceTree = "<group>"; };
+		E1F443A81DB50E6800F96C27 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		E1F443A91DB50E6800F96C27 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,8 +130,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1EAACB61DA598D300B96395 /* RealmSwift.framework in Frameworks */,
-				E1EAACB41DA598D300B96395 /* Realm.framework in Frameworks */,
+				E1F443B11DB5103700F96C27 /* RealmSwift.framework in Frameworks */,
+				E1F443AF1DB5103700F96C27 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,10 +148,8 @@
 		E12880B01D460C8200F36CDA = {
 			isa = PBXGroup;
 			children = (
-				E1EAACB21DA598D300B96395 /* Realm.framework */,
-				E1EAACB31DA598D300B96395 /* RealmSwift.framework */,
-				E186AE401D46603000740EC6 /* Realm.framework */,
-				E186AE411D46603000740EC6 /* RealmSwift.framework */,
+				E1F443A81DB50E6800F96C27 /* Realm.framework */,
+				E1F443A91DB50E6800F96C27 /* RealmSwift.framework */,
 				E12880BB1D460C8300F36CDA /* Survey */,
 				E12880BA1D460C8300F36CDA /* Products */,
 			);
@@ -210,7 +217,8 @@
 				E12880B61D460C8200F36CDA /* Frameworks */,
 				E12880B71D460C8200F36CDA /* Resources */,
 				E186AE471D46644800740EC6 /* ShellScript */,
-				E1EAACB81DA598D300B96395 /* Embed Frameworks */,
+				E1F443AE1DB50F7500F96C27 /* CopyFiles */,
+				E1F443B31DB5103700F96C27 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -256,6 +264,7 @@
 					};
 					E12880CC1D460C8300F36CDA = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = THZB6KR5TJ;
 						LastSwiftMigration = 0800;
 					};
 				};
@@ -284,6 +293,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1F443B41DB510AA00F96C27 /* Realm.framework in Resources */,
+				E1F443B51DB510AA00F96C27 /* RealmSwift.framework in Resources */,
 				E12880C71D460C8300F36CDA /* LaunchScreen.storyboard in Resources */,
 				E12880C41D460C8300F36CDA /* Assets.xcassets in Resources */,
 				E12880C21D460C8300F36CDA /* Main.storyboard in Resources */,
@@ -302,16 +313,16 @@
 /* Begin PBXShellScriptBuildPhase section */
 		E186AE471D46644800740EC6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"\nrm \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -526,6 +537,8 @@
 		E12880DA1D460C8300F36CDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = THZB6KR5TJ;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				INFOPLIST_FILE = SurveyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atejo.SurveyTests;
@@ -537,6 +550,8 @@
 		E12880DB1D460C8300F36CDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = THZB6KR5TJ;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				INFOPLIST_FILE = SurveyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.atejo.SurveyTests;
